@@ -1,6 +1,14 @@
-*/config/development
-*/logs/log-*.php
-!*/logs/index.html
-*/cache/*
-!*/cache/index.html
-!*/cache/.htaccess
+/config/*
+/modules/*
+/cache/*
+
+
+# Intellij
+*.iml
+.idea/*
+
+## File-based project format:
+*.iws
+
+# mpeltonen/sbt-idea plugin
+.idea_modules/
