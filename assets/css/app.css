@@ -1,0 +1,43 @@
+/********* personnalisé par l'app **********/
+.app-sale .title-app {
+    background-color: #760692;
+}
+
+.app-sale .nav li {
+    box-sizing: border-box;
+    border-left: solid 7px transparent;
+}
+.app-sale .nav li:hover,
+.app-sale .nav li:focus{
+    border-color: #eee;
+}
+.app-sale .nav .active {
+    border-left: solid 7px #760692;
+}
+
+.app-sale .title-app {
+    color: #ffffff;
+
+}
+
+
+.nav>li.dropdown>a:focus, .nav>li.dropdown>a:hover, .nav .open>a, .nav .open>a:focus, .nav .open>a:hover {
+    background-color: #265a88;
+}
+
+#content {
+    padding-bottom: 70px;
+}
+.btnFormAction {
+    position: fixed;
+    z-index: 1000;
+    bottom: 0px;
+    width: 100%;
+}
+.btnFormAction .row {
+    background: rgb(0, 0, 0); /* Fall-back for browsers that don't
+                                    support rgba */
+    background: rgba(0, 0, 0, .5);
+    margin-right: 217px;
+    padding: 10px 0;
+}
