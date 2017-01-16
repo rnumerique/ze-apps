@@ -16,7 +16,7 @@ class Auth extends ZeCtrl {
         if ($this->session->get('token')) {
             $user = $this->user->getUserByToken($this->session->get('token'));
             if ($user) {
-                $this->app();
+                header("location:/zeapps/app");
             } else {
                 $this->loadForm() ;
             }

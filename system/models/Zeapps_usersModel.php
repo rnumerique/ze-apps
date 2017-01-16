@@ -1,6 +1,10 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+class UserTempActiveRecord extends ZeModel {
+  static $table_name = 'zeapps_users';
+}
+
 class Zeapps_usersModel extends ZeModel {
     private $typeHash = 'sha256';
     static $table_name = 'zeapps_users';
@@ -19,22 +23,18 @@ class Zeapps_usersModel extends ZeModel {
                 foreach ($tokens as $token) {
                     $ids[] = $token->id;
                 }
+
                 if (count($ids) > 0) {
                     self::$load->ctrl->token->delete(array('id' => $ids));
                 }
             }
 
-
-            var_dump($token_user) ;
-            echo "<br>" ;
-
             // verifie le token
             $token = self::$load->ctrl->token::find_by_token($token_user) ;
-            var_dump($token);
-            echo "\n";
 
             if ($token) {
-                return self::find_by_id($token->id_user) ;
+                return UserTempActiveRecord::find_by_id($token->id_user) ;
+                //return self::find_by_id($token->id_user) ;
             } else {
                 return false ;
             }
