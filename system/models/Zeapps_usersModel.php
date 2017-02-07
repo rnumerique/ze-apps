@@ -1,23 +1,22 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class UserTempActiveRecord extends ZeModel {
-  static $table_name = 'zeapps_users';
-}
-
 class Zeapps_usersModel extends ZeModel {
     private $typeHash = 'sha256';
-    static $table_name = 'zeapps_users';
+    protected $table_name = 'zeapps_users';
 
 
 
 
     public function getUserByToken($token_user) {
         if (gettype($token_user) == 'string') {
-            self::$load->model("zeapps_tokenModel", "token");
+            $this->load->model("zeapps_tokenModel", "token");
 
             // supprime tous les token qui sont dépassés
-            $tokens = self::$load->ctrl->token::all(array('conditions' => "date_expire < '" . date("Y-m-d H:i:s") . "'")) ;
+            $where = array("date_expire <"=>date("Y-m-d H:i:s")) ;
+            $tokens = $this->load->ctrl->token->all($where) ;
+
+
             if (is_array($tokens) && count($tokens) > 0) {
                 $ids = array() ;
                 foreach ($tokens as $token) {
@@ -25,16 +24,15 @@ class Zeapps_usersModel extends ZeModel {
                 }
 
                 if (count($ids) > 0) {
-                    self::$load->ctrl->token->delete(array('id' => $ids));
+                    $this->load->ctrl->token->delete(array('id' => $ids));
                 }
             }
 
             // verifie le token
-            $token = self::$load->ctrl->token::find_by_token($token_user) ;
+            $token = $this->load->ctrl->token->findBy_token($token_user) ;
 
-            if ($token) {
-                return UserTempActiveRecord::find_by_id($token->id_user) ;
-                //return self::find_by_id($token->id_user) ;
+            if ($token && isset($token[0])) {
+                return $this->findBy_id($token[0]->id_user) ;
             } else {
                 return false ;
             }
@@ -47,27 +45,29 @@ class Zeapps_usersModel extends ZeModel {
 
 
 
+
     public function getToken($email, $password) {
-        self::$load->model("zeapps_tokenModel", "token");
+        $this->load->model("zeapps_tokenModel", "token");
 
 
-
-        $users = self::all(array('conditions' => array('email = ? AND password = ?', $email, hash($this->typeHash, $password))));
+        $where = array() ;
+        $where["email"] = $email ;
+        $where["password"] = hash($this->typeHash, $password) ;
+        $users = $this->all($where);
         if ($users && count($users) == 1) {
 
             $token = "" ;
             while ($token == "") {
                 $tokenGenerated = hash($this->typeHash, uniqid()) ;
 
-                $tokens = self::$load->ctrl->token::all(array('conditions' => array('token = ?', $tokenGenerated))) ;
+                $where = array() ;
+                $where["token"] = $tokenGenerated ;
+                $tokens = $this->load->ctrl->token->all($where) ;
 
                 if ($tokens && count($tokens) > 0) {
                     $token = "" ;
                 } else {
-                    //var_dump($users[0]);
-                    //echo "\n\n\n\n\n\n\n" ;
-
-                    $token = new self::$load->ctrl->token();
+                    $token = new $this->load->ctrl->token();
                     $token->id_user = $users[0]->id ;
                     $token->token = $tokenGenerated ;
                     $token->date_expire = date("Y-m-d H:i:s", time() + 20 * 60) ;

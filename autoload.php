@@ -1,9 +1,8 @@
 <?php
-// load ActiveRecord
-require_once BASEPATH . 'database/ActiveRecord.php';
-
 // load Core
 require_once BASEPATH . 'core/ZeRouteur.php' ;
+require_once BASEPATH . 'core/ZeDatabase.php' ;
+require_once BASEPATH . 'core/ZeQuery.php' ;
 require_once BASEPATH . 'core/ZeModel.php' ;
 require_once BASEPATH . 'core/ZeLoad.php' ;
 require_once BASEPATH . 'core/ZeInput.php' ;

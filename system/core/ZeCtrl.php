@@ -25,18 +25,6 @@ class ZeCtrl {
 
     // charge l'objet input
     $this->input = new ZeInput();
-
-
-
-    // connexion à la base
-    ActiveRecord\Config::initialize(function($cfg)
-    {
-      global $db ;
-
-      $cfg->set_model_directory('.');
-      $cfg->set_connections(array(
-        'development' => 'mysql://' . $db['default']['username'] . ':' . $db['default']['password'] . '@' . $db['default']['hostname'] . '/' . $db['default']['database']));
-    });
   }
 
 

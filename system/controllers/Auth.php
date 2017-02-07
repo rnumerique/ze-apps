@@ -6,9 +6,6 @@ class Auth extends ZeCtrl {
 
 
     public function index() {
-        $data = array() ;
-
-
         $this->load->model("Zeapps_usersModel", "user");
 
 
@@ -47,4 +44,3 @@ class Auth extends ZeCtrl {
         $this->load->view('login', $data);
     }
 }
-?>
