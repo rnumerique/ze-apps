@@ -173,7 +173,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </span>
 
                     <span ng-click="toggleDropdown()" class="pointer">
-                     {{user.firstname[0] +'. '+user.lastname}} <span class="glyphicon" ng-class="dropdown ? 'glyphicon-chevron-up' : 'glyphicon-chevron-down'"  aria-hidden="true"></span>
+                     {{user.firstname[0] + '. ' + user.lastname}} <span class="glyphicon" ng-class="dropdown ? 'glyphicon-chevron-up' : 'glyphicon-chevron-down'"  aria-hidden="true"></span>
                     </span>
 
                 </div>
@@ -181,6 +181,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
                 <ul ng-show="dropdown" class="userMenu">
                     <li><a href="/ng/com_zeapps/profile/view" i8n="Profil"></a></li>
+                    <li><a href="/zeapps/logout" i8n="Logout"></a></li>
                 </ul>
             </div>
         </div>

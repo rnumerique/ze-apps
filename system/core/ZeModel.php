@@ -81,6 +81,13 @@ class ZeModel {
         $pdoStat = $this->database()->table($this->table_name) ;
 
         foreach ($this->_fields as $field) {
+
+            if ($field == "created_at") {
+                $this->$field = date("Y-m-d H:i:s") ;
+            } elseif ($field == "updated_at") {
+                $this->$field = date("Y-m-d H:i:s") ;
+            }
+
             $pdoStat->insertNewField($field, $this->$field) ;
         }
 
@@ -88,13 +95,28 @@ class ZeModel {
         $pdoStat->create();
     }
 
-    public function update($where) {
+    public function update($where, $objData = null) {
         $this->database()->clearSql() ;
 
         $pdoStat = $this->database()->table($this->table_name) ;
 
+
+        // copie all data to object
+        if ($objData) {
+            foreach ($this->_fields as $field) {
+                if (isset($objData->$field)) {
+                    $this->$field = $objData->$field ;
+                }
+            }
+        }
+
+
         foreach ($this->_fields as $field) {
-            $pdoStat->insertNewField($field, $this->$field) ;
+            if ($field == "updated_at") {
+                $this->$field = date("Y-m-d H:i:s") ;
+            }
+
+            $pdoStat->updateNewField($field, $this->$field) ;
         }
 
         $pdoStat->where($where) ;

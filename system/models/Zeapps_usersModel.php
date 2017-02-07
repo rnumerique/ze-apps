@@ -47,6 +47,16 @@ class Zeapps_usersModel extends ZeModel {
 
 
     public function getToken($email, $password) {
+        global $global_config ;
+
+        $session_lifetime = 20 ;
+        if (isset($global_config["session_lifetime"]) && is_numeric($global_config["session_lifetime"])) {
+            $session_lifetime = $global_config["session_lifetime"] ;
+        }
+
+
+
+
         $this->load->model("zeapps_tokenModel", "token");
 
 
@@ -70,7 +80,7 @@ class Zeapps_usersModel extends ZeModel {
                     $token = new $this->load->ctrl->token();
                     $token->id_user = $users[0]->id ;
                     $token->token = $tokenGenerated ;
-                    $token->date_expire = date("Y-m-d H:i:s", time() + 20 * 60) ;
+                    $token->date_expire = date("Y-m-d H:i:s", time() + $session_lifetime * 60) ;
                     $token->save() ;
                 }
             }

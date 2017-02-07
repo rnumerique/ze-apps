@@ -34,6 +34,29 @@ app.controller('MainCtrl', ['$scope', '$route', '$routeParams', '$location', '$r
             $("#left-menu .nav a").blur();
         };
 
+
+
+
+
+        /********** Update token to update time limit of session **********/
+        var updateTokenEvery5Minutes = function(){
+            $http.get('/zeapps/app/update_token').then(function (response) {
+                if (response.data && response.data != false) {
+
+                }
+            });
+        };
+
+        updateTokenEvery5Minutes();
+
+        $interval(function(){
+            updateTokenEvery5Minutes();
+        }, 300000);
+
+
+
+
+
         /********** Notification **********/
 
         $scope.fullSizedMenu = true;
@@ -60,7 +83,7 @@ app.controller('MainCtrl', ['$scope', '$route', '$routeParams', '$location', '$r
         };
 
         var loadNotifications = function(){
-            /*$http.get('/ze-apps/notification/getAllUnread').then(function (response) {
+            $http.get('/zeapps/notification/getAllUnread').then(function (response) {
                 if (response.data && response.data != false) {
                     var notifications = {};
                     for(var i=0; i < response.data.length; i++){
@@ -73,7 +96,7 @@ app.controller('MainCtrl', ['$scope', '$route', '$routeParams', '$location', '$r
                     }
                     $scope.notifications = notifications;
                 }
-            });*/
+            });
         };
 
         loadNotifications();
@@ -130,12 +153,12 @@ app.controller('MainCtrl', ['$scope', '$route', '$routeParams', '$location', '$r
 
         var getCurentUser = function () {
             var options = {};
-            /*$http.post('/ze-apps/user/getCurrentUser', options).then(function (response) {
+            $http.post('/zeapps/user/getCurrentUser', options).then(function (response) {
                 if (response.status == 200) {
                     $scope.user = response.data;
                     $rootScope.userLang = response.data.lang;
                 }
-            });*/
+            });
         };
         getCurentUser() ;
 

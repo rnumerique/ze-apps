@@ -12,3 +12,6 @@ require_once BASEPATH . 'core/ZeCtrl.php' ;
 
 // load config file
 require_once FCPATH . 'config/database.php' ;
+if (is_file(FCPATH . 'config/global.php')) {
+    require_once FCPATH . 'config/global.php' ;
+}

@@ -194,6 +194,7 @@ class ZeQuery
     public function update() {
         $this->_createUpdateQuery() ;
         $sth = $this->_dbPDO->prepare($this->_query);
+
         $sth->execute($this->_valueQuery);
     }
 
