@@ -141,7 +141,7 @@ class User extends ZeCtrl
 
     public function getCurrentUser()
     {
-        $this->load->model("Zeapps_usersModel", "user");
+        $this->load->model("Zeapps_users", "user");
 
 
         // verifie si la session est active

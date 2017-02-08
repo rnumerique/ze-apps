@@ -3,12 +3,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class App extends ZeCtrl
 {
-
     private $modules = [];
 
     public function index()
     {
-        $this->load->model("Zeapps_usersModel", "user");
+        $this->load->model("Zeapps_users", "user");
 
 
         // verifie si la session est active
@@ -32,7 +31,7 @@ class App extends ZeCtrl
     public function update_token() {
         global $global_config ;
 
-        $this->load->model("Zeapps_tokenModel", "token");
+        $this->load->model("Zeapps_token", "token");
 
         $session_lifetime = 20 ;
         if (isset($global_config["session_lifetime"]) && is_numeric($global_config["session_lifetime"])) {
@@ -46,7 +45,7 @@ class App extends ZeCtrl
             if ($tokens && count($tokens) == 1) {
                 $tokens[0]->date_expire = date("Y-m-d H:i:s", time() + $session_lifetime * 60) ;
 
-                $this->token->update(array('id'=>$tokens[0]->id), $tokens[0]);
+                $this->token->update($tokens[0], array('id'=>$tokens[0]->id));
             }
         }
     }
@@ -59,6 +58,9 @@ class App extends ZeCtrl
 
     private function appLoading()
     {
+        $this->load->model("zeapps_modules", "module");
+        $this->modules = $this->module->all(array('active'=>'1'));
+
         $this->loadCache();
 
         $data = $this->getContext();
@@ -69,15 +71,15 @@ class App extends ZeCtrl
 
     private function loadCache()
     {
-        if(!is_file(FCPATH . 'assets/cache/js/main.js') || ENVIRONMENT != 'production') {
+        if(!is_file(FCPATH . 'cache/js/main.js') || ENVIRONMENT != 'production') {
             $this->generateMainJs();
         }
 
-        if(!is_file(FCPATH . 'assets/cache/css/global.css') || ENVIRONMENT != 'production') {
+        if(!is_file(FCPATH . 'cache/css/global.css') || ENVIRONMENT != 'production') {
             $this->generateGlobalCss();
         }
 
-        if(!is_file(FCPATH . 'assets/cache/js/global.js') || ENVIRONMENT != 'production') {
+        if(!is_file(FCPATH . 'cache/js/global.js') || ENVIRONMENT != 'production') {
             $this->generateGlobalJs();
         }
 
@@ -89,15 +91,15 @@ class App extends ZeCtrl
     private function getContext(){
         $data = array();
 
-        $this->loadSpaces();
+        $space = $this->loadSpaces();
 
-        $this->loadMenues();
+        $menus = $this->loadMenus();
 
-        $data["menuEssential"] = $this->createEssentialMenu();
+        $data["menuEssential"] = $this->createEssentialMenu($menus['menuEssential']);
 
-        $data["menuLeft"] = $this->createLeftMenu();
+        $data["menuLeft"] = $this->createLeftMenu($space, $menus["menuLeft"]);
 
-        $ret = $this->createHeaderMenu();
+        $ret = $this->createHeaderMenu($space, $menus["menuHeader"]);
 
         $data['menuTopCol1'] = $ret['menuTopCol1'];
         $data['menuTopCol2'] = $ret['menuTopCol2'];
@@ -237,8 +239,8 @@ class App extends ZeCtrl
 
 
         // ecriture du fichier javascript
-        $this->recursive_mkdir(FCPATH . "assets/cache/js/") ;
-        file_put_contents(FCPATH . "assets/cache/js/main.js", $mainjs);
+        $this->recursive_mkdir(FCPATH . "cache/js/") ;
+        file_put_contents(FCPATH . "cache/js/main.js", $mainjs);
         /*************** END : génération du fichier main.js dans le cache *************/
 
         return true;
@@ -266,7 +268,7 @@ class App extends ZeCtrl
             if ($folder = opendir($folderApp)) {
                 for ($i = 0; $i < sizeof($this->modules); $i++) {
                     $folderModule = $folderApp . $this->modules[$i]->module_id;
-                    if (is_dir($folderModule) && $folderItem != '.' && $folderItem != '..') {
+                    if (is_dir($folderModule)) {
                         $folderCss = $folderModule . "/assets/css";
 
                         $globalCss .= $this->minifyCss($this->getContentFolder($folderCss, 'css'));
@@ -278,8 +280,8 @@ class App extends ZeCtrl
         /*************** END : copie des fichiers css *************/
 
 
-        $this->recursive_mkdir(FCPATH . "assets/cache/css/") ;
-        file_put_contents(FCPATH . "assets/cache/css/global.css", $globalCss);
+        $this->recursive_mkdir(FCPATH . "cache/css/") ;
+        file_put_contents(FCPATH . "cache/css/global.css", $globalCss);
 
         return true;
     }
@@ -306,7 +308,7 @@ class App extends ZeCtrl
             if ($folder = opendir($folderApp)) {
                 for ($i = 0; $i < sizeof($this->modules); $i++) {
                     $folderModule = $folderApp . $this->modules[$i]->module_id;
-                    if (is_dir($folderModule) && $folderItem != '.' && $folderItem != '..') {
+                    if (is_dir($folderModule)) {
                         $folderCss = $folderModule . "/assets/js";
 
                         $globalJs .= $this->getContentFolder($folderCss, 'js');
@@ -318,8 +320,8 @@ class App extends ZeCtrl
         /*************** END : copie des fichiers css *************/
 
 
-        $this->recursive_mkdir(FCPATH . "assets/cache/js/") ;
-        file_put_contents(FCPATH . "assets/cache/js/global.js", $globalJs);
+        $this->recursive_mkdir(FCPATH . "cache/js/") ;
+        file_put_contents(FCPATH . "cache/js/global.js", $globalJs);
 
         return true;
     }
@@ -346,10 +348,10 @@ class App extends ZeCtrl
                                         || $this->str_ends_with($folderItemImage, ".gif")
                                     )) {
                                     // creation du dossier d'accueil
-                                    $this->recursive_mkdir(FCPATH . "assets/cache/images/" . $folderItem) ;
+                                    $this->recursive_mkdir(FCPATH . "cache/images/" . $folderItem) ;
 
                                     // copie du fichier
-                                    copy($fileJS, FCPATH . "assets/cache/images/" . $folderItem . "/" . $folderItemImage);
+                                    copy($fileJS, FCPATH . "cache/images/" . $folderItem . "/" . $folderItemImage);
                                 }
                             }
                         }
@@ -379,10 +381,10 @@ class App extends ZeCtrl
                                         )
                                     ) {
                                         // creation du dossier d'accueil
-                                        $this->recursive_mkdir(FCPATH . "assets/cache/images/" . $folderItem);
+                                        $this->recursive_mkdir(FCPATH . "cache/images/" . $folderItem);
 
                                         // copie du fichier
-                                        copy($fileJS, FCPATH . "assets/cache/images/" . $folderItem . "/" . $folderItemImage);
+                                        copy($fileJS, FCPATH . "cache/images/" . $folderItem . "/" . $folderItemImage);
                                     }
                                 }
                             }
@@ -431,9 +433,11 @@ class App extends ZeCtrl
             }
         }
         /********** END : charge tous les espaces **********/
+
+        return $space;
     }
 
-    private function loadMenues(){
+    private function loadMenus(){
         /************ charge tous les menus de config pour les menus ***********/
         $menuLeft = array();
         $menuHeader = array();
@@ -458,20 +462,20 @@ class App extends ZeCtrl
         $folderApp = BASEPATH ;
         // charge tous les fichiers de conf des menus
         if($folder = opendir($folderApp)) {
-            while(false !== ($folderItem = readdir($folder)))
-            {
-                $folderModule = $folderApp . $folderItem ;
-                if(is_dir($folderModule) && $folderItem != '.' && $folderItem != '..') {
-                    if (is_file($folderModule . '/config/menu.php')) {
-                        require_once $folderModule . '/config/menu.php' ;
-                    }
-                }
+            if (is_file($folderApp . 'config/menu.php')) {
+                require_once $folderApp . 'config/menu.php' ;
             }
         }
         /************ END : charge tous les menus de config pour les menus ***********/
+
+        return array(
+            "menuLeft" => $menuLeft,
+            "menuHeader" => $menuHeader,
+            "menuEssential" => $menuEssential
+        );
     }
 
-    private function createEssentialMenu(){
+    private function createEssentialMenu($menuEssential = array()){
 
         /*************** creation du menu essential *************/
         // charges les différents menus
@@ -479,12 +483,10 @@ class App extends ZeCtrl
 
         // calcul le numero ordre le plus élevé
         $maxOrder = -1 ;
-        if(isset($menuEssential)) {
-            foreach ($menuEssential as $menuItem) {
-                if (isset($menuItem["order"])) {
-                    if ($menuItem["order"] > $maxOrder) {
-                        $maxOrder = $menuItem["order"];
-                    }
+        foreach ($menuEssential as $menuItem) {
+            if (isset($menuItem["order"])) {
+                if ($menuItem["order"] > $maxOrder) {
+                    $maxOrder = $menuItem["order"];
                 }
             }
         }
@@ -505,7 +507,7 @@ class App extends ZeCtrl
         return $data;
     }
 
-    private function createLeftMenu(){
+    private function createLeftMenu($space = array(), $menuLeft = array()){
         /*************** creation du menu gauche *************/
         // charges les différents menus
         $data = array();
@@ -517,12 +519,10 @@ class App extends ZeCtrl
 
                 // calcul le numero ordre le plus élevé
                 $maxOrder = -1;
-                if(isset($menuLeft)) {
-                    foreach ($menuLeft as $menuLeftItem) {
-                        if (isset($menuLeftItem["space"]) && isset($menuLeftItem["order"])) {
-                            if ($menuLeftItem["space"] == $space_item["id"] && $menuLeftItem["order"] > $maxOrder) {
-                                $maxOrder = $menuLeftItem["order"];
-                            }
+                foreach ($menuLeft as $menuLeftItem) {
+                    if (isset($menuLeftItem["space"]) && isset($menuLeftItem["order"])) {
+                        if ($menuLeftItem["space"] == $space_item["id"] && $menuLeftItem["order"] > $maxOrder) {
+                            $maxOrder = $menuLeftItem["order"];
                         }
                     }
                 }
@@ -547,7 +547,7 @@ class App extends ZeCtrl
         return $data;
     }
 
-    private function createHeaderMenu(){
+    private function createHeaderMenu($space = array(), $menuHeader = array()){
         /*************** creation du menu Header *************/
 
         $data = array();
@@ -581,13 +581,11 @@ class App extends ZeCtrl
                                 $dataMenu["item"] = array();
 
                                 // calcul le numero ordre le plus élevé
-                                $maxOrder = -1;
-                                if(isset($menuHeader)) {
-                                    foreach ($menuHeader as $menuHeaderItem) {
-                                        if (isset($menuHeaderItem["space"]) && isset($menuHeaderItem["order"])) {
-                                            if ($menuHeaderItem["space"] == $space_item["id"] && $menuHeaderItem["order"] > $maxOrder) {
-                                                $maxOrder = $menuHeaderItem["order"];
-                                            }
+                                $maxOrder = -1;                                
+                                foreach ($menuHeader as $menuHeaderItem) {
+                                    if (isset($menuHeaderItem["space"]) && isset($menuHeaderItem["order"])) {
+                                        if ($menuHeaderItem["space"] == $space_item["id"] && $menuHeaderItem["order"] > $maxOrder) {
+                                            $maxOrder = $menuHeaderItem["order"];
                                         }
                                     }
                                 }

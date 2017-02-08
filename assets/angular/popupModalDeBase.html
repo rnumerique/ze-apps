@@ -1,0 +1,23 @@
+<div class="modal-header">
+    <h3 class="modal-title">{{titre}}</h3>
+</div>
+
+
+<div class="modal-body">
+    <div class="row">
+        <section class="col col-md-12">
+            <div ng-bind-html="msg"></div>
+        </section>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-danger" type="button" ng-click="action_danger_click()" ng-show="action_danger" i8n="{{action_danger}}">
+    </button>
+
+    <button class="btn btn-primary" type="button" ng-click="action_primary_click()" ng-show="action_primary" i8n="{{action_primary}}">
+    </button>
+
+    <button class="btn btn-success" type="button" ng-click="action_success_click()" ng-show="action_success" i8n="{{action_success}}">
+    </button>
+</div>

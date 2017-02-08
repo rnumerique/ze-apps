@@ -39,7 +39,7 @@ class Config extends ZeCtrl
                 }
             }
             else {
-                if ($this->configs->get(array('id'=>$data['id']))) {
+                if ($this->configs->get($data['id'])) {
                     $this->configs->update($data, array('id' => $data['id']));
                 } else {
                     $this->configs->insert($data);

@@ -67,11 +67,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
     <!-- CACHED FILES -->
-    <script src="/assets/cache/js/main.js"></script>
+    <script src="/cache/js/main.js"></script>
 
-    <script src="/assets/cache/js/global.js"></script>
+    <script src="/cache/js/global.js"></script>
 
-    <link rel="stylesheet" href="/assets/cache/css/global.css">
+    <link rel="stylesheet" href="/cache/css/global.css">
 
 
     <script src="/assets/js/jquery-1.12.0.min.js"></script>

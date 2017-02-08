@@ -1,5 +1,5 @@
-app.controller('ComZeAppsConfigCtrl', ['$scope', '$route', '$routeParams', '$location', '$rootScope', '$http', 'zeHttp',
-    function ($scope, $route, $routeParams, $location, $rootScope, $http, zeHttp) {
+app.controller('ComZeAppsConfigCtrl', ['$scope', '$route', '$routeParams', '$location', '$rootScope', 'zeHttp',
+    function ($scope, $route, $routeParams, $location, $rootScope, zhttp) {
 
         $scope.$parent.loadMenu("com_ze_apps_config", "com_ze_apps_config");
 
@@ -19,7 +19,7 @@ app.controller('ComZeAppsConfigCtrl', ['$scope', '$route', '$routeParams', '$loc
             data['value'] = $rootScope.debug ? 1 : 0;
 
             var formatted_data = angular.toJson(data);
-            zeHttp.post('/zeapps/config/save', formatted_data);
+            zhttp.config.save(formatted_data);
         }
 
     }]);

@@ -33,6 +33,10 @@ class ZeModel {
         }
 
         $this->_primary_key = $this->database()->table($this->_table_name)->getPrimaryKey() ;
+
+        if($this->_table_name == '') {
+            $this->_table_name = str_replace('_model', '', strtolower(get_class($this)));
+        }
     }
 
     public function setDb($dbConfig) {
@@ -91,7 +95,7 @@ class ZeModel {
         if ($this->_primary_key) {
             $primaryKey = $this->_primary_key ;
             if ($this->$primaryKey) {
-                $this->update(array($primaryKey=>$this->$primaryKey)) ;
+                $this->update(null, array($primaryKey=>$this->$primaryKey)) ;
             } else {
                 $this->insert() ;
             }
@@ -120,17 +124,25 @@ class ZeModel {
         $pdoStat->create();
     }
 
-    public function update($where, $objData = null) {
+    public function update($objData = null, $where) {
         $this->database()->clearSql() ;
 
         $pdoStat = $this->database()->table($this->_table_name) ;
 
 
-        // copie all data to object
-        if ($objData) {
+        // copie all data to object if object
+        if (is_object($objData)) {
             foreach ($this->_fields as $field) {
                 if (isset($objData->$field)) {
                     $this->$field = $objData->$field ;
+                }
+            }
+        }
+        // copie all data to object if array
+        else if (is_array($objData)) {
+            foreach ($this->_fields as $field) {
+                if (isset($objData[$field])) {
+                    $this->$field = $objData[$field] ;
                 }
             }
         }
