@@ -69,15 +69,15 @@ class App extends ZeCtrl
 
     private function loadCache()
     {
-        if(!is_file(FCPATH . 'assets/cache/js/main.js') || ENVIRONMENT != 'production') {
+        if(!is_file(FCPATH . 'cache/js/main.js') || ENVIRONMENT != 'production') {
             $this->generateMainJs();
         }
 
-        if(!is_file(FCPATH . 'assets/cache/css/global.css') || ENVIRONMENT != 'production') {
+        if(!is_file(FCPATH . 'cache/css/global.css') || ENVIRONMENT != 'production') {
             $this->generateGlobalCss();
         }
 
-        if(!is_file(FCPATH . 'assets/cache/js/global.js') || ENVIRONMENT != 'production') {
+        if(!is_file(FCPATH . 'cache/js/global.js') || ENVIRONMENT != 'production') {
             $this->generateGlobalJs();
         }
 
@@ -237,8 +237,8 @@ class App extends ZeCtrl
 
 
         // ecriture du fichier javascript
-        $this->recursive_mkdir(FCPATH . "assets/cache/js/") ;
-        file_put_contents(FCPATH . "assets/cache/js/main.js", $mainjs);
+        $this->recursive_mkdir(FCPATH . "cache/js/") ;
+        file_put_contents(FCPATH . "cache/js/main.js", $mainjs);
         /*************** END : génération du fichier main.js dans le cache *************/
 
         return true;
@@ -266,7 +266,7 @@ class App extends ZeCtrl
             if ($folder = opendir($folderApp)) {
                 for ($i = 0; $i < sizeof($this->modules); $i++) {
                     $folderModule = $folderApp . $this->modules[$i]->module_id;
-                    if (is_dir($folderModule) && $folderItem != '.' && $folderItem != '..') {
+                    if (is_dir($folderModule)) {
                         $folderCss = $folderModule . "/assets/css";
 
                         $globalCss .= $this->minifyCss($this->getContentFolder($folderCss, 'css'));
@@ -278,8 +278,8 @@ class App extends ZeCtrl
         /*************** END : copie des fichiers css *************/
 
 
-        $this->recursive_mkdir(FCPATH . "assets/cache/css/") ;
-        file_put_contents(FCPATH . "assets/cache/css/global.css", $globalCss);
+        $this->recursive_mkdir(FCPATH . "cache/css/") ;
+        file_put_contents(FCPATH . "cache/css/global.css", $globalCss);
 
         return true;
     }
@@ -306,7 +306,7 @@ class App extends ZeCtrl
             if ($folder = opendir($folderApp)) {
                 for ($i = 0; $i < sizeof($this->modules); $i++) {
                     $folderModule = $folderApp . $this->modules[$i]->module_id;
-                    if (is_dir($folderModule) && $folderItem != '.' && $folderItem != '..') {
+                    if (is_dir($folderModule)) {
                         $folderCss = $folderModule . "/assets/js";
 
                         $globalJs .= $this->getContentFolder($folderCss, 'js');
@@ -318,8 +318,8 @@ class App extends ZeCtrl
         /*************** END : copie des fichiers css *************/
 
 
-        $this->recursive_mkdir(FCPATH . "assets/cache/js/") ;
-        file_put_contents(FCPATH . "assets/cache/js/global.js", $globalJs);
+        $this->recursive_mkdir(FCPATH . "cache/js/") ;
+        file_put_contents(FCPATH . "cache/js/global.js", $globalJs);
 
         return true;
     }
@@ -346,10 +346,10 @@ class App extends ZeCtrl
                                         || $this->str_ends_with($folderItemImage, ".gif")
                                     )) {
                                     // creation du dossier d'accueil
-                                    $this->recursive_mkdir(FCPATH . "assets/cache/images/" . $folderItem) ;
+                                    $this->recursive_mkdir(FCPATH . "cache/images/" . $folderItem) ;
 
                                     // copie du fichier
-                                    copy($fileJS, FCPATH . "assets/cache/images/" . $folderItem . "/" . $folderItemImage);
+                                    copy($fileJS, FCPATH . "cache/images/" . $folderItem . "/" . $folderItemImage);
                                 }
                             }
                         }
@@ -379,10 +379,10 @@ class App extends ZeCtrl
                                         )
                                     ) {
                                         // creation du dossier d'accueil
-                                        $this->recursive_mkdir(FCPATH . "assets/cache/images/" . $folderItem);
+                                        $this->recursive_mkdir(FCPATH . "cache/images/" . $folderItem);
 
                                         // copie du fichier
-                                        copy($fileJS, FCPATH . "assets/cache/images/" . $folderItem . "/" . $folderItemImage);
+                                        copy($fileJS, FCPATH . "cache/images/" . $folderItem . "/" . $folderItemImage);
                                     }
                                 }
                             }
