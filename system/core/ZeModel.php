@@ -55,7 +55,7 @@ class ZeModel {
         if($res = $this->database()->table($this->table_name)->where($where)->result())
             return $res[0];
         else
-            return $res;
+            return false;
     }
 
     public function all($where = array()) {
