@@ -36,6 +36,12 @@ class ZeDatabase
 
                 // connexion with PDO
                 $dsn = $db[$dbConfig]["dbdriver"] . ':dbname=' . $db[$dbConfig]["database"] . ';host=' . $db[$dbConfig]["hostname"];
+
+                if (isset($db[$dbConfig]["char_set"])) {
+                    $dsn .= ";charset=" . $db[$dbConfig]["char_set"] ;
+
+                }
+
                 $user = $db[$dbConfig]["username"];
                 $password = $db[$dbConfig]["password"];
 
