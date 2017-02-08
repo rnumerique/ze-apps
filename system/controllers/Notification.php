@@ -6,24 +6,26 @@ class Notification extends ZeCtrl
     public function getAll()
     {
         $this->load->model("zeapps_notification", "notification");
-        $this->load->model("zeapps_users", "user");
-        $user = $this->user->getUserByToken($this->session->userdata('token'));
+        $this->load->model("Zeapps_usersModel", "user");
 
-        $notification = $this->notification->get_all(array('id_user'=>$user->id));
-        if($notification) {
-            echo json_encode($notification);
+        if($user = $this->user->getUserByToken($this->session->get('token'))) {
+            $user = $user[0];
+            if ($notification = $this->notification->all(array('id_user' => $user->id))) {
+                echo json_encode($notification);
+            }
         }
     }
 
     public function getAllUnread()
     {
         $this->load->model("zeapps_notification", "notification");
-        $this->load->model("zeapps_users", "user");
-        $user = $this->user->getUserByToken($this->session->userdata('token'));
+        $this->load->model("Zeapps_usersModel", "user");
 
-        $notification = $this->notification->get_all(array("read_state"=>0, 'id_user'=>$user->id));
-        if($notification) {
-            echo json_encode($notification);
+        if($user = $this->user->getUserByToken($this->session->get('token'))) {
+            $user = $user[0];
+            if ($notification = $this->notification->all(array("read_state"=>0, 'id_user' => $user->id))) {
+                echo json_encode($notification);
+            }
         }
     }
 
@@ -31,8 +33,7 @@ class Notification extends ZeCtrl
     public function seenNotification()
     {
         $this->load->model("zeapps_notification", "notification");
-        $this->load->model("zeapps_users", "user");
-        $user = $this->user->getUserByToken($this->session->userdata('token'));
+        $this->load->model("Zeapps_usersModel", "user");
 
         $data = array() ;
 
@@ -42,10 +43,13 @@ class Notification extends ZeCtrl
 
         }
 
-        if($data){
-            foreach($data as $module){
-                for($j=0; $j < sizeof($module); $j++) {
-                    $this->notification->update(array("seen" => $module['notifications'][$j]["seen"]), array("id"=>$module['notifications'][$j]["id"], 'id_user'=>$user->id));
+        if($user = $this->user->getUserByToken($this->session->get('token'))) {
+            $user = $user[0];
+            if ($data) {
+                foreach ($data as $module) {
+                    for ($j = 0; $j < sizeof($module); $j++) {
+                        $this->notification->update(array("seen" => $module['notifications'][$j]["seen"]), array("id" => $module['notifications'][$j]["id"], 'id_user' => $user->id));
+                    }
                 }
             }
         }
@@ -55,11 +59,13 @@ class Notification extends ZeCtrl
     public function readNotification($id = null)
     {
         $this->load->model("zeapps_notification", "notification");
-        $this->load->model("zeapps_users", "user");
-        $user = $this->user->getUserByToken($this->session->userdata('token'));
+        $this->load->model("Zeapps_usersModel", "user");
 
-        if($id){
-                $this->notification->update(array("read_state"=>1), array("id"=>$id, 'id_user'=>$user->id));
+        if($user = $this->user->getUserByToken($this->session->get('token'))) {
+            $user = $user[0];
+            if ($id) {
+                $this->notification->update(array("read_state" => 1), array("id" => $id, 'id_user' => $user->id));
+            }
         }
         echo json_encode("OK");
     }
@@ -67,11 +73,13 @@ class Notification extends ZeCtrl
     public function readAllNotificationFrom($module = null)
     {
         $this->load->model("zeapps_notification", "notification");
-        $this->load->model("zeapps_users", "user");
-        $user = $this->user->getUserByToken($this->session->userdata('token'));
+        $this->load->model("Zeapps_usersModel", "user");
 
-        if($module){
-            $this->notification->update(array("read_state"=>1), array('module'=>$module, 'id_user'=>$user->id));
+        if($user = $this->user->getUserByToken($this->session->get('token'))) {
+            $user = $user[0];
+            if ($module) {
+                $this->notification->update(array("read_state" => 1), array('module' => $module, 'id_user' => $user->id));
+            }
         }
         echo json_encode("OK");
     }
