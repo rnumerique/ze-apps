@@ -51,6 +51,12 @@ class ZeCtrl
                     }
                 }
             }
+
+            if (isset($autoload['helper']) && is_array($autoload['helper'])) {
+                foreach ($autoload['helper'] as $value) {
+                    $this->load->helper($value);
+                }
+            }
         }
   }
 
