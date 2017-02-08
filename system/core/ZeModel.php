@@ -22,7 +22,9 @@ class ZeModel {
 
         $this->dbConfig = self::$_dbConfig ;
 
-
+        if($this->_table_name == '') {
+            $this->_table_name = str_replace('_model', '', strtolower(get_class($this)));
+        }
 
         // get all fields
         $this->_fields = $this->database()->table($this->_table_name)->getColumnName() ;
@@ -34,11 +36,6 @@ class ZeModel {
         }
 
         $this->_primary_key = $this->database()->table($this->_table_name)->getPrimaryKey() ;
-
-        if($this->_table_name == '') {
-            $this->_table_name = str_replace('_model', '', strtolower(get_class($this)));
-        }
-
 
         // check if table is safe delete
         foreach ($this->_fields as $field) {
