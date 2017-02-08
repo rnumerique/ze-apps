@@ -60,7 +60,6 @@ class ZeCtrl
         }
   }
 
-
     private function load()
     {
         if ($this->load == null) {

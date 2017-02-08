@@ -24,7 +24,7 @@ class ZeLoad
     }
 
 
-    public function view($viewTemplate, $arrData = array(), $outputView = true)
+    public function view($viewTemplate, $arrData = array(), $outputView = false)
     {
         // search view in modulePath
         if (isset($this->_context["modulePath"]) && $this->_context["modulePath"] != '') {
@@ -113,7 +113,6 @@ class ZeLoad
                         $this->libraryLoaded[] = $externalModule . '/libraries/' . $className . '.php';
                         include $externalModule . '/libraries/' . $className . '.php';
                     }
-                    $className::$_load = $this;
                     $this->_ctrl->$shortName = new $className();
                     return;
                 }
@@ -128,7 +127,6 @@ class ZeLoad
                             $this->libraryLoaded[] = $this->_context["modulePath"] . '/libraries/' . $className . '.php';
                             include $this->_context["modulePath"] . '/libraries/' . $className . '.php';
                         }
-                        $className::$_load = $this;
                         $this->_ctrl->$shortName = new $className();
                         return;
                     }
@@ -141,7 +139,6 @@ class ZeLoad
                         $this->libraryLoaded[] = BASEPATH . 'libraries/' . $className . '.php';
                         include BASEPATH . 'libraries/' . $className . '.php';
                     }
-                    $className::$_load = $this;
                     $this->_ctrl->$shortName = new $className();
                     return;
                 }
