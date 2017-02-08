@@ -13,6 +13,7 @@ class ZeQuery
     private $_where = "" ;
     private $_group_by = "" ;
     private $_order_by = "" ;
+    private $_limit = "" ;
     private $_query = "" ;
     private $_valueQuery = array() ;
     private $_insertFieldName = "" ;
@@ -36,6 +37,7 @@ class ZeQuery
         $this->_where = "" ;
         $this->_group_by = "" ;
         $this->_order_by = "" ;
+        $this->_limit = "" ;
         $this->_query = "" ;
         $this->_insertFieldName = "" ;
         $this->_insertValueField = "" ;
@@ -155,6 +157,12 @@ class ZeQuery
 
     public function order_by($argString) {
         $this->_order_by = $argString ;
+
+        return $this ;
+    }
+
+    public function limit($limit, $offset = 0) {
+        $this->_limit = " LIMIT " . $limit . " OFFSET " . $offset ;
 
         return $this ;
     }

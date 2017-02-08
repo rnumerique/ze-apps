@@ -13,6 +13,10 @@ class ZeModel {
     protected $_primary_key = null ;
     private $safeDelete = false ;
 
+    private $_order_by = "" ;
+    private $_limit = -1 ;
+    private $_limit_offset = 0 ;
+
     public function __construct($dbConfig = "default") {
         $this->load = self::$_load ;
 
@@ -48,6 +52,28 @@ class ZeModel {
         }
     }
 
+    private function clearSql() {
+        $this->_order_by = "" ;
+        $this->_limit = -1 ;
+        $this->_limit_offset = 0 ;
+    }
+
+    public function order_by($argString) {
+        $this->_order_by = $argString ;
+
+        return $this ;
+    }
+
+    public function limit($limit, $offset = 0) {
+        $this->_limit = $limit ;
+        $this->_limit_offset = $offset ;
+
+        return $this ;
+    }
+
+
+
+
     public function setDb($dbConfig) {
         self::$_dbConfig = $dbConfig ;
         $this->database()->setDb($dbConfig) ;
@@ -65,10 +91,26 @@ class ZeModel {
     }
 
     public function all($where = array()) {
-        return $this->database()->table($this->_table_name)->where($where)->result();
+        $this->database()->clearSql() ;
+
+        $db = $this->database()->table($this->_table_name) ;
+
+        if ($this->_order_by != "") {
+            $db->order_by($this->_order_by) ;
+        }
+
+        if ($this->_limit != -1) {
+            $db->limit($this->_limit, $this->_limit_offset) ;
+        }
+
+        // to forget "order by" & "limit" for next query
+        $this->clearSql() ;
+
+        return $db->where($where)->result() ;
     }
 
     public function get($id) {
+        $this->database()->clearSql() ;
         if ($this->_primary_key) {
             $where = array() ;
             $where[$this->_primary_key] = $id ;
@@ -224,22 +266,43 @@ class ZeModel {
 
 
     private function findBy($method, $arguments) {
+        $this->database()->clearSql() ;
+
         $columnName = substr($method, strlen('findBy_')) ;
 
-
         if (isset($arguments[0])) {
-            return $this->database()->table($this->_table_name)->where(array($columnName => $arguments[0]))->result();
+            $db = $this->database()->table($this->_table_name) ;
+
+            if ($this->_order_by != "") {
+                $db->order_by($this->_order_by) ;
+            }
+
+            if ($this->_limit != -1) {
+                $db->limit($this->_limit, $this->_limit_offset) ;
+            }
+
+            // to forget "order by" & "limit" for next query
+            $this->clearSql() ;
+
+            return $db->where(array($columnName => $arguments[0]))->result() ;
         } else {
             return null ;
         }
     }
 
     private function findOneBy($method, $arguments) {
+        $this->database()->clearSql() ;
+
         $columnName = substr($method, strlen('findOneBy_')) ;
 
-
         if (isset($arguments[0])) {
-            return $this->database()->table($this->_table_name)->where(array($columnName => $arguments[0]))->result();
+            $result = $this->database()->table($this->_table_name)->limit(1)->where(array($columnName => $arguments[0]))->result() ;
+
+            if ($result && count($result) == 1) {
+                return $result[0] ;
+            } else {
+                return false ;
+            }
         } else {
             return null ;
         }
