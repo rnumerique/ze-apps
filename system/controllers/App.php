@@ -436,26 +436,19 @@ class App extends ZeCtrl
 
 
         if($this->modules && is_array($this->modules)) {
-            $folderApp = MODULEPATH;
             // charge tous les fichiers de conf des menus
-            if ($folder = opendir($folderApp)) {
-                for ($i = 0; $i < sizeof($this->modules); $i++) {
-                    $folderModule = $folderApp . $this->modules[$i]->module_id;
-                    if (is_dir($folderModule)) {
-                        if (is_file($folderModule . '/config/menu.php')) {
-                            require_once $folderModule . '/config/menu.php';
-                        }
-                    }
+            for ($i = 0; $i < sizeof($this->modules); $i++) {
+                $folderModule = MODULEPATH . $this->modules[$i]->module_id;
+
+                if (is_file($folderModule . '/config/menu.php')) {
+                    require_once $folderModule . '/config/menu.php';
                 }
             }
         }
 
-        $folderApp = BASEPATH ;
         // charge tous les fichiers de conf des menus
-        if($folder = opendir($folderApp)) {
-            if (is_file($folderApp . 'config/menu.php')) {
-                require_once $folderApp . 'config/menu.php' ;
-            }
+        if (is_file(BASEPATH . 'config/menu.php')) {
+            require_once BASEPATH . 'config/menu.php' ;
         }
         /************ END : charge tous les menus de config pour les menus ***********/
 
