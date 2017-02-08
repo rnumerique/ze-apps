@@ -1,9 +1,8 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Zeapps_usersModel extends ZeModel {
+class Zeapps_users extends ZeModel {
     private $typeHash = 'sha256';
-    protected $_table_name = 'zeapps_users';
 
 
 
@@ -11,12 +10,11 @@ class Zeapps_usersModel extends ZeModel {
 
     public function getUserByToken($token_user) {
         if (gettype($token_user) == 'string') {
-            $this->load->model("zeapps_tokenModel", "token");
+            $this->load->model("zeapps_token", "token");
 
             // supprime tous les token qui sont dépassés
             $where = array("date_expire <"=>date("Y-m-d H:i:s")) ;
             $tokens = $this->load->ctrl->token->all($where) ;
-
 
             if (is_array($tokens) && count($tokens) > 0) {
                 $ids = array() ;
@@ -58,7 +56,7 @@ class Zeapps_usersModel extends ZeModel {
 
 
 
-        $this->load->model("zeapps_tokenModel", "token");
+        $this->load->model("zeapps_token", "token");
 
 
         $where = array() ;
