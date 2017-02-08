@@ -1,13 +1,5 @@
 <?php
 
-class Zeapps_modules extends MY_Model
+class Zeapps_modules extends ZeModel
 {
-
-
-    public function __construct()
-    {
-        parent::__construct();
-
-        $this->soft_deletes = TRUE;
-    }
 }
