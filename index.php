@@ -74,30 +74,37 @@ require_once FCPATH . 'autoload.php';
 // appel de la classe routeur
 $routeur = new ZeRouteur();
 
-
 // charge le controller
-if ($routeur->module == 'zeapps') {
-    $controllerPath = BASEPATH . 'controllers/' . ucfirst($routeur->controller) . '.php';
-} else {
-    $controllerPath = MODULEPATH . $routeur->module . '/controllers/' . ucfirst($routeur->controller) . '.php';
-}
+    if ($routeur->module == 'ng'){
+        // All /ng/* urls are angular urls, so we load the app and let angular deal with it
+        $controllerPath = BASEPATH . 'controllers/app.php';
+        $routeur->controller = 'App';
+        $routeur->function = 'index';
+    }
+    elseif ($routeur->module == 'zeapps') {
+        // App core controllers
+        $controllerPath = BASEPATH . 'controllers/' . ucfirst($routeur->controller) . '.php';
+    }
+    else {
+        $controllerPath = MODULEPATH . $routeur->module . '/controllers/' . ucfirst($routeur->controller) . '.php';
+    }
 
 // verifie que le controller existe
-if (is_file($controllerPath)) {
-    require_once $controllerPath;
+    if (is_file($controllerPath)) {
+        require_once $controllerPath;
 
-    $ctrlName = ucfirst($routeur->controller);
-    $controller = new $ctrlName();
+        $ctrlName = ucfirst($routeur->controller);
+        $controller = new $ctrlName();
 
-    if (method_exists($ctrlName, $routeur->function)) {
-        call_user_func_array(array($controller, $routeur->function), $routeur->params);
+        if (method_exists($ctrlName, $routeur->function)) {
+            call_user_func_array(array($controller, $routeur->function), $routeur->params);
+        } else {
+            header('HTTP/1.1 404 Not Found', TRUE, 404);
+            echo 'Page Not Found. Unknow function';
+            exit(1); // EXIT_ERROR
+        }
     } else {
         header('HTTP/1.1 404 Not Found', TRUE, 404);
-        echo 'Page Not Found. Unknow function';
+        echo 'Page Not Found. Unknow controller';
         exit(1); // EXIT_ERROR
     }
-} else {
-    header('HTTP/1.1 404 Not Found', TRUE, 404);
-    echo 'Page Not Found. Unknow controller';
-    exit(1); // EXIT_ERROR
-}
