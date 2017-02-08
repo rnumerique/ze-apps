@@ -5,7 +5,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class ZeView
 {
 
-  function getView($viewTemplate, $arrData = array(), $outputView = true)
+  function getView($viewTemplate, $arrData = array(), $outputView = false)
   {
     // send data to template file
     foreach ($arrData as $key => $value) {
@@ -19,7 +19,7 @@ class ZeView
 
 
       // Return the file data if requested
-  		if ($outputView !== true)
+  		if ($outputView !== false)
   		{
   			$buffer = ob_get_contents();
   			@ob_end_clean();
