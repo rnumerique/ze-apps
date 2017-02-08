@@ -3,7 +3,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Zeapps_usersModel extends ZeModel {
     private $typeHash = 'sha256';
-    protected $table_name = 'zeapps_users';
+    protected $_table_name = 'zeapps_users';
+
 
 
 

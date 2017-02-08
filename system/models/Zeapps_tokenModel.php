@@ -1,6 +1,7 @@
 <?php
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Zeapps_tokenModel extends ZeModel
 {
-    protected $table_name = 'zeapps_token';
+    protected $_table_name = 'zeapps_token';
 }

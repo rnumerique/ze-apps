@@ -1,13 +1,7 @@
 <?php
+defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Zeapps_notification extends MY_Model
+class Zeapps_notification extends ZeModel
 {
-
-
-    public function __construct()
-    {
-        parent::__construct();
-
-        $this->soft_deletes = TRUE;
-    }
+    protected $_table_name = 'zeapps_notifications';
 }

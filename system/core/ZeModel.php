@@ -8,7 +8,7 @@ class ZeModel {
     protected $dbConfig = null ;
     private $_ctrl = null;
     private $_db = null ;
-    protected $table_name = '' ;
+    protected $_table_name = '' ;
     protected $_fields = array() ;
     protected $_primary_key = null ;
 
@@ -24,7 +24,7 @@ class ZeModel {
 
 
         // get all fields
-        $this->_fields = $this->database()->table($this->table_name)->getColumnName() ;
+        $this->_fields = $this->database()->table($this->_table_name)->getColumnName() ;
 
 
         // define all fields
@@ -32,7 +32,7 @@ class ZeModel {
             $this->$field = null ;
         }
 
-        $this->_primary_key = $this->database()->table($this->table_name)->getPrimaryKey() ;
+        $this->_primary_key = $this->database()->table($this->_table_name)->getPrimaryKey() ;
     }
 
     public function setDb($dbConfig) {
@@ -52,12 +52,37 @@ class ZeModel {
     }
 
     public function all($where = array()) {
-        return $this->database()->table($this->table_name)->where($where)->result();
+        return $this->database()->table($this->_table_name)->where($where)->result();
+    }
+
+    public function get($id) {
+        if ($this->_primary_key) {
+            $where = array() ;
+            $where[$this->_primary_key] = $id ;
+
+            $result = $this->database()->table($this->_table_name)->where($where)->result() ;
+
+            if ($result && count($result) == 1) {
+                foreach ($this->_fields as $field) {
+                    if (isset($result[0]->$field)) {
+                        $this->$field = $result[0]->$field ;
+                    } else {
+                        $this->$field = null ;
+                    }
+                }
+
+                return $this ;
+            } else {
+                return false ;
+            }
+        }
+
+        return null ;
     }
 
     public function delete($arrData) {
         $this->database()->clearSql() ;
-        return $this->database()->table($this->table_name)->delete($arrData);
+        return $this->database()->table($this->_table_name)->delete($arrData);
     }
 
     public function save() {
@@ -71,14 +96,14 @@ class ZeModel {
                 $this->insert() ;
             }
         } else {
-            throw new Exception('No primary is define in table : ' . $this->table_name);
+            throw new Exception('No primary is define in table : ' . $this->_table_name);
         }
     }
 
     public function insert() {
         $this->database()->clearSql() ;
 
-        $pdoStat = $this->database()->table($this->table_name) ;
+        $pdoStat = $this->database()->table($this->_table_name) ;
 
         foreach ($this->_fields as $field) {
 
@@ -98,7 +123,7 @@ class ZeModel {
     public function update($where, $objData = null) {
         $this->database()->clearSql() ;
 
-        $pdoStat = $this->database()->table($this->table_name) ;
+        $pdoStat = $this->database()->table($this->_table_name) ;
 
 
         // copie all data to object
@@ -136,6 +161,8 @@ class ZeModel {
         // search a generic method
         if ($this->startsWith($method, 'findBy_')) {
             return $this->findBy($method, $arguments) ;
+        } elseif ($this->startsWith($method, 'findOneBy_')) {
+            return $this->findOneBy($method, $arguments) ;
         } else {
             throw new Exception('Unknown method : ' . $method . ' in model');
         }
@@ -148,7 +175,18 @@ class ZeModel {
 
 
         if (isset($arguments[0])) {
-            return $this->database()->table($this->table_name)->where(array($columnName => $arguments[0]))->result();
+            return $this->database()->table($this->_table_name)->where(array($columnName => $arguments[0]))->result();
+        } else {
+            return null ;
+        }
+    }
+
+    private function findOneBy($method, $arguments) {
+        $columnName = substr($method, strlen('findOneBy_')) ;
+
+
+        if (isset($arguments[0])) {
+            return $this->database()->table($this->_table_name)->where(array($columnName => $arguments[0]))->result();
         } else {
             return null ;
         }
