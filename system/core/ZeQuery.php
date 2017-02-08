@@ -7,7 +7,7 @@ class ZeQuery
     private $_dbPDO = null ;
 
     // for QueryBuilder
-    private $_select = "SELECT *" ;
+    private $_select = "*" ;
     private $_table = "" ;
     private $_join = "" ;
     private $_where = "" ;
@@ -31,7 +31,7 @@ class ZeQuery
     }
 
     public function clearSql() {
-        $this->_select = "SELECT *" ;
+        $this->_select = "*" ;
         $this->_table = "" ;
         $this->_join = "" ;
         $this->_where = "" ;
@@ -106,8 +106,8 @@ class ZeQuery
         return $this ;
     }
 
-    public function join($argString, $typeJoin = 'INNER') {
-        $this->_join = $typeJoin. " " . $argString . " " ;
+    public function join($table, $argString, $typeJoin = 'INNER') {
+        $this->_join = $typeJoin. " " . $table . " ON " . $argString . " " ;
 
         return $this ;
     }
@@ -221,7 +221,7 @@ class ZeQuery
 
 
     private function _createQuery() {
-        $this->_query = $this->_select . " FROM " . $this->_table . " "  ;
+        $this->_query = "SELECT " . $this->_select . " FROM " . $this->_table . " "  ;
 
         if ($this->_join != '') {
             $this->_query .= $this->_join . " " ;
