@@ -100,6 +100,10 @@ class ZeModel {
             $db->limit($this->_limit, $this->_limit_offset) ;
         }
 
+        if ($this->safeDelete) {
+            $where["deleted_at"] = null ;
+        }
+
         // to forget "order by" & "limit" for next query
         $this->clearSql() ;
 
@@ -111,6 +115,10 @@ class ZeModel {
         if ($this->_primary_key) {
             $where = array() ;
             $where[$this->_primary_key] = $id ;
+
+            if ($this->safeDelete) {
+                $where["deleted_at"] = null ;
+            }
 
             $result = $this->database()->table($this->_table_name)->where($where)->result() ;
 
@@ -281,7 +289,14 @@ class ZeModel {
             // to forget "order by" & "limit" for next query
             $this->clearSql() ;
 
-            return $db->where(array($columnName => $arguments[0]))->result() ;
+
+            $where = array($columnName => $arguments[0]) ;
+
+            if ($this->safeDelete) {
+                $where["deleted_at"] = null ;
+            }
+
+            return $db->where($where)->result() ;
         } else {
             return null ;
         }
@@ -293,7 +308,14 @@ class ZeModel {
         $columnName = substr($method, strlen('findOneBy_')) ;
 
         if (isset($arguments[0])) {
-            $result = $this->database()->table($this->_table_name)->limit(1)->where(array($columnName => $arguments[0]))->result() ;
+            $where = array($columnName => $arguments[0]) ;
+
+            if ($this->safeDelete) {
+                $where["deleted_at"] = null ;
+            }
+
+
+            $result = $this->database()->table($this->_table_name)->limit(1)->where($where)->result() ;
 
             if ($result && count($result) == 1) {
                 return $result[0] ;
