@@ -51,6 +51,13 @@ class ZeModel {
         return $this->_db ;
     }
 
+    public function get($where = array()) {
+        if($res = $this->database()->table($this->table_name)->where($where)->result())
+            return $res[0];
+        else
+            return $res;
+    }
+
     public function all($where = array()) {
         return $this->database()->table($this->table_name)->where($where)->result();
     }
