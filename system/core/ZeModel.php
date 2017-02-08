@@ -11,6 +11,7 @@ class ZeModel {
     protected $_table_name = '' ;
     protected $_fields = array() ;
     protected $_primary_key = null ;
+    private $safeDelete = false ;
 
     public function __construct($dbConfig = "default") {
         $this->load = self::$_load ;
@@ -36,6 +37,14 @@ class ZeModel {
 
         if($this->_table_name == '') {
             $this->_table_name = str_replace('_model', '', strtolower(get_class($this)));
+        }
+
+
+        // check if table is safe delete
+        foreach ($this->_fields as $field) {
+            if ($field == 'deleted_at') {
+                $this->safeDelete = true ;
+            }
         }
     }
 
@@ -84,9 +93,19 @@ class ZeModel {
         return null ;
     }
 
-    public function delete($arrData) {
-        $this->database()->clearSql() ;
-        return $this->database()->table($this->_table_name)->delete($arrData);
+    public function delete($arrData, $forceDelete = false) {
+        if (count($arrData) >= 1) {
+            if ($forceDelete || $this->safeDelete == false) {
+                $this->database()->clearSql();
+                return $this->database()->table($this->_table_name)->delete($arrData);
+            } else {
+                $this->database()->clearSql();
+                $data["deleted_at"] = date("Y-m-d H:i:s");
+                return $this->update($data, $arrData);
+            }
+        } else {
+            throw new Exception("Please fill array() with your condition to delete");
+        }
     }
 
     public function save() {
@@ -95,9 +114,9 @@ class ZeModel {
         if ($this->_primary_key) {
             $primaryKey = $this->_primary_key ;
             if ($this->$primaryKey) {
-                $this->update(null, array($primaryKey=>$this->$primaryKey)) ;
+                return $this->update(null, array($primaryKey=>$this->$primaryKey)) ;
             } else {
-                $this->insert() ;
+                return $this->insert() ;
             }
         } else {
             throw new Exception('No primary is define in table : ' . $this->_table_name);
@@ -121,7 +140,7 @@ class ZeModel {
         }
 
         // insert le contenu
-        $pdoStat->create();
+        return $pdoStat->create();
     }
 
     public function update($objData = null, $where) {
@@ -129,37 +148,59 @@ class ZeModel {
 
         $pdoStat = $this->database()->table($this->_table_name) ;
 
+        $fieldToUpdate = $this->_fields ;
+
 
         // copie all data to object if object
         if (is_object($objData)) {
+            $fieldToUpdate = array() ;
+
             foreach ($this->_fields as $field) {
                 if (isset($objData->$field)) {
+                    $fieldToUpdate[] = $field ;
                     $this->$field = $objData->$field ;
                 }
             }
         }
         // copie all data to object if array
         else if (is_array($objData)) {
+            $fieldToUpdate = array() ;
+
             foreach ($this->_fields as $field) {
                 if (isset($objData[$field])) {
+                    $fieldToUpdate[] = $field ;
                     $this->$field = $objData[$field] ;
                 }
             }
         }
 
 
-        foreach ($this->_fields as $field) {
+        // check if find update_at field
+        $updated_at_find = false ;
+
+        foreach ($fieldToUpdate as $field) {
             if ($field == "updated_at") {
+                $updated_at_find = true ;
                 $this->$field = date("Y-m-d H:i:s") ;
             }
 
             $pdoStat->updateNewField($field, $this->$field) ;
         }
 
+        if ($updated_at_find == false) {
+            foreach ($this->_fields as $field) {
+                if ($field == "updated_at") {
+                    $this->$field = date("Y-m-d H:i:s") ;
+                    $pdoStat->updateNewField($field, $this->$field) ;
+                }
+            }
+        }
+
+
         $pdoStat->where($where) ;
 
         // effectue la mise à jour
-        $pdoStat->update();
+        return $pdoStat->update();
     }
 
 
