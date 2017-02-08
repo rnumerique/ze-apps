@@ -6,12 +6,11 @@ class Auth extends ZeCtrl {
 
 
     public function index() {
-        $this->load->model("Zeapps_usersModel", "user");
-
+        $this->load->model("Zeapps_users", "user");
 
         // verifie si la session est active
-        if ($this->session->get('token')) {
-            $user = $this->user->getUserByToken($this->session->get('token'));
+        if ($token = $this->session->get('token')) {
+            $user = $this->user->getUserByToken($token);
             if ($user && count($user) == 1) {
                 header("location:/zeapps/app");
             } else {
@@ -46,7 +45,7 @@ class Auth extends ZeCtrl {
 
 
     public function logout() {
-        $this->load->model("Zeapps_tokenModel", "token");
+        $this->load->model("Zeapps_token", "token");
 
         if ($this->session->get('token')) {
             $this->token->delete(array('token' => $this->session->get('token')));
