@@ -189,20 +189,22 @@ class ZeQuery
         $sth = $this->_dbPDO->prepare($this->_query);
 
         $sth->execute($this->_valueQuery);
+
+        return $this->_dbPDO->lastInsertId() ;
     }
 
     public function update() {
         $this->_createUpdateQuery() ;
         $sth = $this->_dbPDO->prepare($this->_query);
 
-        $sth->execute($this->_valueQuery);
+        return $sth->execute($this->_valueQuery);
     }
 
     public function delete($arrData) {
         $this->where($arrData) ;
         $this->_deleteQuery() ;
         $sth = $this->_dbPDO->prepare($this->_query);
-        $sth->execute($this->_valueQuery);
+        return $sth->execute($this->_valueQuery);
     }
 
 
