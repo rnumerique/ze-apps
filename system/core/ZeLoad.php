@@ -8,6 +8,8 @@ class ZeLoad
     private $_ctrl = null;
     public $ctrl = null;
     private $modelLoaded = array();
+    private $libraryLoaded = array();
+    private $helperLoaded = array();
 
     public function setCtrl($ctrl)
     {
@@ -87,6 +89,105 @@ class ZeLoad
                     }
                     $className::$_load = $this;
                     $this->_ctrl->$shortName = new $className();
+                    return;
+                }
+            }
+        }
+    }
+
+
+    public function library($className, $shortName = '', $externalModule = null)
+    {
+        if (trim($shortName) == "") {
+            $shortName = $className;
+        }
+
+        // TODO : gestion des erreurs de chargement de librairies (chemin inconnu et class non définie)
+
+
+        if ($externalModule) {
+            // search model in modulePath
+            if (gettype($externalModule, 'string')) {
+                if (is_file($externalModule . '/libraries/' . $className . '.php')) {
+                    if (!in_array($externalModule . '/libraries/' . $className . '.php', $this->libraryLoaded)) {
+                        $this->libraryLoaded[] = $externalModule . '/libraries/' . $className . '.php';
+                        include $externalModule . '/libraries/' . $className . '.php';
+                    }
+                    $className::$_load = $this;
+                    $this->_ctrl->$shortName = new $className();
+                    return;
+                }
+            }
+        } else {
+            // search in current
+            if (!isset($this->_ctrl->$shortName)) {
+                // search model in modulePath
+                if (isset($this->_context["modulePath"]) && $this->_context["modulePath"] != '') {
+                    if (is_file($this->_context["modulePath"] . '/libraries/' . $className . '.php')) {
+                        if (!in_array($this->_context["modulePath"] . '/libraries/' . $className . '.php', $this->libraryLoaded)) {
+                            $this->libraryLoaded[] = $this->_context["modulePath"] . '/libraries/' . $className . '.php';
+                            include $this->_context["modulePath"] . '/libraries/' . $className . '.php';
+                        }
+                        $className::$_load = $this;
+                        $this->_ctrl->$shortName = new $className();
+                        return;
+                    }
+                }
+
+
+                // search in globalPath
+                if (is_file(BASEPATH . 'libraries/' . $className . '.php')) {
+                    if (!in_array(BASEPATH . 'libraries/' . $className . '.php', $this->libraryLoaded)) {
+                        $this->libraryLoaded[] = BASEPATH . 'libraries/' . $className . '.php';
+                        include BASEPATH . 'libraries/' . $className . '.php';
+                    }
+                    $className::$_load = $this;
+                    $this->_ctrl->$shortName = new $className();
+                    return;
+                }
+            }
+        }
+    }
+
+    public function helper($className, $externalModule = null)
+    {
+        $shortName = $className ;
+
+        // TODO : gestion des erreurs de chargement de helper (chemin inconnu et class non définie)
+
+
+        if ($externalModule) {
+            // search model in modulePath
+            if (gettype($externalModule, 'string')) {
+                if (is_file($externalModule . '/helpers/' . $className . '.php')) {
+                    if (!in_array($externalModule . '/helpers/' . $className . '.php', $this->helperLoaded)) {
+                        $this->helperLoaded[] = $externalModule . '/helpers/' . $className . '.php';
+                        include $externalModule . '/helpers/' . $className . '.php';
+                    }
+                    return;
+                }
+            }
+        } else {
+            // search in current
+            if (!isset($this->_ctrl->$shortName)) {
+                // search model in modulePath
+                if (isset($this->_context["modulePath"]) && $this->_context["modulePath"] != '') {
+                    if (is_file($this->_context["modulePath"] . '/helpers/' . $className . '.php')) {
+                        if (!in_array($this->_context["modulePath"] . '/helpers/' . $className . '.php', $this->helperLoaded)) {
+                            $this->helperLoaded[] = $this->_context["modulePath"] . '/helpers/' . $className . '.php';
+                            include $this->_context["modulePath"] . '/helpers/' . $className . '.php';
+                        }
+                        return;
+                    }
+                }
+
+
+                // search in globalPath
+                if (is_file(BASEPATH . 'helpers/' . $className . '.php')) {
+                    if (!in_array(BASEPATH . 'helpers/' . $className . '.php', $this->helperLoaded)) {
+                        $this->helperLoaded[] = BASEPATH . 'helpers/' . $className . '.php';
+                        include BASEPATH . 'helpers/' . $className . '.php';
+                    }
                     return;
                 }
             }
