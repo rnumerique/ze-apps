@@ -63,24 +63,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <script src="/assets/js/checklist-model.js"></script>
 
 
-    <script src="/cache/js/main.js"></script>
-
-
-    <!-- import js files form application -->
-    <?php foreach ($js_file as $file) { ?>
-        <script src="<?php echo $file; ?>"></script>
-    <?php } ?>
-
-
-    <!-- import css files form application -->
-    <?php foreach ($css_file as $file) { ?>
-        <link rel="stylesheet" href="<?php echo $file; ?>">
-    <?php } ?>
-
-
     <link rel="stylesheet" href="/assets/css/app.css">
 
 
+    <!-- CACHED FILES -->
+    <script src="/assets/cache/js/main.js"></script>
+
+    <script src="/assets/cache/js/global.js"></script>
+
+    <link rel="stylesheet" href="/assets/cache/css/global.css">
 
 
     <script src="/assets/js/jquery-1.12.0.min.js"></script>

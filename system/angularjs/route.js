@@ -11,8 +11,52 @@ app.config(['$routeProvider',
             })
 
             .when('/ng/com_zeapps/config', {
-                templateUrl: '/ze-apps/config/',
+                templateUrl: '/zeapps/config/',
                 controller: 'ComZeAppsConfigCtrl'
+            })
+
+
+            .when('/ng/com_zeapps/users', {
+                templateUrl: '/zeapps/user/',
+                controller: 'ComZeAppsUsersCtrl'
+            })
+            .when('/ng/com_zeapps/users/view/:id?', {
+                templateUrl: '/zeapps/user/form ',
+                controller: 'ComZeAppsUsersFormCtrl'
+            })
+
+
+            .when('/ng/com_zeapps/groups', {
+                templateUrl: '/zeapps/group/',
+                controller: 'ComZeAppsGroupsCtrl'
+            })
+            .when('/ng/com_zeapps/groups/view/:id?', {
+                templateUrl: '/zeapps/group/form ',
+                controller: 'ComZeAppsGroupsFormCtrl'
+            })
+
+
+
+            .when('/ng/com_zeapps/profile/view', {
+                templateUrl:'/zeapps/profile/view',
+                controller: 'ComZeAppsProfileViewCtrl'
+            })
+
+            .when('/ng/com_zeapps/profile/edit', {
+                templateUrl:'/zeapps/profile/form',
+                controller: 'ComZeAppsProfileFormCtrl'
+            })
+
+            .when('/ng/com_zeapps/profile/notifications', {
+                templateUrl:'/zeapps/profile/notifications',
+                controller: 'ComZeAppsProfileNotificationsCtrl'
+            })
+
+
+
+            .when('/ng/com_zeapps/modules', {
+                templateUrl:'/zeapps/modules/',
+                controller: 'ComZeAppsModulesCtrl'
             })
 
             .when('/zeapps/logout', {
