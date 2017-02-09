@@ -13,7 +13,7 @@ class ZeModel {
     protected $_primary_key = null ;
     private $safeDelete = false ;
 
-    private $_order_by = "" ;
+    private $_order_by = [] ;
     private $_limit = -1 ;
     private $_limit_offset = 0 ;
 
@@ -50,13 +50,28 @@ class ZeModel {
     }
 
     private function clearSql() {
-        $this->_order_by = "" ;
+        $this->_order_by = [] ;
         $this->_limit = -1 ;
         $this->_limit_offset = 0 ;
     }
 
-    public function order_by($argString) {
-        $this->_order_by = $argString ;
+    public function order_by($fields, $order = 'ASC') {
+        if(is_array($fields)){
+            $first = reset($fields); // Set array pointer on the first element and pass it.
+            if(is_numeric(key($first))){ // SIMPLE ARRAY [column1, column2, ...]
+                foreach ($fields as $field) {
+                    $this->_order_by[$field] = $order;
+                }
+            }
+            else { // ASSOCIATIVE ARRAY [column1 => order1, column2 => order2, ...]
+                foreach ($fields as $field => $order) {
+                    $this->_order_by[$field] = $order;
+                }
+            }
+        }
+        else { // FIELDS IS A STRING (faster way to write it if you want to pass a single value)
+            $this->_order_by[$fields] = $order;
+        }
 
         return $this ;
     }
@@ -92,7 +107,7 @@ class ZeModel {
 
         $db = $this->database()->table($this->_table_name) ;
 
-        if ($this->_order_by != "") {
+        if ($this->_order_by != []) {
             $db->order_by($this->_order_by) ;
         }
 
@@ -278,7 +293,7 @@ class ZeModel {
         if (isset($arguments[0])) {
             $db = $this->database()->table($this->_table_name) ;
 
-            if ($this->_order_by != "") {
+            if ($this->_order_by != []) {
                 $db->order_by($this->_order_by) ;
             }
 

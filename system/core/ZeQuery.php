@@ -12,7 +12,7 @@ class ZeQuery
     private $_join = "" ;
     private $_where = "" ;
     private $_group_by = "" ;
-    private $_order_by = "" ;
+    private $_order_by = [] ;
     private $_limit = "" ;
     private $_query = "" ;
     private $_valueQuery = array() ;
@@ -36,7 +36,7 @@ class ZeQuery
         $this->_join = "" ;
         $this->_where = "" ;
         $this->_group_by = "" ;
-        $this->_order_by = "" ;
+        $this->_order_by = [] ;
         $this->_limit = "" ;
         $this->_query = "" ;
         $this->_insertFieldName = "" ;
@@ -155,8 +155,23 @@ class ZeQuery
         return $this ;
     }
 
-    public function order_by($argString) {
-        $this->_order_by = $argString ;
+    public function order_by($fields, $order = 'ASC') {
+        if(is_array($fields)){
+            $first = reset($fields);
+            if(is_numeric(key($first))){ // SIMPLE ARRAY [column1, column2, ...]
+                foreach ($fields as $field) {
+                    $this->_order_by[$field] = $order;
+                }
+            }
+            else { // ASSOCIATIVE ARRAY [column1 => order1, column2 => order2, ...]
+                foreach ($fields as $field => $order) {
+                    $this->_order_by[$field] = $order;
+                }
+            }
+        }
+        else { // FIELDS IS A STRING (faster way to write it if you want to pass a single value)
+            $this->_order_by[$fields] = $order;
+        }
 
         return $this ;
     }
@@ -232,11 +247,15 @@ class ZeQuery
         }
 
         if ($this->_group_by != '') {
-            $this->_query .= $this->_group_by . " " ;
+            $this->_query .= "GROUP BY " . $this->_group_by . " " ;
         }
 
-        if ($this->_order_by != '') {
-            $this->_query .= $this->_order_by . " " ;
+        if ($this->_order_by != []) {
+            $this->_query .= 'ORDER BY';
+            foreach($this->_order_by as $column => $order) {
+                $this->_query .= " " . $column . " " . $order . ",";
+            }
+            $this->_query = rtrim($this->_query, ',') . ' ';
         }
     }
 
