@@ -13,7 +13,7 @@ class Group extends ZeCtrl
 
     public function getAll() {
         $this->load->model("Zeapps_user_groups", "groups");
-        $groups = $this->groups->get_all();
+        $groups = $this->groups->all();
         echo json_encode($groups);
     }
 

@@ -87,7 +87,7 @@ class User extends ZeCtrl
     public function getAll()
     {
         $this->load->model("Zeapps_users", "users");
-        $users = $this->users->get_all();
+        $users = $this->users->all();
         echo json_encode($users);
     }
 

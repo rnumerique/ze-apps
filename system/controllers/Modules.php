@@ -12,7 +12,7 @@ class Modules extends ZeCtrl
 
     public function getAll() {
         $this->load->model("Zeapps_modules", "modules");
-        $modules = $this->modules->get_all();
+        $modules = $this->modules->all();
         echo json_encode($modules);
     }
 
