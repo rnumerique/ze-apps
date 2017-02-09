@@ -189,13 +189,15 @@ class ZeQuery
         return $this ;
     }
 
+
+
     public function result() {
         if ($this->_query == '') {
             $this->_createQuery() ;
         }
 
         $sth = $this->_dbPDO->prepare($this->_query);
-        $sth->execute($this->_valueQuery);
+        $this->_cast($sth);
 
         // clean SQL Query
         $this->clearSql();
@@ -204,14 +206,11 @@ class ZeQuery
         return $sth->fetchAll(PDO::FETCH_CLASS) ;
     }
 
-
-
-
     public function create() {
         $this->_createInsertQuery() ;
         $sth = $this->_dbPDO->prepare($this->_query);
 
-        $sth->execute($this->_valueQuery);
+        $this->_cast($sth);
 
         return $this->_dbPDO->lastInsertId() ;
     }
@@ -220,18 +219,45 @@ class ZeQuery
         $this->_createUpdateQuery() ;
         $sth = $this->_dbPDO->prepare($this->_query);
 
-        return $sth->execute($this->_valueQuery);
+        return $this->_cast($sth);
     }
 
     public function delete($arrData) {
         $this->where($arrData) ;
         $this->_deleteQuery() ;
         $sth = $this->_dbPDO->prepare($this->_query);
-        return $sth->execute($this->_valueQuery);
+        return $this->_cast($sth);
     }
 
 
 
+    private function _cast($sth){
+        if($this->_db->debug) {
+            try {
+                return $sth->execute($this->_valueQuery);
+            } catch (PDOException $err) {
+                // Catch Expcetions from the above code for our Exception Handling
+                $trace = '<table border="0">';
+                foreach ($err->getTrace() as $a => $b) {
+                    foreach ($b as $c => $d) {
+                        if ($c == 'args') {
+                            foreach ($d as $e => $f) {
+                                $trace .= '<tr><td><b>' . strval($a) . '#</b></td><td align="right"><u>args:</u></td> <td><u>' . $e . '</u>:</td><td><i>' . $f . '</i></td></tr>';
+                            }
+                        } else {
+                            $trace .= '<tr><td><b>' . strval($a) . '#</b></td><td align="right"><u>' . $c . '</u>:</td><td></td><td><i>' . $d . '</i></td>';
+                        }
+                    }
+                }
+                $trace .= '</table>';
+                echo '<br /><br /><br /><fieldset style="width: 66%; border: 4px solid white; background: black;"><legend><b>[</b>PHP PDO Error ' . strval($err->getCode()) . '<b>]</b></legend> <table border="0"><tr><td align="right"><b><u>Message:</u></b></td><td><i>' . $err->getMessage() . '</i></td></tr><tr><td align="right"><b><u>Code:</u></b></td><td><i>' . strval($err->getCode()) . '</i></td></tr><tr><td align="right"><b><u>File:</u></b></td><td><i>' . $err->getFile() . '</i></td></tr><tr><td align="right"><b><u>Line:</u></b></td><td><i>' . strval($err->getLine()) . '</i></td></tr><tr><td align="right"><b><u>Trace:</u></b></td><td><br /><br />' . $trace . '</td></tr></table></fieldset>';
+                return false;
+            }
+        }
+        else{
+            return $sth->execute($this->_valueQuery);
+        }
+    }
 
 
 
