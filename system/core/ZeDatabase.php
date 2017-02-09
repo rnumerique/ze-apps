@@ -11,6 +11,7 @@ class ZeDatabase
      */
     private static $_instance = null;
     private $connexions = array() ;
+    public $debug = false;
 
     public function __construct()
     {
@@ -37,9 +38,11 @@ class ZeDatabase
                 // connexion with PDO
                 $dsn = $db[$dbConfig]["dbdriver"] . ':dbname=' . $db[$dbConfig]["database"] . ';host=' . $db[$dbConfig]["hostname"];
 
+                if (isset($db[$dbConfig]["db_debug"])) {
+                    $this->debug =  $db[$dbConfig]["db_debug"] ;
+                }
                 if (isset($db[$dbConfig]["char_set"])) {
                     $dsn .= ";charset=" . $db[$dbConfig]["char_set"] ;
-
                 }
 
                 $user = $db[$dbConfig]["username"];
