@@ -186,13 +186,37 @@ class ZeModel {
         }
     }
 
-    public function insert() {
+    public function insert($objData = null) {
         $this->database()->clearSql() ;
 
         $pdoStat = $this->database()->table($this->_table_name) ;
 
-        foreach ($this->_fields as $field) {
+        $fieldToUpdate = $this->_fields ;
 
+        // copie all data to object if object
+        if (is_object($objData)) {
+            $fieldToUpdate = array() ;
+
+            foreach ($this->_fields as $field) {
+                if (isset($objData->$field)) {
+                    $fieldToUpdate[] = $field ;
+                    $this->$field = $objData->$field ;
+                }
+            }
+        }
+        // copie all data to object if array
+        else if (is_array($objData)) {
+            $fieldToUpdate = array() ;
+
+            foreach ($this->_fields as $field) {
+                if (isset($objData[$field])) {
+                    $fieldToUpdate[] = $field ;
+                    $this->$field = $objData[$field] ;
+                }
+            }
+        }
+
+        foreach ($fieldToUpdate as $field) {
             if ($field == "created_at") {
                 $this->$field = date("Y-m-d H:i:s") ;
             } elseif ($field == "updated_at") {
