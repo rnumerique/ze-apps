@@ -13,7 +13,7 @@ class ZeModel {
     protected $_primary_key = null ;
     private $safeDelete = false ;
 
-    private $_order_by = "" ;
+    private $_order_by = [] ;
     private $_limit = -1 ;
     private $_limit_offset = 0 ;
 
@@ -50,13 +50,28 @@ class ZeModel {
     }
 
     private function clearSql() {
-        $this->_order_by = "" ;
+        $this->_order_by = [] ;
         $this->_limit = -1 ;
         $this->_limit_offset = 0 ;
     }
 
-    public function order_by($argString) {
-        $this->_order_by = $argString ;
+    public function order_by($fields, $order = 'ASC') {
+        if(is_array($fields)){
+            reset($fields);
+            if(is_int(key($fields))){ // SIMPLE ARRAY [column1, column2, ...]
+                foreach ($fields as $field) {
+                    $this->_order_by[$field] = $order;
+                }
+            }
+            else { // ASSOCIATIVE ARRAY [column1 => order1, column2 => order2, ...]
+                foreach ($fields as $field => $order) {
+                    $this->_order_by[$field] = $order;
+                }
+            }
+        }
+        else { // FIELDS IS A STRING (faster way to write it if you want to pass a single value)
+            $this->_order_by[$fields] = $order;
+        }
 
         return $this ;
     }
@@ -92,7 +107,7 @@ class ZeModel {
 
         $db = $this->database()->table($this->_table_name) ;
 
-        if ($this->_order_by != "") {
+        if ($this->_order_by != []) {
             $db->order_by($this->_order_by) ;
         }
 
@@ -140,18 +155,19 @@ class ZeModel {
         return null ;
     }
 
-    public function delete($arrData, $forceDelete = false) {
-        if (count($arrData) >= 1) {
+    public function delete($where, $forceDelete = false) {
+        $where = $this->_formatWhere($where);
+        if (count($where) >= 1) {
             if ($forceDelete || $this->safeDelete == false) {
                 $this->database()->clearSql();
-                return $this->database()->table($this->_table_name)->delete($arrData);
+                return $this->database()->table($this->_table_name)->delete($where);
             } else {
                 $this->database()->clearSql();
                 $data["deleted_at"] = date("Y-m-d H:i:s");
-                return $this->update($data, $arrData);
+                return $this->update($data, $where);
             }
         } else {
-            throw new Exception("Please fill array() with your condition to delete");
+            throw new Exception("Please pass a condition to the delete function (either value(s) corresponding to the primary key, or an array)");
         }
     }
 
@@ -166,7 +182,7 @@ class ZeModel {
                 return $this->insert() ;
             }
         } else {
-            throw new Exception('No primary is define in table : ' . $this->_table_name);
+            throw new Exception('No primary key defined in table : ' . $this->_table_name);
         }
     }
 
@@ -243,6 +259,7 @@ class ZeModel {
             }
         }
 
+        $where = $this->_formatWhere($where);
 
         $pdoStat->where($where) ;
 
@@ -278,7 +295,7 @@ class ZeModel {
         if (isset($arguments[0])) {
             $db = $this->database()->table($this->_table_name) ;
 
-            if ($this->_order_by != "") {
+            if ($this->_order_by != []) {
                 $db->order_by($this->_order_by) ;
             }
 
@@ -333,6 +350,17 @@ class ZeModel {
     private function startsWith($haystack, $needle) {
         $length = strlen($needle);
         return (substr($haystack, 0, $length) === $needle);
+    }
+
+    private function _formatWhere($where){
+        if(!is_array($where) || is_int(key($where))){
+            if($this->_primary_key) {
+                return array($this->_primary_key => $where);
+            } else {
+                throw new Exception('No primary key defined in table : ' . $this->_table_name);
+            }
+        }
+        return $where;
     }
 }
 

@@ -127,16 +127,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <div class="footer-menu">
 
         <div class="pull-left">
-            <button type="button" class="btn btn-sm"><span class="glyphicon glyphicon-shopping-cart"
+            <button type="button" class="btn btn-sm"><span class="fa fa-fw fa-shopping-cart"
                                                            aria-hidden="true"></span> <span i8n="Extension store"></span>
             </button>
-            <button type="button" class="btn btn-sm"><span class="glyphicon glyphicon-list-alt"
+            <button type="button" class="btn btn-sm"><span class="fa fa-fw fa-list-ul"
                                                            aria-hidden="true"></span> <span i8n="Abonnement"></span>
             </button>
         </div>
 
         <div class="pull-right">
-            <a href="/ng/com_zeapps/config" class="btn btn-sm"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+            <a href="/ng/com_zeapps/config" class="btn btn-sm"><span class="fa fa-fw fa-cogs" aria-hidden="true"></span>
                 <span i8n="Config"></span>
             </a>
         </div>
@@ -147,24 +147,28 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
 <div id="ze-header">
-    <div id="logo"><a href="/"><img src="/assets/images/logo.png" class="vertical-middle"/></a></div>
+    <div id="logo"><a href="/"><img src="/assets/images/logo.png" class="vertical-middle" ng-class="loading()"/></a></div>
     <div id="search">
         <div class="content">
-            <div class="menu"><span class="vertical-middle" i8n="menu"><span class="glyphicon glyphicon-chevron-down"
-                                                                       aria-hidden="true"></span></span></div>
-            <div class="formSearch"><input type="text" ng-model="searchFill"  /> <button type="submit"  class="btn btn-primary btn-xs" ng-click="search()" i8n="cherche"></button> </div>
+            <div class="menu pointer">
+                <span class="vertical-middle">
+                    <span i8n="menu"></span>
+                    <span class="fa fa-caret-down" aria-hidden="true"></span>
+                </span>
+            </div>
+            <div class="formSearch"><input type="text" ng-model="searchFill" /> <i class="fa fa-fw fa-search"></i> </div>
             <div class="right-menu">
 
                 <div class="pull-right" >
                     <span ng-click="toggleNotification()" class="pointer">
-                        <span class="glyphicon glyphicon-bell"  aria-hidden="true"></span>
+                        <span class="fa fa-fw fa-bell"  aria-hidden="true"></span>
                         <span ng-show="notificationsNotSeen() != 0">
                             <span class="label label-danger label-as-badge">{{ notificationsNotSeen() }}</span>
                         </span>
                     </span>
 
                     <span ng-click="toggleDropdown()" class="pointer">
-                     {{user.firstname[0] + '. ' + user.lastname}} <span class="glyphicon" ng-class="dropdown ? 'glyphicon-chevron-up' : 'glyphicon-chevron-down'"  aria-hidden="true"></span>
+                     {{user.firstname[0] +'. '+user.lastname}} <span class="fa fa-fw" ng-class="dropdown ? 'fa-caret-up' : 'fa-caret-down'"  aria-hidden="true"></span>
                     </span>
 
                 </div>
@@ -172,7 +176,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
                 <ul ng-show="dropdown" class="userMenu">
                     <li><a href="/ng/com_zeapps/profile/view" i8n="Profil"></a></li>
-                    <li><a href="/zeapps/logout" i8n="Logout"></a></li>
                 </ul>
             </div>
         </div>
@@ -231,7 +234,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     </div>
 
-    <toasts class="container"></toasts>
+    <toasts></toasts>
 </div>
 
 

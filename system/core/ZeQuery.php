@@ -12,7 +12,7 @@ class ZeQuery
     private $_join = "" ;
     private $_where = "" ;
     private $_group_by = "" ;
-    private $_order_by = "" ;
+    private $_order_by = [] ;
     private $_limit = "" ;
     private $_query = "" ;
     private $_valueQuery = array() ;
@@ -36,7 +36,7 @@ class ZeQuery
         $this->_join = "" ;
         $this->_where = "" ;
         $this->_group_by = "" ;
-        $this->_order_by = "" ;
+        $this->_order_by = [] ;
         $this->_limit = "" ;
         $this->_query = "" ;
         $this->_insertFieldName = "" ;
@@ -115,21 +115,21 @@ class ZeQuery
     public function where($arrData) {
         foreach ($arrData as $key => $value) {
             if ($this->_where != '') {
-                $this->_where .= " AND " ;
+                $this->_where .= " AND ";
             }
-            $keyName = ":" . $key . count($this->_valueQuery) ;
-            $keyName = str_replace(" ", "_", $keyName) ;
-            $keyName = str_replace(">", "_", $keyName) ;
-            $keyName = str_replace("<", "_", $keyName) ;
+            $keyName = ":" . $key . count($this->_valueQuery);
+            $keyName = str_replace(" ", "_", $keyName);
+            $keyName = str_replace(">", "_", $keyName);
+            $keyName = str_replace("<", "_", $keyName);
 
 
             if (!is_array($value) && $value != null) {
-                $this->_valueQuery[$keyName] = $value ;
+                $this->_valueQuery[$keyName] = $value;
             }
 
 
             if ($value == null) {
-                $this->_where .= $key . " IS NULL " ;
+                $this->_where .= $key . " IS NULL ";
             } elseif (is_array($value)) {
                 $stringValue = "";
                 foreach ($value as $value_content) {
@@ -155,8 +155,23 @@ class ZeQuery
         return $this ;
     }
 
-    public function order_by($argString) {
-        $this->_order_by = $argString ;
+    public function order_by($fields, $order = 'ASC') {
+        if(is_array($fields)){
+            reset($fields);
+            if(is_int(key($fields))){ // SIMPLE ARRAY [column1, column2, ...]
+                foreach ($fields as $field) {
+                    $this->_order_by[$field] = $order;
+                }
+            }
+            else { // ASSOCIATIVE ARRAY [column1 => order1, column2 => order2, ...]
+                foreach ($fields as $field => $order) {
+                    $this->_order_by[$field] = $order;
+                }
+            }
+        }
+        else { // FIELDS IS A STRING (faster way to write it if you want to pass a single value)
+            $this->_order_by[$fields] = $order;
+        }
 
         return $this ;
     }
@@ -174,13 +189,15 @@ class ZeQuery
         return $this ;
     }
 
+
+
     public function result() {
         if ($this->_query == '') {
             $this->_createQuery() ;
         }
 
         $sth = $this->_dbPDO->prepare($this->_query);
-        $sth->execute($this->_valueQuery);
+        $this->_cast($sth);
 
         // clean SQL Query
         $this->clearSql();
@@ -189,14 +206,11 @@ class ZeQuery
         return $sth->fetchAll(PDO::FETCH_CLASS) ;
     }
 
-
-
-
     public function create() {
         $this->_createInsertQuery() ;
         $sth = $this->_dbPDO->prepare($this->_query);
 
-        $sth->execute($this->_valueQuery);
+        $this->_cast($sth);
 
         return $this->_dbPDO->lastInsertId() ;
     }
@@ -205,18 +219,45 @@ class ZeQuery
         $this->_createUpdateQuery() ;
         $sth = $this->_dbPDO->prepare($this->_query);
 
-        return $sth->execute($this->_valueQuery);
+        return $this->_cast($sth);
     }
 
     public function delete($arrData) {
         $this->where($arrData) ;
         $this->_deleteQuery() ;
         $sth = $this->_dbPDO->prepare($this->_query);
-        return $sth->execute($this->_valueQuery);
+        return $this->_cast($sth);
     }
 
 
 
+    private function _cast($sth){
+        if($this->_db->debug) {
+            try {
+                return $sth->execute($this->_valueQuery);
+            } catch (PDOException $err) {
+                // Catch Expcetions from the above code for our Exception Handling
+                $trace = '<table border="0">';
+                foreach ($err->getTrace() as $a => $b) {
+                    foreach ($b as $c => $d) {
+                        if ($c == 'args') {
+                            foreach ($d as $e => $f) {
+                                $trace .= '<tr><td><b>' . strval($a) . '#</b></td><td align="right"><u>args:</u></td> <td><u>' . $e . '</u>:</td><td><i>' . $f . '</i></td></tr>';
+                            }
+                        } else {
+                            $trace .= '<tr><td><b>' . strval($a) . '#</b></td><td align="right"><u>' . $c . '</u>:</td><td></td><td><i>' . $d . '</i></td>';
+                        }
+                    }
+                }
+                $trace .= '</table>';
+                echo '<br /><br /><br /><fieldset style="width: 66%; border: 4px solid white; background: black;"><legend><b>[</b>PHP PDO Error ' . strval($err->getCode()) . '<b>]</b></legend> <table border="0"><tr><td align="right"><b><u>Message:</u></b></td><td><i>' . $err->getMessage() . '</i></td></tr><tr><td align="right"><b><u>Code:</u></b></td><td><i>' . strval($err->getCode()) . '</i></td></tr><tr><td align="right"><b><u>File:</u></b></td><td><i>' . $err->getFile() . '</i></td></tr><tr><td align="right"><b><u>Line:</u></b></td><td><i>' . strval($err->getLine()) . '</i></td></tr><tr><td align="right"><b><u>Trace:</u></b></td><td><br /><br />' . $trace . '</td></tr></table></fieldset>';
+                return false;
+            }
+        }
+        else{
+            return $sth->execute($this->_valueQuery);
+        }
+    }
 
 
 
@@ -232,11 +273,15 @@ class ZeQuery
         }
 
         if ($this->_group_by != '') {
-            $this->_query .= $this->_group_by . " " ;
+            $this->_query .= "GROUP BY " . $this->_group_by . " " ;
         }
 
-        if ($this->_order_by != '') {
-            $this->_query .= $this->_order_by . " " ;
+        if ($this->_order_by != []) {
+            $this->_query .= 'ORDER BY ';
+            foreach($this->_order_by as $column => $order) {
+                $this->_query .= $column . " " . $order . ", ";
+            }
+            $this->_query = rtrim($this->_query, ', ') . ' ';
         }
     }
 
