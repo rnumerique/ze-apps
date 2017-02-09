@@ -57,8 +57,8 @@ class ZeModel {
 
     public function order_by($fields, $order = 'ASC') {
         if(is_array($fields)){
-            $first = reset($fields); // Set array pointer on the first element and pass it.
-            if(is_numeric(key($first))){ // SIMPLE ARRAY [column1, column2, ...]
+            reset($fields);
+            if(is_int(key($fields))){ // SIMPLE ARRAY [column1, column2, ...]
                 foreach ($fields as $field) {
                     $this->_order_by[$field] = $order;
                 }
