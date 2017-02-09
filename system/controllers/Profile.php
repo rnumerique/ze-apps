@@ -31,7 +31,7 @@ class Profile extends User
     public function update_user(){
 
         $this->load->library('session');
-        $this->load->model("zeapps_users", "user");
+        $this->load->model("Zeapps_users", "user");
 
         // constitution du tableau
         $data = array() ;

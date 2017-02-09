@@ -156,7 +156,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <span class="fa fa-caret-down" aria-hidden="true"></span>
                 </span>
             </div>
-            <div class="formSearch"><input type="text" ng-model="searchFill" /> <i class="fa fa-fw fa-search"></i> </div>
+            <div class="formSearch"><input type="text" ng-model="searchFill" /></div>
             <div class="right-menu">
 
                 <div class="pull-right" >
@@ -176,6 +176,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
                 <ul ng-show="dropdown" class="userMenu">
                     <li><a href="/ng/com_zeapps/profile/view" i8n="Profil"></a></li>
+                    <li><a href="/ng/com_zeapps/logout" i8n="Logout"></a></li>
                 </ul>
             </div>
         </div>

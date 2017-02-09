@@ -86,8 +86,8 @@ class User extends ZeCtrl
 
     public function getAll()
     {
-        $this->load->model("zeapps_users", "users");
-        $users = $this->users->get_all();
+        $this->load->model("Zeapps_users", "users");
+        $users = $this->users->all();
         echo json_encode($users);
     }
 
@@ -101,14 +101,14 @@ class User extends ZeCtrl
 
     public function get($id)
     {
-        $this->load->model("zeapps_users", "users");
+        $this->load->model("Zeapps_users", "users");
         echo json_encode($this->users->get($id));
     }
 
 
     public function save()
     {
-        $this->load->model("zeapps_users", "users");
+        $this->load->model("Zeapps_users", "users");
 
         // constitution du tableau
         $data = array();
@@ -132,7 +132,7 @@ class User extends ZeCtrl
 
     public function delete($id)
     {
-        $this->load->model("zeapps_users", "users");
+        $this->load->model("Zeapps_users", "users");
         $this->users->delete($id);
 
         echo json_encode("OK");
