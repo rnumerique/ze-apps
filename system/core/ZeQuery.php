@@ -115,21 +115,21 @@ class ZeQuery
     public function where($arrData) {
         foreach ($arrData as $key => $value) {
             if ($this->_where != '') {
-                $this->_where .= " AND " ;
+                $this->_where .= " AND ";
             }
-            $keyName = ":" . $key . count($this->_valueQuery) ;
-            $keyName = str_replace(" ", "_", $keyName) ;
-            $keyName = str_replace(">", "_", $keyName) ;
-            $keyName = str_replace("<", "_", $keyName) ;
+            $keyName = ":" . $key . count($this->_valueQuery);
+            $keyName = str_replace(" ", "_", $keyName);
+            $keyName = str_replace(">", "_", $keyName);
+            $keyName = str_replace("<", "_", $keyName);
 
 
             if (!is_array($value) && $value != null) {
-                $this->_valueQuery[$keyName] = $value ;
+                $this->_valueQuery[$keyName] = $value;
             }
 
 
             if ($value == null) {
-                $this->_where .= $key . " IS NULL " ;
+                $this->_where .= $key . " IS NULL ";
             } elseif (is_array($value)) {
                 $stringValue = "";
                 foreach ($value as $value_content) {
