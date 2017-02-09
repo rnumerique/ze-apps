@@ -203,7 +203,7 @@ class ZeQuery
         $this->clearSql();
 
         // return fetched objects
-        return $sth->fetchAll(PDO::FETCH_CLASS) ;
+        return $sth->fetchAll(PDO::FETCH_CLASS) ?:false;
     }
 
     public function create() {
@@ -212,21 +212,21 @@ class ZeQuery
 
         $this->_cast($sth);
 
-        return $this->_dbPDO->lastInsertId() ;
+        return $this->_dbPDO->lastInsertId() ?:false;
     }
 
     public function update() {
         $this->_createUpdateQuery() ;
         $sth = $this->_dbPDO->prepare($this->_query);
 
-        return $this->_cast($sth);
+        return $this->_cast($sth) ?:false;
     }
 
     public function delete($arrData) {
         $this->where($arrData) ;
         $this->_deleteQuery() ;
         $sth = $this->_dbPDO->prepare($this->_query);
-        return $this->_cast($sth);
+        return $this->_cast($sth) ?:false;
     }
 
 
