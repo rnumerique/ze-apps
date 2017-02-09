@@ -77,7 +77,7 @@ $routeur = new ZeRouteur();
 // charge le controller
     if ($routeur->module == 'ng'){
         // All /ng/* urls are angular urls, so we load the app and let angular deal with it
-        $controllerPath = BASEPATH . 'controllers/app.php';
+        $controllerPath = BASEPATH . 'controllers/App.php';
         $routeur->controller = 'App';
         $routeur->function = 'index';
     }
