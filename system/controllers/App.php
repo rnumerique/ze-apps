@@ -134,7 +134,7 @@ class App extends ZeCtrl
             if($folderLang = opendir($folderLangs)) {
                 while (false !== ($folderItemLang = readdir($folderLang))) {
                     $fileJS = $folderLangs . $folderItemLang;
-                    if (is_file($fileJS) && $folderItemLang != '.' && $folderItemLang != '..' && $this->str_ends_with($folderItemLang, ".lang")) {
+                    if (is_file($fileJS) && $folderItemLang != '.' && $folderItemLang != '..' && str_ends_with($folderItemLang, ".lang")) {
                         $lang = str_replace('.lang', '', $folderItemLang);
                         if(!isset($i8n[$lang]) || !is_array($i8n[$lang]))
                             $i8n[$lang] = [];
@@ -169,7 +169,7 @@ class App extends ZeCtrl
                     if ($folderLang = opendir($folderLangs)) {
                         while (false !== ($folderItemLang = readdir($folderLang))) {
                             $fileJS = $folderLangs . $folderItemLang;
-                            if (is_file($fileJS) && $folderItemLang != '.' && $folderItemLang != '..' && $this->str_ends_with($folderItemLang, ".lang")) {
+                            if (is_file($fileJS) && $folderItemLang != '.' && $folderItemLang != '..' && str_ends_with($folderItemLang, ".lang")) {
                                 $lang = str_replace('.lang', '', $folderItemLang);
                                 if (!isset($i8n[$lang]) || !is_array($i8n[$lang]))
                                     $i8n[$lang] = [];
@@ -214,23 +214,20 @@ class App extends ZeCtrl
 
 
         if($this->modules && is_array($this->modules)) {
-            $folderApp = MODULEPATH;
-            if ($folder = opendir($folderApp)) {
-                for ($i = 0; $i < sizeof($this->modules); $i++) {
-                    $folderModule = $folderApp . $this->modules[$i]->module_id;
-                    if (is_dir($folderModule)) {
-                        $folderAngularJs = $folderModule . "/angularjs";
+            for ($i = 0; $i < sizeof($this->modules); $i++) {
+                $folderModule = MODULEPATH . $this->modules[$i]->module_id;
+                if (is_dir($folderModule)) {
+                    $folderAngularJs = $folderModule . "/angularjs";
 
-                        $mainjs .= $this->getContentFolder($folderAngularJs, 'js');
+                    $mainjs .= $this->getContentFolder($folderAngularJs, 'js');
 
-                    }
                 }
             }
         }
 
 
         // ecriture du fichier javascript
-        $this->recursive_mkdir(FCPATH . "cache/js/") ;
+        recursive_mkdir(FCPATH . "cache/js/") ;
         file_put_contents(FCPATH . "cache/js/main.js", $mainjs);
         /*************** END : génération du fichier main.js dans le cache *************/
 
@@ -249,29 +246,26 @@ class App extends ZeCtrl
         if($folder = opendir($folderApp)) {
             $folderCss = $folderApp . "/assets/css" ;
 
-            $globalCss .= $this->minifyCss($this->getContentFolder($folderCss, 'css'));
+            $globalCss .= minifyCss($this->getContentFolder($folderCss, 'css'));
         }
 
 
 
         if($this->modules && is_array($this->modules)) {
-            $folderApp = MODULEPATH;
-            if ($folder = opendir($folderApp)) {
-                for ($i = 0; $i < sizeof($this->modules); $i++) {
-                    $folderModule = $folderApp . $this->modules[$i]->module_id;
-                    if (is_dir($folderModule)) {
-                        $folderCss = $folderModule . "/assets/css";
+            for ($i = 0; $i < sizeof($this->modules); $i++) {
+                $folderModule = MODULEPATH . $this->modules[$i]->module_id;
+                if (is_dir($folderModule)) {
+                    $folderCss = $folderModule . "/assets/css";
 
-                        $globalCss .= $this->minifyCss($this->getContentFolder($folderCss, 'css'));
+                    $globalCss .= minifyCss($this->getContentFolder($folderCss, 'css'));
 
-                    }
                 }
             }
         }
         /*************** END : copie des fichiers css *************/
 
 
-        $this->recursive_mkdir(FCPATH . "cache/css/") ;
+        recursive_mkdir(FCPATH . "cache/css/") ;
         file_put_contents(FCPATH . "cache/css/global.css", $globalCss);
 
         return true;
@@ -295,23 +289,20 @@ class App extends ZeCtrl
 
 
         if($this->modules && is_array($this->modules)) {
-            $folderApp = MODULEPATH;
-            if ($folder = opendir($folderApp)) {
-                for ($i = 0; $i < sizeof($this->modules); $i++) {
-                    $folderModule = $folderApp . $this->modules[$i]->module_id;
-                    if (is_dir($folderModule)) {
-                        $folderCss = $folderModule . "/assets/js";
+            for ($i = 0; $i < sizeof($this->modules); $i++) {
+                $folderModule = MODULEPATH . $this->modules[$i]->module_id;
+                if (is_dir($folderModule)) {
+                    $folderCss = $folderModule . "/assets/js";
 
-                        $globalJs .= $this->getContentFolder($folderCss, 'js');
+                    $globalJs .= $this->getContentFolder($folderCss, 'js');
 
-                    }
                 }
             }
         }
         /*************** END : copie des fichiers css *************/
 
 
-        $this->recursive_mkdir(FCPATH . "cache/js/") ;
+        recursive_mkdir(FCPATH . "cache/js/") ;
         file_put_contents(FCPATH . "cache/js/global.js", $globalJs);
 
         return true;
@@ -334,12 +325,12 @@ class App extends ZeCtrl
                                 if (is_file($fileJS) && $folderItemImage != '.'
                                     && $folderItemImage != '..'
                                     && (
-                                        $this->str_ends_with($folderItemImage, ".png")
-                                        || $this->str_ends_with($folderItemImage, ".jpg")
-                                        || $this->str_ends_with($folderItemImage, ".gif")
+                                        str_ends_with($folderItemImage, ".png")
+                                        || str_ends_with($folderItemImage, ".jpg")
+                                        || str_ends_with($folderItemImage, ".gif")
                                     )) {
                                     // creation du dossier d'accueil
-                                    $this->recursive_mkdir(FCPATH . "cache/images/" . $folderItem) ;
+                                    recursive_mkdir(FCPATH . "cache/images/" . $folderItem) ;
 
                                     // copie du fichier
                                     copy($fileJS, FCPATH . "cache/images/" . $folderItem . "/" . $folderItemImage);
@@ -366,13 +357,13 @@ class App extends ZeCtrl
                                     if (is_file($fileJS) && $folderItemImage != '.'
                                         && $folderItemImage != '..'
                                         && (
-                                            $this->str_ends_with($folderItemImage, ".png")
-                                            || $this->str_ends_with($folderItemImage, ".jpg")
-                                            || $this->str_ends_with($folderItemImage, ".gif")
+                                            str_ends_with($folderItemImage, ".png")
+                                            || str_ends_with($folderItemImage, ".jpg")
+                                            || str_ends_with($folderItemImage, ".gif")
                                         )
                                     ) {
                                         // creation du dossier d'accueil
-                                        $this->recursive_mkdir(FCPATH . "cache/images/" . $folderItem);
+                                        recursive_mkdir(FCPATH . "cache/images/" . $folderItem);
 
                                         // copie du fichier
                                         copy($fileJS, FCPATH . "cache/images/" . $folderItem . "/" . $folderItemImage);
@@ -395,7 +386,7 @@ class App extends ZeCtrl
             if($folderOpen = opendir($folder)) {
                 while (false !== ($folderItem = readdir($folderOpen))) {
                     $file = $folder . $folderItem;
-                    if (is_file($file) && $folderItem != '.' && $folderItem != '..' && $this->str_ends_with($folderItem, ".".$ext) && $folderItem != 'main.js') {
+                    if (is_file($file) && $folderItem != '.' && $folderItem != '..' && str_ends_with($folderItem, ".".$ext) && $folderItem != 'main.js') {
                         $valRetour .= file_get_contents($file) ;
                         $valRetour .= "\n";
                     } elseif (is_dir($file) && $folderItem != '.' && $folderItem != '..') {
@@ -602,31 +593,6 @@ class App extends ZeCtrl
         /*************** END : creation du menu Header *************/
 
         return $data;
-    }
-
-    private function minifyCss($css){
-        // Remove comments
-        $css = preg_replace('!/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $css);
-
-        // Remove space after colons
-        $css = str_replace(array(': ', ' :', ' {', '{ ', ' }', '} '), array(':', ':', '{', '{', '}', '}'), $css);
-
-        // Remove whitespace
-        $css = str_replace(array("\r\n", "\r", "\n", "\t", '  ', '    ', '    '), '', $css);
-
-        return $css;
-    }
-
-    private function str_ends_with($haystack, $needle)
-    {
-        return strrpos($haystack, $needle) + strlen($needle) === strlen($haystack);
-    }
-
-    private function recursive_mkdir($dirName)
-    {
-        if (!is_dir($dirName)) {
-            mkdir($dirName, 0777, true);
-        }
     }
 }
 
