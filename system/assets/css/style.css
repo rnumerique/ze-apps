@@ -25,19 +25,26 @@ a:hover {
     background-color: #bbbbbb;
 }
 
-
-hr {
-    height: 6px;
-    background: url(/assets/cache/images/ze-apps/hr-11.png) repeat-x 0 0;
-    border: 0;
-}
-
 toasts{
     position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
+    top: 60px;
+    right: 15px;
     z-index: 9999;
+}
+
+toasts .alert{
+    padding: 5px;
+    margin-bottom: 5px;
+}
+
+toasts .alert-dismissable,
+toasts .alert-dismissible {
+    padding-right: 10px;
+}
+
+toasts .alert-dismissable .close,
+toasts .alert-dismissible .close{
+    right: -6px;
 }
 
 
@@ -143,6 +150,32 @@ toasts{
     text-align: center;
 }
 
+#ze-header #logo img.loading{
+    -webkit-animation: loadingAnimation 1s infinite linear;
+    animation: loadingAnimation 1s infinite linear;
+}
+
+@-webkit-keyframes loadingAnimation {
+    from {
+        -webkit-transform: rotateY(0deg);
+        transform: rotateY(0deg);
+    }
+    to {
+        -webkit-transform: rotateY(360deg);
+        transform: rotateY(360deg);
+    }
+}
+@keyframes loadingAnimation {
+    from {
+        -webkit-transform: rotateY(0deg);
+        transform: rotateY(0deg);
+    }
+    to {
+        -webkit-transform: rotateY(360deg);
+        transform: rotateY(360deg);
+    }
+}
+
 #ze-header #search {
     position: fixed;
     z-index: 1;
@@ -166,8 +199,8 @@ toasts{
     font-weight: bold;
 }
 
-.pointer{
-    cursor : pointer;
+*[ng-click]{
+    cursor: pointer;
 }
 
 #ze-header #search .content .formSearch input {
@@ -175,7 +208,7 @@ toasts{
     background-color: #f7f7f7;
     height: 51px;
     width: 350px;
-    background-image: url(/assets/images/search.png);
+    background-image: url(/assets/layout/search.png);
     background-repeat: no-repeat;
     background-position: top 14px left 14px;
     padding-left: 52px;
@@ -230,11 +263,8 @@ toasts{
     font-size: 1.2em;
     text-align: center;
     font-weight: bold;
-    padding: 5px;
     min-height: 40px;
-}
-.shrinked .title-app{
-    border-left: 7px solid transparent;
+    line-height: 40px;
 }
 .menu_title{
     display: auto;
@@ -251,13 +281,17 @@ toasts{
 
 
 
-
+#left-menu .nav>li>a{
+    padding: 10px 15px 10px 8px;
+}
 #left-menu .nav a {
     color: #ffffff;
 }
 
-#left-menu .nav a:hover {
+#left-menu .nav a:hover,
+#left-menu .nav a:focus{
     color: #213037;
+    background: #fff;
 }
 
 #left-menu .nav .active {
@@ -310,6 +344,20 @@ toasts{
 .form-buttons button + button {
     margin-left: 15px;
 }
+#content-area.showingNotifs .form-buttons{
+    padding-right: 202px;
+}
+#content-area.shrinkedMenu .form-buttons{
+    padding-left: 65px;
+}
+
+.hasFormButtons{
+    padding-bottom: 55px;
+}
+
+
+
+
 
 .userMenu{
     display: block;
