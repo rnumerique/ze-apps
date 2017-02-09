@@ -58,7 +58,7 @@ class App extends ZeCtrl
 
     private function appLoading()
     {
-        $this->load->model("zeapps_modules", "module");
+        $this->load->model("Zeapps_modules", "module");
         $this->modules = $this->module->all(array('active'=>'1'));
 
         $this->loadCache();

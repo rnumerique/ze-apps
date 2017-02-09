@@ -10,7 +10,7 @@ class Zeapps_users extends ZeModel {
 
     public function getUserByToken($token_user) {
         if (gettype($token_user) == 'string') {
-            $this->load->model("zeapps_token", "token");
+            $this->load->model("Zeapps_token", "token");
 
             // supprime tous les token qui sont dépassés
             $where = array("date_expire <"=>date("Y-m-d H:i:s")) ;
@@ -56,7 +56,7 @@ class Zeapps_users extends ZeModel {
 
 
 
-        $this->load->model("zeapps_token", "token");
+        $this->load->model("Zeapps_token", "token");
 
 
         $where = array() ;

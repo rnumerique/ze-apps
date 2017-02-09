@@ -12,7 +12,7 @@ class Group extends ZeCtrl
 
 
     public function getAll() {
-        $this->load->model("zeapps_user_groups", "groups");
+        $this->load->model("Zeapps_user_groups", "groups");
         $groups = $this->groups->get_all();
         echo json_encode($groups);
     }
@@ -26,13 +26,13 @@ class Group extends ZeCtrl
 
 
     public function get($id) {
-        $this->load->model("zeapps_user_groups", "groups");
+        $this->load->model("Zeapps_user_groups", "groups");
         echo json_encode($this->groups->get($id));
     }
 
 
     public function save() {
-        $this->load->model("zeapps_user_groups", "groups");
+        $this->load->model("Zeapps_user_groups", "groups");
 
         // constitution du tableau
         $data = array() ;
@@ -53,7 +53,7 @@ class Group extends ZeCtrl
 
 
     public function delete($id) {
-        $this->load->model("zeapps_user_groups", "groups");
+        $this->load->model("Zeapps_user_groups", "groups");
         $this->groups->delete($id);
 
         echo json_encode("OK");
