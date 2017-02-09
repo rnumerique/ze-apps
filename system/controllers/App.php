@@ -122,41 +122,33 @@ class App extends ZeCtrl
 
         /*************** Compiling all the languages files in a global JS object *************/
 
+
         $mainjs .= "i8n = ";
 
         $i8n = [];
 
-        $folderApp = BASEPATH ;
-        if($folder = opendir($folderApp)) {
-            while(false !== ($folderItem = readdir($folder)))
-            {
-                $folderModule = $folderApp . $folderItem ;
-                if(is_dir($folderModule) && $folderItem != '.' && $folderItem != '..') {
-                    $folderLangs = $folderModule . "/language" ;
+        $folderLangs = BASEPATH . "language" ;
 
-                    if (is_dir($folderLangs)) {
-                        $folderLangs .= "/" ;
-                        if($folderLang = opendir($folderLangs)) {
-                            while (false !== ($folderItemLang = readdir($folderLang))) {
-                                $fileJS = $folderLangs . $folderItemLang;
-                                if (is_file($fileJS) && $folderItemLang != '.' && $folderItemLang != '..' && $this->str_ends_with($folderItemLang, ".lang")) {
-                                    $lang = str_replace('.lang', '', $folderItemLang);
-                                    if(!isset($i8n[$lang]) || !is_array($i8n[$lang]))
-                                        $i8n[$lang] = [];
-                                    if(!isset($i8n[$lang][$folderItem]) || !is_array($i8n[$lang][$folderItem]))
-                                        $i8n[$lang][$folderItem] = [];
-                                    $filecontent = preg_replace(array('/\t/', '/\r/'), '', file_get_contents($fileJS));
+        if (is_dir($folderLangs)) {
+            $folderLangs .= "/" ;
+            if($folderLang = opendir($folderLangs)) {
+                while (false !== ($folderItemLang = readdir($folderLang))) {
+                    $fileJS = $folderLangs . $folderItemLang;
+                    if (is_file($fileJS) && $folderItemLang != '.' && $folderItemLang != '..' && $this->str_ends_with($folderItemLang, ".lang")) {
+                        $lang = str_replace('.lang', '', $folderItemLang);
+                        if(!isset($i8n[$lang]) || !is_array($i8n[$lang]))
+                            $i8n[$lang] = [];
+                        if(!isset($i8n[$lang]['com_zeapps']) || !is_array($i8n[$lang]['com_zeapps']))
+                            $i8n[$lang]['com_zeapps'] = [];
+                        $filecontent = preg_replace(array('/\t/', '/\r/'), '', file_get_contents($fileJS));
 
-                                    $arr = preg_split('/\n/', $filecontent);
+                        $arr = preg_split('/\n/', $filecontent);
 
-                                    for($index=0; $index < sizeof($arr); $index++){
-                                        if(sizeof($arr[$index]) > 0)
-                                            $trad = explode('=>', $arr[$index], 2);
-                                        if(is_array($trad) && sizeof($trad) == 2)
-                                            $i8n[$lang][$folderItem][strtolower(trim($trad[0]))] = trim($trad[1]);
-                                    }
-                                }
-                            }
+                        for($index=0; $index < sizeof($arr); $index++){
+                            if(sizeof($arr[$index]) > 0)
+                                $trad = explode('=>', $arr[$index], 2);
+                            if(is_array($trad) && sizeof($trad) == 2)
+                                $i8n[$lang]['com_zeapps'][strtolower(trim($trad[0]))] = trim($trad[1]);
                         }
                     }
                 }
@@ -165,34 +157,33 @@ class App extends ZeCtrl
 
         if($this->modules && is_array($this->modules)) {
             $folderApp = MODULEPATH;
-            if ($folder = opendir($folderApp)) {
-                for ($i = 0; $i < sizeof($this->modules); $i++) {
-                    $folderModule = $folderApp . $this->modules[$i]->module_id;
-                    if (is_dir($folderModule) && $folderItem != '.' && $folderItem != '..') {
-                        $folderLangs = $folderModule . "/language";
 
-                        if (is_dir($folderLangs)) {
-                            $folderLangs .= "/";
-                            if ($folderLang = opendir($folderLangs)) {
-                                while (false !== ($folderItemLang = readdir($folderLang))) {
-                                    $fileJS = $folderLangs . $folderItemLang;
-                                    if (is_file($fileJS) && $folderItemLang != '.' && $folderItemLang != '..' && $this->str_ends_with($folderItemLang, ".lang")) {
-                                        $lang = str_replace('.lang', '', $folderItemLang);
-                                        if (!isset($i8n[$lang]) || !is_array($i8n[$lang]))
-                                            $i8n[$lang] = [];
-                                        if (!isset($i8n[$lang][$folderItem]) || !is_array($i8n[$lang][$folderItem]))
-                                            $i8n[$lang][$folderItem] = [];
-                                        $filecontent = preg_replace(array('/\t/', '/\r/'), '', file_get_contents($fileJS));
+            for ($i = 0; $i < sizeof($this->modules); $i++) {
+                $folderModule = $folderApp . $this->modules[$i]->module_id;
 
-                                        $arr = preg_split('/\n/', $filecontent);
 
-                                        for ($index = 0; $index < sizeof($arr); $index++) {
-                                            if (sizeof($arr[$index]) > 0)
-                                                $trad = explode('=>', $arr[$index], 2);
-                                            if (is_array($trad) && sizeof($trad) == 2)
-                                                $i8n[$lang][$folderItem][strtolower(trim($trad[0]))] = trim($trad[1]);
-                                        }
-                                    }
+                $folderLangs = $folderModule . "/language";
+
+                if (is_dir($folderLangs)) {
+                    $folderLangs .= "/";
+                    if ($folderLang = opendir($folderLangs)) {
+                        while (false !== ($folderItemLang = readdir($folderLang))) {
+                            $fileJS = $folderLangs . $folderItemLang;
+                            if (is_file($fileJS) && $folderItemLang != '.' && $folderItemLang != '..' && $this->str_ends_with($folderItemLang, ".lang")) {
+                                $lang = str_replace('.lang', '', $folderItemLang);
+                                if (!isset($i8n[$lang]) || !is_array($i8n[$lang]))
+                                    $i8n[$lang] = [];
+                                if (!isset($i8n[$lang][$this->modules[$i]->module_id]) || !is_array($i8n[$lang][$this->modules[$i]->module_id]))
+                                    $i8n[$lang][$this->modules[$i]->module_id] = [];
+                                $filecontent = preg_replace(array('/\t/', '/\r/'), '', file_get_contents($fileJS));
+
+                                $arr = preg_split('/\n/', $filecontent);
+
+                                for ($index = 0; $index < sizeof($arr); $index++) {
+                                    if (sizeof($arr[$index]) > 0)
+                                        $trad = explode('=>', $arr[$index], 2);
+                                    if (is_array($trad) && sizeof($trad) == 2)
+                                        $i8n[$lang][$this->modules[$i]->module_id][strtolower(trim($trad[0]))] = trim($trad[1]);
                                 }
                             }
                         }
@@ -445,26 +436,19 @@ class App extends ZeCtrl
 
 
         if($this->modules && is_array($this->modules)) {
-            $folderApp = MODULEPATH;
             // charge tous les fichiers de conf des menus
-            if ($folder = opendir($folderApp)) {
-                for ($i = 0; $i < sizeof($this->modules); $i++) {
-                    $folderModule = $folderApp . $this->modules[$i]->module_id;
-                    if (is_dir($folderModule)) {
-                        if (is_file($folderModule . '/config/menu.php')) {
-                            require_once $folderModule . '/config/menu.php';
-                        }
-                    }
+            for ($i = 0; $i < sizeof($this->modules); $i++) {
+                $folderModule = MODULEPATH . $this->modules[$i]->module_id;
+
+                if (is_file($folderModule . '/config/menu.php')) {
+                    require_once $folderModule . '/config/menu.php';
                 }
             }
         }
 
-        $folderApp = BASEPATH ;
         // charge tous les fichiers de conf des menus
-        if($folder = opendir($folderApp)) {
-            if (is_file($folderApp . 'config/menu.php')) {
-                require_once $folderApp . 'config/menu.php' ;
-            }
+        if (is_file(BASEPATH . 'config/menu.php')) {
+            require_once BASEPATH . 'config/menu.php' ;
         }
         /************ END : charge tous les menus de config pour les menus ***********/
 

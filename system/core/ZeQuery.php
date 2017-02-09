@@ -123,27 +123,27 @@ class ZeQuery
             $keyName = str_replace("<", "_", $keyName) ;
 
 
-            if (!is_array($value)) {
+            if (!is_array($value) && $value != null) {
                 $this->_valueQuery[$keyName] = $value ;
             }
 
 
-            if (is_array($value)) {
-                $stringValue = "" ;
+            if ($value == null) {
+                $this->_where .= $key . " IS NULL " ;
+            } elseif (is_array($value)) {
+                $stringValue = "";
                 foreach ($value as $value_content) {
                     if ($stringValue != '') {
-                        $stringValue .= ", " ;
+                        $stringValue .= ", ";
                     }
-                    $stringValue .= "'" . $value_content . "'" ;
+                    $stringValue .= "'" . $value_content . "'";
                 }
-                $this->_where .= $key . " IN (" . $stringValue . ") " ;
+                $this->_where .= $key . " IN (" . $stringValue . ") ";
             } elseif (strpos($key, "<") || strpos($key, ">")) {
-                $this->_where .= $key . " " . $keyName ;
+                $this->_where .= $key . " " . $keyName;
             } else {
-                $this->_where .= $key . " = " . $keyName ;
+                $this->_where .= $key . " = " . $keyName;
             }
-
-
         }
 
         return $this ;
