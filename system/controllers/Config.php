@@ -10,7 +10,7 @@ class Config extends ZeCtrl
     }
 
     public function get($id){
-        $this->load->model('zeapps_configs', 'configs');
+        $this->load->model('Zeapps_configs', 'configs');
 
         $config = $this->configs->get(array('id'=>$id));
 
@@ -18,7 +18,7 @@ class Config extends ZeCtrl
     }
 
     public function save(){
-        $this->load->model('zeapps_configs', 'configs');
+        $this->load->model('Zeapps_configs', 'configs');
 
         // constitution du tableau
         $data = array() ;

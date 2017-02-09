@@ -59,7 +59,7 @@ app.config(['$routeProvider',
                 controller: 'ComZeAppsModulesCtrl'
             })
 
-            .when('/zeapps/logout', {
+            .when('/ng/com_zeapps/logout', {
                 controller: 'ComZeAppsLogoutCtrl',
                 templateUrl: '/assets/index.html'
             })

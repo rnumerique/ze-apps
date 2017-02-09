@@ -5,7 +5,7 @@ class Notification extends ZeCtrl
 {
     public function getAll()
     {
-        $this->load->model("zeapps_notification", "notification");
+        $this->load->model("Zeapps_notification", "notification");
         $this->load->model("Zeapps_users", "user");
 
         if($user = $this->user->getUserByToken($this->session->get('token'))) {
@@ -18,7 +18,7 @@ class Notification extends ZeCtrl
 
     public function getAllUnread()
     {
-        $this->load->model("zeapps_notification", "notification");
+        $this->load->model("Zeapps_notification", "notification");
         $this->load->model("Zeapps_users", "user");
 
         if($user = $this->user->getUserByToken($this->session->get('token'))) {
@@ -32,7 +32,7 @@ class Notification extends ZeCtrl
 
     public function seenNotification()
     {
-        $this->load->model("zeapps_notification", "notification");
+        $this->load->model("Zeapps_notification", "notification");
         $this->load->model("Zeapps_users", "user");
 
         $data = array() ;
@@ -58,7 +58,7 @@ class Notification extends ZeCtrl
 
     public function readNotification($id = null)
     {
-        $this->load->model("zeapps_notification", "notification");
+        $this->load->model("Zeapps_notification", "notification");
         $this->load->model("Zeapps_users", "user");
 
         if($user = $this->user->getUserByToken($this->session->get('token'))) {
@@ -72,7 +72,7 @@ class Notification extends ZeCtrl
 
     public function readAllNotificationFrom($module = null)
     {
-        $this->load->model("zeapps_notification", "notification");
+        $this->load->model("Zeapps_notification", "notification");
         $this->load->model("Zeapps_users", "user");
 
         if($user = $this->user->getUserByToken($this->session->get('token'))) {

@@ -11,13 +11,13 @@ class Modules extends ZeCtrl
     }
 
     public function getAll() {
-        $this->load->model("zeapps_modules", "modules");
-        $modules = $this->modules->get_all();
+        $this->load->model("Zeapps_modules", "modules");
+        $modules = $this->modules->all();
         echo json_encode($modules);
     }
 
     public function toInstall(){
-        $this->load->model("zeapps_modules", "modules");
+        $this->load->model("Zeapps_modules", "modules");
 
         $toInstall = [];
         $toUpdate = [];
@@ -89,7 +89,7 @@ class Modules extends ZeCtrl
     }
 
     private function installModule($module = null, $folder = null){
-        $this->load->model("zeapps_modules", "modules");
+        $this->load->model("Zeapps_modules", "modules");
 
         if($module && $folder) {
             $folderApp = FCPATH . "application/" ;
@@ -214,7 +214,7 @@ class Modules extends ZeCtrl
     private function isMissingDependencies($dependencies = null){
         if($dependencies){
 
-            $this->load->model("zeapps_modules", "modules");
+            $this->load->model("Zeapps_modules", "modules");
 
             $dependencies = json_decode($dependencies);
             $missing_dependencies = [];
