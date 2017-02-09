@@ -107,7 +107,7 @@ class ZeQuery
     }
 
     public function join($table, $argString, $typeJoin = 'INNER') {
-        $this->_join = $typeJoin. " " . $table . " ON " . $argString . " " ;
+        $this->_join .= $typeJoin . " JOIN " . $table . " ON " . $argString . " " ;
 
         return $this ;
     }
@@ -203,7 +203,7 @@ class ZeQuery
         $this->clearSql();
 
         // return fetched objects
-        return $sth->fetchAll(PDO::FETCH_CLASS) ?:false;
+        return $sth->fetchAll(PDO::FETCH_CLASS);
     }
 
     public function create() {
