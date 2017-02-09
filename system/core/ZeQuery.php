@@ -251,11 +251,11 @@ class ZeQuery
         }
 
         if ($this->_order_by != []) {
-            $this->_query .= 'ORDER BY';
+            $this->_query .= 'ORDER BY ';
             foreach($this->_order_by as $column => $order) {
-                $this->_query .= " " . $column . " " . $order . ",";
+                $this->_query .= $column . " " . $order . ", ";
             }
-            $this->_query = rtrim($this->_query, ',') . ' ';
+            $this->_query = rtrim($this->_query, ', ') . ' ';
         }
     }
 
