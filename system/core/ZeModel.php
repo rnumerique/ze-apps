@@ -138,15 +138,15 @@ class ZeModel {
             $result = $this->database()->table($this->_table_name)->where($where)->result() ;
 
             if ($result && count($result) == 1) {
-                foreach ($this->_fields as $field) {
+                /*foreach ($this->_fields as $field) {
                     if (isset($result[0]->$field)) {
                         $this->$field = $result[0]->$field ;
                     } else {
                         $this->$field = null ;
                     }
-                }
+                }*/
 
-                return $this ;
+                return $result[0] ;
             } else {
                 return false ;
             }
@@ -171,7 +171,7 @@ class ZeModel {
         }
     }
 
-    public function save() {
+    /*public function save() {
         $this->database()->clearSql() ;
 
         if ($this->_primary_key) {
@@ -184,7 +184,7 @@ class ZeModel {
         } else {
             throw new Exception('No primary key defined in table : ' . $this->_table_name);
         }
-    }
+    }*/
 
     public function insert($objData = null) {
         $this->database()->clearSql() ;
@@ -218,7 +218,15 @@ class ZeModel {
 
 
         foreach ($fieldToUpdate as $field) {
-            $pdoStat->insertNewField($field, $this->$field) ;
+            $insert = true ;
+            if ($field == "created_at" && $this->$field == null) {
+                $insert = false ;
+            } elseif ($field == "updated_at" && $this->$field == null) {
+                $insert = false ;
+            }
+            if ($insert) {
+                $pdoStat->insertNewField($field, $this->$field);
+            }
         }
 
 
