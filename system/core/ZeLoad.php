@@ -95,29 +95,27 @@ class ZeLoad
         if (!isset($this->_ctrl->$shortName)) {
             if ($externalModule) {
                 // search model in modulePath
-                if (gettype($externalModule, 'string')) {
-                    $externalModule = MODULEPATH . $externalModule;
+                $externalModule = MODULEPATH . $externalModule;
 
-                    $cheminFichier = false;
+                $cheminFichier = false;
 
-                    if (is_file($externalModule . '/models/' . $className . '.php')) {
-                        $cheminFichier = $externalModule . '/models/' . $className . '.php';
-                    } else {
-                        $cheminFichier = $this->getFileFromFolderNotCaseSensitive($externalModule . '/models/', $className . '.php');
-                        if ($cheminFichier) {
-                            $cheminFichier = $externalModule . '/models/' . $cheminFichier;
-                        }
-                    }
-
+                if (is_file($externalModule . '/models/' . $className . '.php')) {
+                    $cheminFichier = $externalModule . '/models/' . $className . '.php';
+                } else {
+                    $cheminFichier = $this->getFileFromFolderNotCaseSensitive($externalModule . '/models/', $className . '.php');
                     if ($cheminFichier) {
-                        if (!in_array($cheminFichier, $this->modelLoaded)) {
-                            $this->modelLoaded[] = $cheminFichier;
-                            include $cheminFichier;
-                        }
-                        $className::$_load = $this;
-                        $this->_ctrl->$shortName = new $className();
-                        return;
+                        $cheminFichier = $externalModule . '/models/' . $cheminFichier;
                     }
+                }
+
+                if ($cheminFichier) {
+                    if (!in_array($cheminFichier, $this->modelLoaded)) {
+                        $this->modelLoaded[] = $cheminFichier;
+                        include $cheminFichier;
+                    }
+                    $className::$_load = $this;
+                    $this->_ctrl->$shortName = new $className();
+                    return;
                 }
             } else {
                 // search model in modulePath
@@ -182,28 +180,26 @@ class ZeLoad
 
         if (!isset($this->_ctrl->$shortName)) {
             if ($externalModule) {
-                // search model in modulePath
-                if (gettype($externalModule, 'string')) {
-                    $externalModule = MODULEPATH . $externalModule;
+                // search library in modulePath
+                $externalModule = MODULEPATH . $externalModule;
 
-                    $cheminFichier = false;
-                    if (is_file($externalModule . '/libraries/' . $className . '.php')) {
-                        $cheminFichier = $externalModule . '/libraries/' . $className . '.php';
-                    } else {
-                        $cheminFichier = $this->getFileFromFolderNotCaseSensitive($externalModule . '/libraries/', $className . '.php');
-                        if ($cheminFichier) {
-                            $cheminFichier = $externalModule . '/libraries/' . $cheminFichier;
-                        }
-                    }
-
+                $cheminFichier = false;
+                if (is_file($externalModule . '/libraries/' . $className . '.php')) {
+                    $cheminFichier = $externalModule . '/libraries/' . $className . '.php';
+                } else {
+                    $cheminFichier = $this->getFileFromFolderNotCaseSensitive($externalModule . '/libraries/', $className . '.php');
                     if ($cheminFichier) {
-                        if (!in_array($cheminFichier, $this->libraryLoaded)) {
-                            $this->libraryLoaded[] = $cheminFichier;
-                            include $cheminFichier;
-                        }
-                        $this->_ctrl->$shortName = new $className();
-                        return;
+                        $cheminFichier = $externalModule . '/libraries/' . $cheminFichier;
                     }
+                }
+
+                if ($cheminFichier) {
+                    if (!in_array($cheminFichier, $this->libraryLoaded)) {
+                        $this->libraryLoaded[] = $cheminFichier;
+                        include $cheminFichier;
+                    }
+                    $this->_ctrl->$shortName = new $className();
+                    return;
                 }
             } else {
                 // search model in modulePath
@@ -261,26 +257,24 @@ class ZeLoad
 
 
         if ($externalModule) {
-            // search model in modulePath
-            if (gettype($externalModule, 'string')) {
-                $externalModule = MODULEPATH . $externalModule;
+            // search helper in modulePath
+            $externalModule = MODULEPATH . $externalModule;
 
-                $cheminFichier = false ;
-                if (is_file($externalModule . '/helpers/' . $className . '.php')) {
-                    $cheminFichier = $externalModule . '/helpers/' . $className . '.php' ;
-                } else {
-                    $cheminFichier = $this->getFileFromFolderNotCaseSensitive($externalModule . '/helpers/', $className . '.php');
-                    if ($cheminFichier) {
-                        $cheminFichier = $externalModule . '/helpers/' . $cheminFichier;
-                    }
-                }
+            $cheminFichier = false ;
+            if (is_file($externalModule . '/helpers/' . $className . '.php')) {
+                $cheminFichier = $externalModule . '/helpers/' . $className . '.php' ;
+            } else {
+                $cheminFichier = $this->getFileFromFolderNotCaseSensitive($externalModule . '/helpers/', $className . '.php');
                 if ($cheminFichier) {
-                    if (!in_array($cheminFichier, $this->helperLoaded)) {
-                        $this->helperLoaded[] = $cheminFichier;
-                        include $cheminFichier;
-                    }
-                    return;
+                    $cheminFichier = $externalModule . '/helpers/' . $cheminFichier;
                 }
+            }
+            if ($cheminFichier) {
+                if (!in_array($cheminFichier, $this->helperLoaded)) {
+                    $this->helperLoaded[] = $cheminFichier;
+                    include $cheminFichier;
+                }
+                return;
             }
         } else {
             // search model in modulePath
