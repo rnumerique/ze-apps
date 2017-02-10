@@ -80,7 +80,7 @@ class Zeapps_users extends ZeModel {
                     $token->id_user = $users[0]->id ;
                     $token->token = $tokenGenerated ;
                     $token->date_expire = date("Y-m-d H:i:s", time() + $session_lifetime * 60) ;
-                    $token->save() ;
+                    $token->insert($token) ;
                 }
             }
 
