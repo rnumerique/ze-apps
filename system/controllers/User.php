@@ -21,7 +21,7 @@ class User extends ZeCtrl
 
     public function getRightList()
     {
-        require_once FCPATH . "core/ze-apps/config/right.php";
+        require_once BASEPATH . "config/right.php";
 
 
         /********** charge tous les espaces **********/

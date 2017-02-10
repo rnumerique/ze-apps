@@ -128,6 +128,7 @@ class ZeQuery
             $keyName = str_replace(" ", "_", $keyName);
             $keyName = str_replace(">", "_", $keyName);
             $keyName = str_replace("<", "_", $keyName);
+            $keyName = str_replace(".", "_", $keyName);
 
 
             if (!is_array($value) && $value != null) {
