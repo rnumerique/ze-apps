@@ -216,15 +216,22 @@ class ZeModel {
             }
         }
 
-        foreach ($fieldToUpdate as $field) {
-            if ($field == "created_at") {
-                $this->$field = date("Y-m-d H:i:s") ;
-            } elseif ($field == "updated_at") {
-                $this->$field = date("Y-m-d H:i:s") ;
-            }
 
+        foreach ($fieldToUpdate as $field) {
             $pdoStat->insertNewField($field, $this->$field) ;
         }
+
+
+        foreach ($this->_fields as $field) {
+            if ($field == "created_at") {
+                $this->$field = date("Y-m-d H:i:s") ;
+                $pdoStat->insertNewField($field, $this->$field) ;
+            } elseif ($field == "updated_at") {
+                $this->$field = date("Y-m-d H:i:s") ;
+                $pdoStat->insertNewField($field, $this->$field) ;
+            }
+        }
+
 
         // insert le contenu
         return $pdoStat->create();
