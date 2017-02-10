@@ -220,7 +220,12 @@ class ZeQuery
 
         $this->_cast($sth);
 
-        return $this->_dbPDO->lastInsertId() ?:false;
+        $last_id = $this->_dbPDO->lastInsertId();
+
+        if(is_numeric($last_id))
+            $last_id = intval($last_id);
+
+        return $last_id ?:false;
     }
 
     public function update() {
