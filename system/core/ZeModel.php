@@ -218,7 +218,15 @@ class ZeModel {
 
 
         foreach ($fieldToUpdate as $field) {
-            $pdoStat->insertNewField($field, $this->$field) ;
+            $insert = true ;
+            if ($field == "created_at" && $this->$field == null) {
+                $insert = false ;
+            } elseif ($field == "updated_at" && $this->$field == null) {
+                $insert = false ;
+            }
+            if ($insert) {
+                $pdoStat->insertNewField($field, $this->$field);
+            }
         }
 
 
