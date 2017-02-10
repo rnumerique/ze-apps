@@ -95,6 +95,10 @@ app.controller('MainCtrl', ['$scope', '$route', '$routeParams', '$location', '$r
             loadNotifications();
         }, 30000);
 
+        $interval(function(){
+            $http.get('/zeapps/app/update_token');
+        }, 300000);
+
         $scope.notificationsNotSeen = function() {
             var total = 0;
             angular.forEach($scope.notifications, function(module){
@@ -264,6 +268,14 @@ app.config(['$provide',
         });
 
     }]);
+
+app.run(function(zeHttp, zeHooks){
+    zeHttp.hooks.get_all().then(function(response){
+        if(response.data && response.data != 'false'){
+            zeHooks.set(response.data);
+        }
+    })
+});
 
 
 // defini les caracteres separateur pour remplacer les / dans les url
