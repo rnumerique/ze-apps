@@ -20,6 +20,8 @@ class ZeQuery
     private $_insertValueField = "" ;
     private $_updateValueField = "" ;
 
+    private $_fieldToInsert = array() ; // to controle the field
+
     public function __construct()
     {
     }
@@ -43,19 +45,24 @@ class ZeQuery
         $this->_insertValueField = "" ;
         $this->_updateValueField = "" ;
         $this->_valueQuery = array() ;
+        $this->_fieldToInsert = array() ;
     }
 
     public function insertNewField($key, $value) {
-        if ($this->_insertFieldName != "") {
-            $this->_insertFieldName .= ", " ;
-            $this->_insertValueField .= ", " ;
+        if (!in_array($key, $this->_fieldToInsert)) {
+            $this->_fieldToInsert[] = $key ;
+
+            if ($this->_insertFieldName != "") {
+                $this->_insertFieldName .= ", ";
+                $this->_insertValueField .= ", ";
+            }
+
+            $keyName = ":" . $key . count($this->_valueQuery);
+            $this->_valueQuery[$keyName] = $value;
+
+            $this->_insertFieldName .= $key;
+            $this->_insertValueField .= $keyName;
         }
-
-        $keyName = ":" . $key . count($this->_valueQuery) ;
-        $this->_valueQuery[$keyName] = $value ;
-
-        $this->_insertFieldName .= $key ;
-        $this->_insertValueField .= $keyName ;
     }
 
     public function updateNewField($key, $value) {
