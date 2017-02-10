@@ -47,7 +47,9 @@ toasts .alert-dismissible .close{
     right: -6px;
 }
 
-
+.no-wrap{
+    white-space: nowrap;
+}
 
 #menu-hover {
     z-index: 1000;
