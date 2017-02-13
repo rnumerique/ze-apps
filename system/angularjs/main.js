@@ -149,8 +149,7 @@ app.controller('MainCtrl', ['$scope', '$route', '$routeParams', '$location', '$r
             var options = {};
             $http.post('/zeapps/user/getCurrentUser', options).then(function (response) {
                 if (response.status == 200) {
-                    $scope.user = response.data;
-                    $rootScope.userLang = response.data.lang;
+                    $rootScope.user = response.data;
                 }
             });
         };

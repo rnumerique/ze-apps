@@ -149,6 +149,7 @@ class User extends ZeCtrl
             $user = $this->user->getUserByToken($this->session->get('token'));
             if ($user && count($user) == 1) {
                 $data = [];
+                $data["id"] = $user[0]->id;
                 $data["firstname"] = $user[0]->firstname;
                 $data["lastname"] = $user[0]->lastname;
                 $data["email"] = $user[0]->email;
