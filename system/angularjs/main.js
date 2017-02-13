@@ -143,20 +143,6 @@ app.controller('MainCtrl', ['$scope', '$route', '$routeParams', '$location', '$r
         };
 
 
-
-
-        var getCurentUser = function () {
-            var options = {};
-            $http.post('/zeapps/user/getCurrentUser', options).then(function (response) {
-                if (response.status == 200) {
-                    $rootScope.user = response.data;
-                }
-            });
-        };
-        getCurentUser() ;
-
-
-
         /************ Search Bar ***************/
 
         $scope.searchFill = "";
@@ -268,12 +254,17 @@ app.config(['$provide',
 
     }]);
 
-app.run(function(zeHttp, zeHooks){
+app.run(function(zeHttp, zeHooks, $rootScope){
     zeHttp.hooks.get_all().then(function(response){
         if(response.data && response.data != 'false'){
             zeHooks.set(response.data);
         }
-    })
+    });
+    zeHttp.get('/zeapps/user/getCurrentUser').then(function (response) {
+        if (response.status == 200) {
+            $rootScope.user = response.data;
+        }
+    });
 });
 
 
