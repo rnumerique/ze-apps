@@ -5,20 +5,22 @@ app.directive('i8n', function($rootScope){
         text = text.toLowerCase();
 
         if(i8n != undefined){
-            if(i8n[$rootScope.userLang] != undefined){
-                if(i8n[$rootScope.userLang][$rootScope.currentModule] != undefined){
-                    if(i8n[$rootScope.userLang][$rootScope.currentModule][text] != undefined){
-                        return i8n[$rootScope.userLang][$rootScope.currentModule][text];
+            if($rootScope.user !== undefined) {
+                if (i8n[$rootScope.user.lang] != undefined) {
+                    if (i8n[$rootScope.user.lang][$rootScope.currentModule] != undefined) {
+                        if (i8n[$rootScope.user.lang][$rootScope.currentModule][text] != undefined) {
+                            return i8n[$rootScope.user.lang][$rootScope.currentModule][text];
+                        }
                     }
+                    var translation = '';
+                    angular.forEach(i8n[$rootScope.user.lang], function (arr, key) {
+                        if (arr[text] != undefined && translation == '') {
+                            translation = arr[text];
+                        }
+                    });
+                    if (translation != '')
+                        return translation;
                 }
-                var translation = '';
-                angular.forEach(i8n[$rootScope.userLang], function(arr, key){
-                    if(arr[text] != undefined && translation == ''){
-                        translation = arr[text];
-                    }
-                });
-                if(translation != '')
-                    return translation;
             }
             if(i8n[$rootScope.defaultLang] != undefined){
                 if(i8n[$rootScope.defaultLang][$rootScope.currentModule] != undefined){
@@ -47,7 +49,7 @@ app.directive('i8n', function($rootScope){
         },
         link: function(scope, elm){
             elm.html(getTranslationOf(scope.i8n));
-            $rootScope.$watch('userLang', function(value, oldValue){
+            $rootScope.$watch('user.lang', function(value, oldValue){
                 if(value != undefined && value != oldValue) {
                     elm.html(getTranslationOf(scope.i8n));
                 }
