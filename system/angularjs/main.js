@@ -95,6 +95,10 @@ app.controller('MainCtrl', ['$scope', '$route', '$routeParams', '$location', '$r
             loadNotifications();
         }, 30000);
 
+        $interval(function(){
+            $http.get('/zeapps/app/update_token');
+        }, 300000);
+
         $scope.notificationsNotSeen = function() {
             var total = 0;
             angular.forEach($scope.notifications, function(module){
@@ -137,21 +141,6 @@ app.controller('MainCtrl', ['$scope', '$route', '$routeParams', '$location', '$r
             $scope.dropdown = !$scope.dropdown;
             $scope.showNotification = false;
         };
-
-
-
-
-        var getCurentUser = function () {
-            var options = {};
-            $http.post('/zeapps/user/getCurrentUser', options).then(function (response) {
-                if (response.status == 200) {
-                    $scope.user = response.data;
-                    $rootScope.userLang = response.data.lang;
-                }
-            });
-        };
-        getCurentUser() ;
-
 
 
         /************ Search Bar ***************/
@@ -264,6 +253,19 @@ app.config(['$provide',
         });
 
     }]);
+
+app.run(function(zeHttp, zeHooks, $rootScope){
+    zeHttp.hooks.get_all().then(function(response){
+        if(response.data && response.data != 'false'){
+            zeHooks.set(response.data);
+        }
+    });
+    zeHttp.get('/zeapps/user/getCurrentUser').then(function (response) {
+        if (response.status == 200) {
+            $rootScope.user = response.data;
+        }
+    });
+});
 
 
 // defini les caracteres separateur pour remplacer les / dans les url
