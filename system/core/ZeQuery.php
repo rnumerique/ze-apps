@@ -131,12 +131,12 @@ class ZeQuery
             $keyName = str_replace(".", "_", $keyName);
 
 
-            if (!is_array($value) && $value != null) {
+            if (!is_array($value) && $value !== null) {
                 $this->_valueQuery[$keyName] = $value;
             }
 
 
-            if ($value == null) {
+            if ($value === null) {
                 $this->_where .= $key . " IS NULL ";
             } elseif (is_array($value)) {
                 $stringValue = "";
