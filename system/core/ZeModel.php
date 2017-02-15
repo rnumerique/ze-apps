@@ -125,11 +125,10 @@ class ZeModel {
         return $db->where($where)->result() ;
     }
 
-    public function get($id) {
+    public function get($where) {
         $this->database()->clearSql() ;
-        if ($this->_primary_key) {
-            $where = array() ;
-            $where[$this->_primary_key] = $id ;
+        $where = $this->_formatWhere($where);
+        if (count($where) >= 1) {
 
             if ($this->safeDelete) {
                 $where["deleted_at"] = null ;
