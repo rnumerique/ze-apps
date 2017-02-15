@@ -3,7 +3,7 @@ app.config(['$routeProvider',
         $routeProvider
 
             .when('/', {
-                redirectTo: '/ng/com_zeapps/config'
+                redirectTo: '/ng/com_zeapps_contact/companies/'
             })
 
             .when('/ng/', {
@@ -65,7 +65,7 @@ app.config(['$routeProvider',
             })
 
             .otherwise({
-                redirectTo : '/'
+                redirectTo : '/ng/com_zeapps_contact/companies/'
             })
 
         ;
