@@ -194,7 +194,9 @@ class ZeQuery
     public function query($argString) {
         $this->_query = $argString ;
 
-        return $this ;
+        $sth = $this->_dbPDO->prepare($this->_query);
+        
+        return $this->_cast($sth) ?:false;
     }
 
 
