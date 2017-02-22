@@ -1,21 +1,6 @@
 app.directive('i8n', function($rootScope){
 
-    return {
-        restrict: 'A',
-        scope: {
-            i8n: '@'
-        },
-        link: function(scope, elm){
-            elm.html(getTranslationOf(scope.i8n));
-            $rootScope.$watch('user.lang', function(value, oldValue){
-                if(value != undefined && value != oldValue) {
-                    elm.html(getTranslationOf(scope.i8n));
-                }
-            });
-        }
-    };
-
-    function getTranslationOf(text){
+    var getTranslationOf = function(text){
 
         text = text.toLowerCase();
 
@@ -55,5 +40,20 @@ app.directive('i8n', function($rootScope){
         }
 
         return text;
-    }
+    };
+
+    return {
+        restrict: 'A',
+        scope: {
+            i8n: '@'
+        },
+        link: function(scope, elm){
+            elm.html(getTranslationOf(scope.i8n));
+            $rootScope.$watch('user.lang', function(value, oldValue){
+                if(value != undefined && value != oldValue) {
+                    elm.html(getTranslationOf(scope.i8n));
+                }
+            });
+        }
+    };
 });
