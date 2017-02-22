@@ -157,6 +157,40 @@ class ZeQuery
         return $this ;
     }
 
+    public function where_not($arrData) {
+        foreach ($arrData as $key => $value) {
+            if ($this->_where != '') {
+                $this->_where .= " AND ";
+            }
+            $keyName = ":" . $key . count($this->_valueQuery);
+            $keyName = str_replace(" ", "_", $keyName);
+            $keyName = str_replace(".", "_", $keyName);
+
+
+            if (!is_array($value) && $value !== null) {
+                $this->_valueQuery[$keyName] = $value;
+            }
+
+
+            if ($value === null) {
+                $this->_where .= $key . " IS NOT NULL ";
+            } elseif (is_array($value)) {
+                $stringValue = "";
+                foreach ($value as $value_content) {
+                    if ($stringValue != '') {
+                        $stringValue .= ", ";
+                    }
+                    $stringValue .= "'" . $value_content . "'";
+                }
+                $this->_where .= $key . " NOT IN (" . $stringValue . ") ";
+            } else {
+                $this->_where .= $key . " != " . $keyName;
+            }
+        }
+
+        return $this ;
+    }
+
     public function group_by($argString) {
         $this->_group_by = $argString ;
 
