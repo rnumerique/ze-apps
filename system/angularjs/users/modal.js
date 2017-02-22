@@ -16,6 +16,8 @@ listModuleModalFunction.push({
 app.controller('ZeAppsCoreModalUserCtrl', function($scope, $uibModalInstance, $http, titre, option) {
     $scope.titre = titre ;
 
+    option.banned_ids = option.banned_ids || [];
+
 
     $scope.cancel = function () {
         $uibModalInstance.dismiss('cancel');
@@ -27,18 +29,13 @@ app.controller('ZeAppsCoreModalUserCtrl', function($scope, $uibModalInstance, $h
         var options = {};
         $http.post('/zeapps/user/getAll', options).then(function (response) {
             if (response.status == 200) {
-                if(option.banned_ids){
-                    var users = response.data;
-                    $scope.users = [];
-                    angular.forEach(users, function(user){
-                        if(option.banned_ids.indexOf(user.id) === -1){
-                            $scope.users.push(user);
-                        }
-                    });
-                }
-                else{
-                    $scope.users = response.data ;
-                }
+                var users = response.data;
+                $scope.users = [];
+                angular.forEach(users, function(user){
+                    if(( !option.whitelist_ids || option.whitelist_ids.indexOf(user.id) !== -1 ) && option.banned_ids.indexOf(user.id) === -1){
+                        $scope.users.push(user);
+                    }
+                });
             }
         });
     };
