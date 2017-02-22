@@ -27,7 +27,18 @@ app.controller('ZeAppsCoreModalUserCtrl', function($scope, $uibModalInstance, $h
         var options = {};
         $http.post('/zeapps/user/getAll', options).then(function (response) {
             if (response.status == 200) {
-                $scope.users = response.data ;
+                if(option.banned_ids){
+                    var users = response.data;
+                    $scope.users = [];
+                    angular.forEach(users, function(user){
+                        if(option.banned_ids.indexOf(user.id) === -1){
+                            $scope.users.push(user);
+                        }
+                    });
+                }
+                else{
+                    $scope.users = response.data ;
+                }
             }
         });
     };
