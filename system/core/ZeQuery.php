@@ -235,6 +235,16 @@ class ZeQuery
 
 
 
+    public function customQuery($argString) {
+        $this->_query = $argString ;
+
+        $sth = $this->_dbPDO->prepare($this->_query);
+
+        return $this->_cast($sth) ? $this :false;
+    }
+
+
+
     public function result() {
         if ($this->_query == '') {
             $this->_createQuery() ;
