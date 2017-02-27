@@ -1,4 +1,4 @@
-var app = angular.module('zeApp', ['ngSanitize','ngRoute','ui.bootstrap', 'ui.sortable','checklist-model', 'digitalfondue.dftabmenu', 'ngFileUpload']);
+var app = angular.module('zeApp', ['ngSanitize','ngRoute','ui.bootstrap', 'ui.sortable','checklist-model', 'digitalfondue.dftabmenu', 'ngFileUpload', 'chart.js']);
 
 
 app.controller('MainCtrl', ['$scope', '$route', '$routeParams', '$location', '$rootScope', '$http', '$interval',

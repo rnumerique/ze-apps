@@ -28,10 +28,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <script src="/assets/bootstrap-3.3.7/js/bootstrap.min.js"></script>
     <script src="/assets/js/jquery-ui-1.11.4/jquery-ui.min.js"></script>
 
+    <script src="/assets/js/momentjs/moment.min.js"></script>
 
-
-
-
+    <script src="/assets/js/chartjs/Chart.min.js"></script>
 
     <script src="/assets/js/angular-1.5.0/angular.min.js"></script>
     <script src="/assets/js/angular-1.5.0/angular-route.min.js"></script>
@@ -41,7 +40,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <script src="/assets/js/angular-1.5.0/i18n/angular-locale_fr-fr.js"></script>
 
 
-
+    <script src="/assets/js/angular-chartjs/angular-chart.min.js"></script>
 
     <!-- angularjs Upload Files -->
     <script src="/assets/js/angular-upload/ng-file-upload.min.js"></script>
