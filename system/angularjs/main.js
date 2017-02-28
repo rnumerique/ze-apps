@@ -255,6 +255,8 @@ app.config(['$provide',
     }]);
 
 app.run(function(zeHttp, zeHooks, $rootScope){
+    moment.locale('fr');
+
     zeHttp.hooks.get_all().then(function(response){
         if(response.data && response.data != 'false'){
             zeHooks.set(response.data);
