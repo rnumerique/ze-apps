@@ -516,3 +516,9 @@ toasts .alert-dismissible .close{
     bottom: 0;
     width: 100%;
 }
+
+
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover{
+    background: #76bbde;
+    color: #fff;
+}
