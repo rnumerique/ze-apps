@@ -1,0 +1,14 @@
+@media print {
+    body {
+        background-color: #dd00dd;
+    }
+
+    #left-menu, button, a.btn, ul.notifications {
+        display: none !important;
+    }
+
+    #content-area {
+        padding-left: 0 !important;
+    }
+
+}
