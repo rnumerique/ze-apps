@@ -92,7 +92,7 @@ class Modules extends ZeCtrl
         $this->load->model("Zeapps_modules", "modules");
 
         if($module && $folder) {
-            $folderApp = FCPATH . "application/" ;
+            $folderApp = FCPATH . "modules/" ;
 
             $folderModule = $folder . $module ;
 

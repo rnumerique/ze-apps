@@ -26,11 +26,11 @@ class ZeLoad
 
     private function getFileFromFolderNotCaseSensitive($folderURI, $fileName) {
         $fileName = trim(strtolower($fileName)) ;
-        if($folder = opendir($folderURI)) {
+        if ($folder = @opendir($folderURI)) {
             while (false !== ($folderItem = readdir($folder))) {
                 if ($folderItem != '.' && $folderItem != '..') {
                     if (strtolower($folderItem) == $fileName) {
-                        return $folderItem ;
+                        return $folderItem;
                     }
                 }
             }
