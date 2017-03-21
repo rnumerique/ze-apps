@@ -5,7 +5,7 @@ app.controller('ComZeAppsConfigCtrl', ['$scope', '$route', '$routeParams', '$loc
 
 
         $scope.emptyCache = function(){
-            $http.get('/zeapps/config/emptyCache/').then(function(response){
+            zhttp.get('/zeapps/config/emptyCache/').then(function(response){
                 if(response.data && response.data != "false"){
                     document.location.reload(true);
                 }
