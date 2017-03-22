@@ -522,3 +522,9 @@ toasts .alert-dismissible .close{
     background: #76bbde;
     color: #fff;
 }
+
+
+.chart{
+    margin-top: 25px;
+    margin-bottom: 25px;
+}
