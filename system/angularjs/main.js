@@ -154,10 +154,11 @@ app.controller('MainCtrl', ['$scope', '$route', '$routeParams', '$location', '$r
     }]);
 
 // creation des routes
-app.config(['$routeProvider', '$locationProvider',
-    function ($routeProvider, $locationProvider) {
+app.config(['$routeProvider', '$locationProvider', 'ChartJsProvider',
+    function ($routeProvider, $locationProvider, ChartJsProvider) {
         $locationProvider.html5Mode(true);
-    }]);
+    }
+]);
 
 
 app.config(['$provide',

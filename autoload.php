@@ -9,6 +9,7 @@ require_once BASEPATH . 'core/ZeInput.php' ;
 require_once BASEPATH . 'core/ZeView.php' ;
 require_once BASEPATH . 'core/ZeSession.php' ;
 require_once BASEPATH . 'core/ZeCtrl.php' ;
+require_once BASEPATH . 'core/ZeHook.php' ;
 
 // load config file
 require_once FCPATH . 'config/database.php' ;

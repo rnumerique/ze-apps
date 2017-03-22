@@ -16,7 +16,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <link rel="stylesheet" href="/assets/js/jquery-ui-1.11.4/jquery-ui.theme.min.css">
 
     <!-- Optional theme -->
-    <link rel="stylesheet" href="/assets/bootstrap-3.3.7/css/bootstrap-theme.min.css">
+    <!--<link rel="stylesheet" href="/assets/bootstrap-3.3.7/css/bootstrap-theme.min.css">-->
 
     <!-- Font-Awesome -->
     <link rel="stylesheet" href="/assets/css/font-awesome.min.css">
@@ -189,7 +189,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <?php foreach ($menuLeft as $menuSpace) { ?>
             <div ng-show="menu == '<?php echo $menuSpace["info"]["id"]; ?>'?true:false" class="app-sale">
                 <div class="title-app" ng-click="toggleMenuSize()">
-                    <span class="fa fa-fw fa-<?php echo isset($menuSpace["fa-icon"]) ? $menuSpace["fa-icon"] : 'font-awesome'; ?>"></span>
+                    <span class="fa fa-fw fa-<?php echo isset($menuSpace["info"]["fa-icon"]) ? $menuSpace["info"]["fa-icon"] : 'font-awesome'; ?>"></span>
                     <span class="menu_title" i8n="<?php echo $menuSpace["info"]["name"]; ?>"></span>
                 </div>
                 <div>
