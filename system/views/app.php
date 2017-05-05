@@ -77,6 +77,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </head>
 <body ng-controller="MainCtrl as main">
 
+<!-- HOOK zeappsDaemon_Hook -->
+<span ng-repeat="hook in daemon_hooks | orderBy:'sort'" ng-include="hook.template"></span>
 
 <div id="menu-hover-shadow">
 

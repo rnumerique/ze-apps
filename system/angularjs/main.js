@@ -1,8 +1,8 @@
 var app = angular.module('zeApp', ['ngSanitize','ngRoute','ui.bootstrap', 'ui.sortable','checklist-model', 'digitalfondue.dftabmenu', 'ngFileUpload', 'chart.js']);
 
 
-app.controller('MainCtrl', ['$scope', '$route', '$routeParams', '$location', '$rootScope', '$http', '$interval',
-    function ($scope, $route, $routeParams, $location, $rootScope, $http, $interval) {
+app.controller('MainCtrl', ['$scope', '$route', '$routeParams', '$location', '$rootScope', '$http', '$interval', '$timeout', 'zeHooks',
+    function ($scope, $route, $routeParams, $location, $rootScope, $http, $interval, $timeout, zeHooks) {
 
         $scope.notifications = {};
         $rootScope.toasts = [];
@@ -18,6 +18,11 @@ app.controller('MainCtrl', ['$scope', '$route', '$routeParams', '$location', '$r
         $scope.dropdown = false;
         $scope.showNotification = false;
         $scope.showLabel = false;
+
+
+        $timeout(function(){
+            $scope.daemon_hooks = zeHooks.get('zeappsDaemon_Hook');
+        }, 0);
 
 
         $rootScope.logout = function () {
