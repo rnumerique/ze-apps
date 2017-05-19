@@ -14,18 +14,17 @@ listModuleModalFunction.push({
 
 
 app.controller('ZeAppsCoreModalUserCtrl', function($scope, $uibModalInstance, $http, titre, option) {
+
     $scope.titre = titre ;
 
     option.banned_ids = option.banned_ids || [];
 
+    $scope.loadUser = loadUser;
+    $scope.cancel = cancel;
 
-    $scope.cancel = function () {
-        $uibModalInstance.dismiss('cancel');
-    };
+    loadList() ;
 
-
-
-    var loadList = function () {
+    function loadList() {
         var options = {};
         $http.post('/zeapps/user/getAll', options).then(function (response) {
             if (response.status == 200) {
@@ -38,11 +37,9 @@ app.controller('ZeAppsCoreModalUserCtrl', function($scope, $uibModalInstance, $h
                 });
             }
         });
-    };
-    loadList() ;
+    }
 
-
-    $scope.loadUser = function (id_user) {
+    function loadUser(id_user) {
 
         // search the user
         var user = false ;
@@ -54,6 +51,10 @@ app.controller('ZeAppsCoreModalUserCtrl', function($scope, $uibModalInstance, $h
         }
 
         $uibModalInstance.close(user);
+    }
+
+    function cancel() {
+        $uibModalInstance.dismiss('cancel');
     }
 
 }) ;

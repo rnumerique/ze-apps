@@ -4,9 +4,7 @@ app.controller('ComZeAppsProfileViewCtrl', ['$scope', '$route', '$routeParams', 
 
         // Edition d'un plan de charge
 
-        $scope.edit_profile = function () {
-            $location.path("/ng/com_zeapps/profile/edit");
-        };
+        $scope.edit_profile = edit_profile;
 
         // charge la fiche
 
@@ -15,5 +13,10 @@ app.controller('ComZeAppsProfileViewCtrl', ['$scope', '$route', '$routeParams', 
                 $scope.user = response.data;
             }
         });
+
+
+        function edit_profile() {
+            $location.path("/ng/com_zeapps/profile/edit");
+        }
 
     }]);

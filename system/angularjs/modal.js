@@ -1,32 +1,31 @@
 app.controller('ZeAppsPopupModalDeBaseCtrl', function($scope, $uibModalInstance, $http, titre, msg, action_danger, action_primary, action_success) {
 
-
     $scope.titre = titre ;
     $scope.msg = msg ;
     $scope.action_danger = action_danger ;
     $scope.action_primary = action_primary ;
     $scope.action_success = action_success ;
 
+    $scope.cancel = cancel;
+    $scope.action_danger_click = action_danger_click;
+    $scope.action_primary_click = action_primary_click;
+    $scope.action_success_click = action_success_click;
 
-
-
-
-    $scope.cancel = function () {
+    function cancel() {
         $uibModalInstance.dismiss('cancel');
-    };
+    }
 
-    $scope.action_danger_click = function () {
+    function action_danger_click() {
         $uibModalInstance.close({action:'danger'});
-    };
+    }
 
-    $scope.action_primary_click = function () {
+    function action_primary_click() {
         $uibModalInstance.close({action:'primary'});
-    };
+    }
 
-    $scope.action_success_click = function () {
+    function action_success_click() {
         $uibModalInstance.close({action:'success'});
-    };
-
+    }
 }) ;
 
 
@@ -35,10 +34,15 @@ app.controller('ZeAppsPopupModalDeBaseCtrl', function($scope, $uibModalInstance,
 var listModuleModalFunction = [] ;
 
 app.factory('zeapps_modal', ['$uibModal', function($uibModal) {
+
     var myServiceInstance = {};
 
+    myServiceInstance.loadModule = loadModule;
 
-    myServiceInstance.loadModule = function(moduleName, functionName, option, next) {
+    // factory function body that constructs shinyNewServiceInstance
+    return myServiceInstance;
+
+    function loadModule(moduleName, functionName, option, next) {
 
         var moduleTrouve = false ;
         for (var i = 0 ; i < listModuleModalFunction.length ; i++) {
@@ -72,8 +76,4 @@ app.factory('zeapps_modal', ['$uibModal', function($uibModal) {
         }
 
     }
-
-
-    // factory function body that constructs shinyNewServiceInstance
-    return myServiceInstance;
 }]);

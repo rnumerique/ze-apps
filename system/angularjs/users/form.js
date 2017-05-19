@@ -3,9 +3,12 @@ app.controller('ComZeAppsUsersFormCtrl', ['$scope', '$route', '$routeParams', '$
 
         $scope.$parent.loadMenu("com_ze_apps_config", "com_ze_apps_users");
 
+        var options = {};
 
         $scope.form = [];
 
+        $scope.enregistrer = enregistrer;
+        $scope.annuler = annuler;
 
         // charge la fiche
         if ($routeParams.id && $routeParams.id != 0) {
@@ -17,18 +20,11 @@ app.controller('ComZeAppsUsersFormCtrl', ['$scope', '$route', '$routeParams', '$
             });
         }
 
-
-
-
-
-        var options = {};
         $http.post('/zeapps/group/getAll', options).then(function (response) {
             if (response.status == 200) {
                 $scope.groups = response.data ;
             }
         });
-
-
 
         // charge la liste des droits
         $http.get('/zeapps/user/getRightList').then(function (response) {
@@ -37,10 +33,7 @@ app.controller('ComZeAppsUsersFormCtrl', ['$scope', '$route', '$routeParams', '$
             }
         });
 
-
-
-
-        $scope.enregistrer = function () {
+        function enregistrer() {
             var $data = {} ;
 
             if ($routeParams.id != 0) {
@@ -64,7 +57,7 @@ app.controller('ComZeAppsUsersFormCtrl', ['$scope', '$route', '$routeParams', '$
             });
         }
 
-        $scope.annuler = function () {
+        function annuler() {
             $location.path("/ng/com_zeapps/users");
         }
 

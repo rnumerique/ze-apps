@@ -1,44 +1,40 @@
 app.controller('ComZeAppsProfileFormCtrl', ['$scope', '$route', '$routeParams', '$location', '$rootScope', '$http',
     function ($scope, $route, $routeParams, $location, $rootScope, $http) {
 
+        var options = {};
+
         $scope.form = [];
 
+        $scope.enregistrer = enregistrer;
+        $scope.annuler = annuler;
 
         // charge la fiche
 
-            $http.get('/zeapps/profile/get/' + $routeParams.id).then(function (response) {
-                if (response.status == 200) {
-                    $scope.form = response.data;
+        $http.get('/zeapps/profile/get/' + $routeParams.id).then(function (response) {
+            if (response.status == 200) {
+                $scope.form = response.data;
 
-                    if ($scope.form.groups_list) {
-                        $scope.form.groups = $scope.form.groups_list.split(",");
-                    } else {
-                        $scope.form.groups = [];
-                    }
-
-
-                    if ($scope.form.right_list) {
-                        $scope.form.rights = $scope.form.right_list.split(",");
-                    } else {
-                        $scope.form.rights = [] ;
-                    }
-
+                if ($scope.form.groups_list) {
+                    $scope.form.groups = $scope.form.groups_list.split(",");
+                } else {
+                    $scope.form.groups = [];
                 }
-            });
 
 
+                if ($scope.form.right_list) {
+                    $scope.form.rights = $scope.form.right_list.split(",");
+                } else {
+                    $scope.form.rights = [] ;
+                }
 
+            }
+        });
 
-
-
-        var options = {};
         $http.post('/zeapps/group/getAll', options).then(function (response) {
             if (response.status == 200) {
                 $scope.groups = response.data ;
             }
         });
-
-
 
         // charge la liste des droits
         $http.get('/zeapps/user/getRightList').then(function (response) {
@@ -47,10 +43,7 @@ app.controller('ComZeAppsProfileFormCtrl', ['$scope', '$route', '$routeParams', 
             }
         });
 
-
-
-
-        $scope.enregistrer = function () {
+        function enregistrer() {
             var $data = {} ;
 
 
@@ -70,10 +63,9 @@ app.controller('ComZeAppsProfileFormCtrl', ['$scope', '$route', '$routeParams', 
                 // pour que la page puisse être redirigé
                 $location.path("/ng/com_zeapps/profile/view");
             });
-        };
+        }
 
-
-        $scope.annuler = function () {
+        function annuler() {
             $location.path("/ng/com_zeapps/profile/view");
 
         }
