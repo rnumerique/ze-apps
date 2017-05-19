@@ -3,7 +3,15 @@ app.controller('ComZeAppsProfileNotificationsCtrl', ['$scope', '$route', '$route
 
         $scope.notifications = {};
 
-        var loadNotifications = function(){
+        $scope.hasNotifications = hasNotifications;
+
+        loadNotifications();
+
+        $interval(function(){
+            loadNotifications();
+        }, 30000);
+
+        function loadNotifications(){
             $http.get('/zeapps/notification/getAll').then(function (response) {
                 if (response.data && response.data != false) {
                     var notifications = {};
@@ -18,16 +26,10 @@ app.controller('ComZeAppsProfileNotificationsCtrl', ['$scope', '$route', '$route
                     $scope.notifications = notifications;
                 }
             });
-        };
+        }
 
-        loadNotifications();
-
-        $interval(function(){
-            loadNotifications();
-        }, 30000);
-
-        $scope.hasNotifications = function(){
+        function hasNotifications(){
             return Object.keys($scope.notifications).length;
-        };
+        }
 
     }]);

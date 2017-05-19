@@ -3,20 +3,20 @@ app.controller('ComZeAppsGroupsCtrl', ['$scope', '$route', '$routeParams', '$loc
 
         $scope.$parent.loadMenu("com_ze_apps_config", "com_ze_apps_groups");
 
+        $scope.delete = del;
 
-        var loadList = function () {
+        loadList() ;
+
+        function loadList() {
             var options = {};
             $http.post('/zeapps/group/getAll', options).then(function (response) {
                 if (response.status == 200) {
                     $scope.groups = response.data ;
                 }
             });
-        };
-        loadList() ;
+        }
 
-
-
-        $scope.delete = function (argIdUser) {
+        function del(argIdUser) {
             var modalInstance = $uibModal.open({
                 animation: true,
                 templateUrl: '/assets/angular/popupModalDeBase.html',
@@ -56,6 +56,6 @@ app.controller('ComZeAppsGroupsCtrl', ['$scope', '$route', '$routeParams', '$loc
                 //console.log("rien");
             });
 
-        };
+        }
 
     }]);

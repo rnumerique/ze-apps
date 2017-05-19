@@ -8,6 +8,10 @@ app.controller('ComZeAppsModulesCtrl', ['$scope', '$route', '$routeParams', '$lo
         $scope.modulesToUpdate = [];
         $scope.modulesForm = {};
 
+        $scope.installModules = installModules;
+        $scope.toggleActivation = toggleActivation;
+        $scope.testIfActif = testIfActif;
+
         zeHttp.get('/zeapps/modules/getAll').then(function(response){
             if(response.data && response.data!='false'){
                 $scope.modules = response.data;
@@ -27,7 +31,7 @@ app.controller('ComZeAppsModulesCtrl', ['$scope', '$route', '$routeParams', '$lo
             }
         });
 
-        $scope.installModules = function(){
+        function installModules(){
 
             var data = {modules:[]};
 
@@ -44,18 +48,18 @@ app.controller('ComZeAppsModulesCtrl', ['$scope', '$route', '$routeParams', '$lo
                 }
             });
 
-        };
+        }
 
-        $scope.toggleActivation = function(module){
+        function toggleActivation(module){
             var active = parseInt(module.active) ? '0' : '1';
             $http.post('/zeapps/modules/toggleActivation/' + module.id + '/' + active).then(function(response){
                 if(response.data && response.data != 'false'){
                     document.location.reload(true);
                 }
             })
-        };
+        }
 
-        $scope.testIfActif = function(module){
+        function testIfActif(module){
             var classes = '';
             var active = parseInt(module.active);
             if(active){

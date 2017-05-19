@@ -3,14 +3,6 @@ app.config(['$provide',
         $provide.decorator('zeHttp', function($delegate){
             var zeHttp = $delegate;
 
-            var getAll_hooks = function(){
-                return zeHttp.get('/zeapps/hooks/get_all');
-            };
-
-            var save_config = function(data){
-                return zeHttp.post('/zeapps/config/save', data);
-            };
-
             zeHttp.hooks = {
                 get_all : getAll_hooks
             };
@@ -20,5 +12,13 @@ app.config(['$provide',
             });
 
             return zeHttp;
+
+            function getAll_hooks(){
+                return zeHttp.get('/zeapps/hooks/get_all');
+            }
+
+            function save_config(data){
+                return zeHttp.post('/zeapps/config/save', data);
+            }
         });
     }]);

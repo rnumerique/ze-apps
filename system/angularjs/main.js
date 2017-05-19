@@ -4,39 +4,57 @@ var app = angular.module('zeApp', ['ngSanitize','ngRoute','ui.bootstrap', 'ui.so
 app.controller('MainCtrl', ['$scope', '$route', '$routeParams', '$location', '$rootScope', '$http', '$interval', '$timeout', 'zeHooks',
     function ($scope, $route, $routeParams, $location, $rootScope, $http, $interval, $timeout, zeHooks) {
 
-        $scope.notifications = {};
         $rootScope.toasts = [];
         $rootScope.debug = false;
+        $rootScope.defaultLang = 'fr-fr';
 
+        $rootScope.logout = logout;
+
+        $scope.dropdown = false;
+        $scope.showLabel = false;
+        /********** Notification **********/
+        $scope.notifications = {};
+        $scope.showNotification = false;
+        /************ Search Bar ***************/
+        $scope.searchFill = "";
+        /********** Left Menu Toggle **********/
+        $scope.fullSizedMenu = true;
+
+        $scope.loadMenu = loadMenu;
+        /************ Search Bar ***************/
+        $scope.search = search;
+        /********** Notification **********/
+        $scope.toggleNotification = toggleNotification;
+        $scope.notificationsNotSeen = notificationsNotSeen;
+        $scope.hasUnreadNotifications = hasUnreadNotifications;
+        $scope.readNotification = readNotification;
+        $scope.readAllNotificationsFrom = readAllNotificationsFrom;
+        /********** Loading Effect Logo **********/
+        $scope.loading = loading;
+        /********** Left Menu Toggle **********/
+        $scope.toggleMenuSize = toggleMenuSize;
+        /********** Dropdown User menu *********/
+        $scope.toggleDropdown = toggleDropdown;
+
+
+
+        loadNotifications();
 
         $scope.$on('$locationChangeStart', function() {
             $rootScope.currentModule = $location.path().split('/')[2];
         });
 
-        $rootScope.defaultLang = 'fr-fr';
-        
-        $scope.dropdown = false;
-        $scope.showNotification = false;
-        $scope.showLabel = false;
-
-
         $timeout(function(){
             $scope.daemon_hooks = zeHooks.get('zeappsDaemon_Hook');
         }, 0);
 
+        $interval(function(){
+            loadNotifications();
+        }, 30000);
 
-        $rootScope.logout = function () {
-            window.document.location.href = '/logout';
-        };
-
-        $scope.loadMenu = function(argMenu, argItemActive) {
-            $scope["menu"] = argMenu ;
-            $scope["menu_active"] = argItemActive ;
-
-            $("#left-menu .nav a").blur();
-        };
-
-        /********** Debug Mode **********/
+        $interval(function(){
+            $http.get('/zeapps/app/update_token');
+        }, 300000);
 
         $http.get('/zeapps/config/get/zeapps_debug').then(function(response){
             if(response.data && response.data != false){
@@ -44,26 +62,19 @@ app.controller('MainCtrl', ['$scope', '$route', '$routeParams', '$location', '$r
             }
         });
 
-        /********** Loading Effect Logo **********/
 
-        $scope.loading = function(){
+
+        function loading(){
             if($rootScope.httpRequestCount > 0)
                 return 'loading';
             return false;
-        };
+        }
 
-        /********** Left Menu Toggle **********/
-
-        $scope.fullSizedMenu = true;
-
-        $scope.toggleMenuSize = function(){
+        function toggleMenuSize(){
             $scope.fullSizedMenu = !$scope.fullSizedMenu;
-        };
+        }
 
-
-        /********** Notification **********/
-
-        $scope.toggleNotification = function(){
+        function toggleNotification(){
             $scope.showNotification = !$scope.showNotification;
             $scope.dropdown = false;
             if($scope.showNotification){
@@ -75,9 +86,9 @@ app.controller('MainCtrl', ['$scope', '$route', '$routeParams', '$location', '$r
                 $http.post('/zeapps/notification/seenNotification', angular.toJson($scope.notifications));
             }
 
-        };
+        }
 
-        var loadNotifications = function(){
+        function loadNotifications(){
             $http.get('/zeapps/notification/getAllUnread').then(function (response) {
                 if (response.data && response.data != false) {
                     var notifications = {};
@@ -92,19 +103,9 @@ app.controller('MainCtrl', ['$scope', '$route', '$routeParams', '$location', '$r
                     $scope.notifications = notifications;
                 }
             });
-        };
+        }
 
-        loadNotifications();
-
-        $interval(function(){
-            loadNotifications();
-        }, 30000);
-
-        $interval(function(){
-            $http.get('/zeapps/app/update_token');
-        }, 300000);
-
-        $scope.notificationsNotSeen = function() {
+        function notificationsNotSeen() {
             var total = 0;
             angular.forEach($scope.notifications, function(module){
                 for (var i = 0; i < module.notifications.length; i++) {
@@ -113,13 +114,13 @@ app.controller('MainCtrl', ['$scope', '$route', '$routeParams', '$location', '$r
                 }
             });
             return total;
-        };
+        }
 
-        $scope.hasUnreadNotifications = function(){
+        function hasUnreadNotifications(){
             return Object.keys($scope.notifications).length;
-        };
+        }
 
-        $scope.readNotification = function(notification){
+        function readNotification(notification){
             notification.read_state = 1;
             $http.post('/zeapps/notification/readNotification/'+notification.id).then(function(response){
                 if(response.data && response.data != "false"){
@@ -129,31 +130,34 @@ app.controller('MainCtrl', ['$scope', '$route', '$routeParams', '$location', '$r
                 }
             });
 
-        };
+        }
 
-        $scope.readAllNotificationsFrom = function(moduleName){
+        function readAllNotificationsFrom(moduleName){
             $http.post('/zeapps/notification/readAllNotificationFrom/'+moduleName).then(function(response){
                 if(response.data && response.data != "false"){
                     delete $scope.notifications[moduleName];
                 }
             });
-        };
+        }
 
-
-        /********** Dropdown User menu *********/
-
-        $scope.toggleDropdown = function(){
+        function toggleDropdown(){
             $scope.dropdown = !$scope.dropdown;
             $scope.showNotification = false;
-        };
+        }
 
-
-        /************ Search Bar ***************/
-
-        $scope.searchFill = "";
-
-        $scope.search = function(){
+        function search(){
             $http.post('/zeapps/search/generalSearch');
+        }
+
+        function logout() {
+            window.document.location.href = '/logout';
+        }
+
+        function loadMenu(argMenu, argItemActive) {
+            $scope["menu"] = argMenu ;
+            $scope["menu_active"] = argItemActive ;
+
+            $("#left-menu .nav a").blur();
         }
 
     }]);
@@ -171,6 +175,23 @@ app.config(['$provide',
 
         $provide.decorator('$http', function ($delegate, $q, $log, $rootScope, $templateCache) {
             var $http = $delegate;
+
+            //Copy every shortcut method
+            angular.forEach(['get', 'put', 'post', 'delete', 'head', 'jsonp'], function iterator(method) {
+                _http[method] = function(url, data, config) {
+                    if(typeof data !== 'string')
+                        data = angular.toJson(data);
+                    return _http(angular.extend(config || {}, {
+                        method: method,
+                        url: url,
+                        data: data
+                    }));
+                };
+            });
+
+            return _http;
+
+
 
             //Extend the $http with the console output when in debug mode
             function _http(config) {
@@ -241,21 +262,6 @@ app.config(['$provide',
 
                 return promise;
             }
-
-            //Copy every shortcut method
-            angular.forEach(['get', 'put', 'post', 'delete', 'head', 'jsonp'], function iterator(method) {
-                _http[method] = function(url, data, config) {
-                    if(typeof data !== 'string')
-                        data = angular.toJson(data);
-                    return _http(angular.extend(config || {}, {
-                        method: method,
-                        url: url,
-                        data: data
-                    }));
-                };
-            });
-
-            return _http;
         });
 
     }]);

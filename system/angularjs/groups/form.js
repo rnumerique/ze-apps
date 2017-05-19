@@ -6,6 +6,8 @@ app.controller('ComZeAppsGroupsFormCtrl', ['$scope', '$route', '$routeParams', '
 
         $scope.form = [];
 
+        $scope.enregistrer = enregistrer;
+        $scope.annuler = annuler;
 
         // charge la fiche
         if ($routeParams.id && $routeParams.id != 0) {
@@ -23,10 +25,6 @@ app.controller('ComZeAppsGroupsFormCtrl', ['$scope', '$route', '$routeParams', '
             });
         }
 
-
-
-
-
         // charge la liste des droits
         $http.get('/zeapps/user/getRightList').then(function (response) {
             if (response.status == 200) {
@@ -34,11 +32,7 @@ app.controller('ComZeAppsGroupsFormCtrl', ['$scope', '$route', '$routeParams', '
             }
         });
 
-
-
-
-
-        $scope.enregistrer = function () {
+        function enregistrer() {
             var $data = {} ;
 
             if ($routeParams.id != 0) {
@@ -54,7 +48,7 @@ app.controller('ComZeAppsGroupsFormCtrl', ['$scope', '$route', '$routeParams', '
             });
         }
 
-        $scope.annuler = function () {
+        function annuler() {
             $location.path("/ng/com_zeapps/groups");
         }
 

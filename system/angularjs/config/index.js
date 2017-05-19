@@ -3,16 +3,18 @@ app.controller('ComZeAppsConfigCtrl', ['$scope', '$route', '$routeParams', '$loc
 
         $scope.$parent.loadMenu("com_ze_apps_config", "com_ze_apps_config");
 
+        $scope.emptyCache = emptyCache;
+        $scope.success = success;
 
-        $scope.emptyCache = function(){
+        function emptyCache(){
             zhttp.get('/zeapps/config/emptyCache/').then(function(response){
                 if(response.data && response.data != "false"){
                     document.location.reload(true);
                 }
             });
-        };
+        }
 
-        $scope.success = function(){
+        function success(){
             var data = {};
 
             data['id'] = 'zeapps_debug';
