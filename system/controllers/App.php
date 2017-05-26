@@ -409,7 +409,7 @@ class App extends ZeCtrl
             while(false !== ($folderItem = readdir($folder)))
             {
                 $fileSpace = $folderSpace . $folderItem ;
-                if(is_file($fileSpace) && $folderItem != '.' && $folderItem != '..') {
+                if(is_file($fileSpace) && $folderItem != '.' && $folderItem != '..' && $this->endsWith(strtolower($fileSpace), ".php")) {
                     require_once $fileSpace ;
                 }
             }
@@ -593,6 +593,19 @@ class App extends ZeCtrl
         /*************** END : creation du menu Header *************/
 
         return $data;
+    }
+
+
+
+
+    private function endsWith($haystack, $needle)
+    {
+        $length = strlen($needle);
+        if ($length == 0) {
+            return true;
+        }
+
+        return (substr($haystack, -$length) === $needle);
     }
 }
 
