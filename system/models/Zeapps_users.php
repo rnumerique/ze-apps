@@ -13,8 +13,9 @@ class Zeapps_users extends ZeModel {
             $this->load->model("Zeapps_token", "token");
 
             // supprime tous les token qui sont dépassés
-            $where = array("date_expire <"=>date("Y-m-d H:i:s")) ;
+            $where = array("date_expire <"=>gmdate("Y-m-d H:i:s")) ;
             $tokens = $this->load->ctrl->token->all($where) ;
+
 
             if (is_array($tokens) && count($tokens) > 0) {
                 $ids = array() ;
@@ -39,7 +40,6 @@ class Zeapps_users extends ZeModel {
             return false ;
         }
     }
-
 
 
 
@@ -79,7 +79,7 @@ class Zeapps_users extends ZeModel {
                     $token = new $this->load->ctrl->token();
                     $token->id_user = $users[0]->id ;
                     $token->token = $tokenGenerated ;
-                    $token->date_expire = date("Y-m-d H:i:s", time() + $session_lifetime * 60) ;
+                    $token->date_expire = gmdate("Y-m-d H:i:s", time() + $session_lifetime * 60) ;
                     $token->insert($token) ;
                 }
             }
