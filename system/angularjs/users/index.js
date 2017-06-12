@@ -53,7 +53,6 @@ app.controller('ComZeAppsUsersCtrl', ['$scope', '$route', '$routeParams', '$loca
                 }
 
             }, function () {
-                //console.log("rien");
             });
 
         }

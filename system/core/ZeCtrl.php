@@ -22,6 +22,9 @@ class ZeCtrl
         // load object : session
         $this->session = new ZeSession();
 
+        // load object : trigger
+        $this->trigger = new ZeTrigger();
+
 
         // load object : input
         $this->input = new ZeInput();

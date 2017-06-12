@@ -63,7 +63,6 @@ app.factory('zeapps_modal', ['$uibModal', function($uibModal) {
                 modalInstance.result.then(function (selectedItem) {
                     next(selectedItem);
                 }, function () {
-                    //console.log("rien");
                 });
 
                 break;
