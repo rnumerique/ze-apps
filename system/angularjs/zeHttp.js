@@ -48,7 +48,6 @@ app.factory('zeHttp', function($rootScope, $http, $q){
         };
         promise.error = function(fn){
             promise.then(function(response){
-                console.log('success callback');
                 fn(response.data, response.status, response.headers, config);
             });
             return promise;

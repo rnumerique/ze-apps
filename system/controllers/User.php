@@ -118,8 +118,6 @@ class User extends ZeCtrl
             $data = json_decode(file_get_contents('php://input'), true);
         }
 
-        echo var_dump($data);
-
         if (isset($data["id"]) && is_numeric($data["id"])) {
             $this->users->update($data, $data["id"]);
         } else {
