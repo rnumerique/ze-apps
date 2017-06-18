@@ -22,8 +22,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <link rel="stylesheet" href="/assets/css/font-awesome.min.css">
 
 
-
-
     <script src="/assets/js/jquery-1.12.0.min.js"></script>
     <script src="/assets/bootstrap-3.3.7/js/bootstrap.min.js"></script>
     <script src="/assets/js/jquery-ui-1.11.4/jquery-ui.min.js"></script>
@@ -90,7 +88,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <ul class="nav">
 
                 <?php foreach ($menuEssential as $menuItem) { ?>
-                    <li><a href="<?php echo $menuItem["url"]; ?>"><span i8n="<?php echo $menuItem["label"];?>"></span></a></li>
+                    <li><a href="<?php echo $menuItem["url"]; ?>"><span i8n="<?php echo $menuItem["label"]; ?>"></span></a>
+                    </li>
                 <?php } ?>
 
             </ul>
@@ -105,7 +104,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <div class="title" i8n="<?php echo $menuSpace["info"]["name"]; ?>"></div>
                         <ul class="nav">
                             <?php foreach ($menuSpace["item"] as $menuItem) { ?>
-                                <li><a href="<?php echo $menuItem["url"]; ?>" i8n="<?php echo $menuItem["label"]; ?>"></a></li>
+                                <li><a href="<?php echo $menuItem["url"]; ?>"
+                                       i8n="<?php echo $menuItem["label"]; ?>"></a></li>
                             <?php } ?>
                         </ul>
                     <?php } ?>
@@ -117,7 +117,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <div class="title" i8n="<?php echo $menuSpace["info"]["name"]; ?>"></div>
                         <ul class="nav">
                             <?php foreach ($menuSpace["item"] as $menuItem) { ?>
-                                <li><a href="<?php echo $menuItem["url"]; ?>" i8n="<?php echo $menuItem["label"]; ?>"></a></li>
+                                <li><a href="<?php echo $menuItem["url"]; ?>"
+                                       i8n="<?php echo $menuItem["label"]; ?>"></a></li>
                             <?php } ?>
                         </ul>
                     <?php } ?>
@@ -129,7 +130,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
         <div class="pull-left">
             <button type="button" class="btn btn-sm"><span class="fa fa-fw fa-shopping-cart"
-                                                           aria-hidden="true"></span> <span i8n="Extension store"></span>
+                                                           aria-hidden="true"></span> <span
+                        i8n="Extension store"></span>
             </button>
             <button type="button" class="btn btn-sm"><span class="fa fa-fw fa-list-ul"
                                                            aria-hidden="true"></span> <span i8n="Abonnement"></span>
@@ -148,7 +150,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
 <div id="ze-header">
-    <div id="logo"><a href="/"><img src="/assets/images/logo.png" class="vertical-middle" ng-class="loading()"/></a></div>
+    <div id="logo"><a href="/"><img src="/assets/images/logo.png" class="vertical-middle" ng-class="loading()"/></a>
+    </div>
     <div id="search">
         <div class="content">
             <div class="menu pointer">
@@ -157,19 +160,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <span class="fa fa-caret-down" aria-hidden="true"></span>
                 </span>
             </div>
-            <div class="formSearch"><input type="text" ng-model="searchFill" /></div>
+            <div class="formSearch"><input type="text" ng-model="searchFill"/></div>
             <div class="right-menu">
 
-                <div class="pull-right" >
+                <div class="pull-right">
                     <span ng-click="toggleNotification()" class="pointer">
-                        <span class="fa fa-fw fa-bell"  aria-hidden="true"></span>
+                        <span class="fa fa-fw fa-bell" aria-hidden="true"></span>
                         <span ng-show="notificationsNotSeen() != 0">
                             <span class="label label-danger label-as-badge">{{ notificationsNotSeen() }}</span>
                         </span>
                     </span>
 
                     <span ng-click="toggleDropdown()" class="pointer">
-                     {{user.firstname[0] +'. '+user.lastname}} <span class="fa fa-fw" ng-class="dropdown ? 'fa-caret-up' : 'fa-caret-down'"  aria-hidden="true"></span>
+                     {{user.firstname[0] +'. '+user.lastname}} <span class="fa fa-fw"
+                                                                     ng-class="dropdown ? 'fa-caret-up' : 'fa-caret-down'"
+                                                                     aria-hidden="true"></span>
                     </span>
 
                 </div>
@@ -199,7 +204,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <?php foreach ($menuSpace["item"] as $menuItem) { ?>
                             <li ng-class="menu_active == '<?php echo $menuItem["id"]; ?>' ? 'active' :''">
                                 <a href="<?php echo $menuItem["url"]; ?>">
-                                    <span class="fa fa-fw fa-<?php echo isset($menuItem["fa-icon"]) ? $menuItem["fa-icon"] : 'font-awesome'; ?>" aria-hidden="true"></span>
+                                    <span class="fa fa-fw fa-<?php echo isset($menuItem["fa-icon"]) ? $menuItem["fa-icon"] : 'font-awesome'; ?>"
+                                          aria-hidden="true"></span>
                                     <span class="menu_item" i8n="<?php echo $menuItem["label"]; ?>"></span>
                                 </a>
                             </li>
@@ -214,12 +220,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <ul class="notifications" ng-class="showNotification ? 'show' : ''">
         <li ng-repeat="(moduleName, module) in notifications" ng-class="notification.status">
                         <span class="module-name">
-                            <span class="fa fa-times pointer pull-right" aria-hidden="true" ng-click="readAllNotificationsFrom(moduleName)"></span>
+                            <span class="fa fa-times pointer pull-right" aria-hidden="true"
+                                  ng-click="readAllNotificationsFrom(moduleName)"></span>
                             {{moduleName}}
                         </span>
             <ul>
                 <li ng-repeat="notification in module.notifications | limitTo:'3'" class="notification">
-                    <span class="fa fa-times pointer pull-right" aria-hidden="true" ng-click="readNotification(notification)"></span>
+                    <span class="fa fa-times pointer pull-right" aria-hidden="true"
+                          ng-click="readNotification(notification)"></span>
                     {{ notification.message }}
                 </li>
             </ul>
@@ -238,9 +246,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     <toasts></toasts>
 </div>
-
-
-
 
 
 </div>
