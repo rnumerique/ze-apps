@@ -98,7 +98,6 @@
 	      <arg path="${project.basedir}/${source}/" />
 	    </exec>
 	</target>
-	build/logs/checkstyle.xml
 
 
 
