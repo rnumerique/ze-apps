@@ -46,8 +46,8 @@ class Modules extends ZeCtrl
                         if ($moduleOld) {
                             if ($this->isMoreRecent(
                                 explode('.', $data['version'], 3),
-                                explode('.', $moduleOld->version, 3))
-                            ) {
+                                explode('.', $moduleOld->version, 3)
+                            )) {
                                 $toUpdate[] = array("module_id" => $data['module_id'], "name" => $data['name']);
                             }
                         } else {
@@ -119,8 +119,8 @@ class Modules extends ZeCtrl
                         if (is_array($missingDependencies)) {
                             for ($i = 0; $i < sizeof($missingDependencies); $i++) {
                                 if ($this->isQueued(
-                                    $missingDependencies[$i]->module_id, $missingDependencies[$i]->version, $folder)
-                                ) {
+                                    $missingDependencies[$i]->module_id, $missingDependencies[$i]->version, $folder
+                                )) {
                                     if (!$this->installModule($missingDependencies[$i]->module_id, $folder)) {
                                         return false;
                                     }
@@ -130,8 +130,8 @@ class Modules extends ZeCtrl
                             }
                         } else {
                             if ($this->isQueued(
-                                $missingDependencies->module_id, $missingDependencies->version, $folder)
-                            ) {
+                                $missingDependencies->module_id, $missingDependencies->version, $folder
+                            )) {
                                 if (!$this->installModule($missingDependencies->module_id, $folder)) {
                                     return false;
                                 }
@@ -149,8 +149,8 @@ class Modules extends ZeCtrl
                 if ($moduleOld) {
                     if ($this->isMoreRecent(
                         explode('.', $data['version'], 3),
-                        explode('.', $moduleOld->version, 3))
-                    ) {
+                        explode('.', $moduleOld->version, 3)
+                    )) {
                         $folderDest = $folderApp . $module;
 
                         if (!is_dir($folderDest)) {
