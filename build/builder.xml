@@ -26,7 +26,7 @@
 	    <phingcall target="phpmd" />
 	    <!--<phingcall target="phpcpd" />-->
 	    <!--<phingcall target="phploc" />-->
-	    <phingcall target="phpcs" />
+	    <!--<phingcall target="phpcs" /> A  intergrer-->
 	    <!--<phingcall target="phpdoc" />
 	    <phingcall target="phpunit" />-->
 	    <phingcall target="phpcb" />
