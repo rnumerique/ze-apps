@@ -76,7 +76,7 @@ class Zeapps_users extends ZeModel {
                 if ($tokens && count($tokens) > 0) {
                     $token = "" ;
                 } else {
-                    $token = new $this->load->ctrl->token();
+                    $token = new $this->_pLoad->ctrl->token();
                     $token->id_user = $users[0]->id ;
                     $token->token = $tokenGenerated ;
                     $token->date_expire = gmdate("Y-m-d H:i:s", time() + $session_lifetime * 60) ;
