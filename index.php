@@ -1,5 +1,6 @@
 <?php
-define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development');
+define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ?
+    $_SERVER['CI_ENV'] : 'development');
 
 switch (ENVIRONMENT) {
     case 'development':
@@ -25,7 +26,7 @@ switch (ENVIRONMENT) {
 
 
 // System Folder
-$system_path = 'system';
+$systemPath = 'system';
 
 
 // Set the current directory correctly for CLI requests
@@ -33,19 +34,19 @@ if (defined('STDIN')) {
     chdir(dirname(__FILE__));
 }
 
-if (($_temp = realpath($system_path)) !== FALSE) {
-    $system_path = $_temp . DIRECTORY_SEPARATOR;
+if (($systemRealPath = realpath($systemPath)) !== FALSE) {
+    $systemPath = $systemRealPath . DIRECTORY_SEPARATOR;
 } else {
     // Ensure there's a trailing slash
-    $system_path = strtr(
-        rtrim($system_path, '/\\'),
+    $systemPath = strtr(
+        rtrim($systemPath, '/\\'),
         '/\\',
         DIRECTORY_SEPARATOR . DIRECTORY_SEPARATOR
     ) . DIRECTORY_SEPARATOR;
 }
 
 // Is the system path correct?
-if (!is_dir($system_path)) {
+if (!is_dir($systemPath)) {
     header('HTTP/1.1 503 Service Unavailable.', TRUE, 503);
     echo 'Your system folder path does not appear to be set correctly. 
     Please open the following file and correct this: ' . pathinfo(__FILE__, PATHINFO_BASENAME);
@@ -57,7 +58,7 @@ if (!is_dir($system_path)) {
 define('SELF', pathinfo(__FILE__, PATHINFO_BASENAME));
 
 // Path to the system folder
-define('BASEPATH', str_replace('\\', '/', $system_path));
+define('BASEPATH', str_replace('\\', '/', $systemPath));
 
 // Path to the front controller (this file)
 define('FCPATH', dirname(__FILE__) . '/');
