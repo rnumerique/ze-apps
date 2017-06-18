@@ -41,15 +41,15 @@ class User extends ZeCtrl
 
         $data = array();
 
-        foreach ($space as $space_item) {
+        foreach ($space as $spaceItem) {
             $dataSpace = array();
-            $dataSpace["info"] = $space_item;
+            $dataSpace["info"] = $spaceItem;
             $dataSpace["section"] = array();
 
 
             $sections = array();
             foreach ($rightList as $rightItem) {
-                if ($rightItem["space"] == $space_item["id"]) {
+                if ($rightItem["space"] == $spaceItem["id"]) {
 
                     if (!in_array($rightItem["section"], $sections)) {
                         $sections[] = $rightItem["section"];
@@ -64,7 +64,7 @@ class User extends ZeCtrl
                 $dataItem["item"] = array();
 
                 foreach ($rightList as $rightItem) {
-                    if ($rightItem["space"] == $space_item["id"] && $section == $rightItem["section"]) {
+                    if ($rightItem["space"] == $spaceItem["id"] && $section == $rightItem["section"]) {
                         $dataItem["item"][] = $rightItem;
                     }
                 }
@@ -113,7 +113,8 @@ class User extends ZeCtrl
         // constitution du tableau
         $data = array();
 
-        if (strcasecmp($_SERVER['REQUEST_METHOD'], 'post') === 0 && stripos($_SERVER['CONTENT_TYPE'], 'application/json') !== FALSE) {
+        if (strcasecmp($_SERVER['REQUEST_METHOD'], 'post') === 0
+            && stripos($_SERVER['CONTENT_TYPE'], 'application/json') !== FALSE) {
             // POST is actually in json format, do an internal translation
             $data = json_decode(file_get_contents('php://input'), true);
         }
