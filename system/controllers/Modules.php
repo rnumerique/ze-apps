@@ -46,8 +46,9 @@ class Modules extends ZeCtrl
                         if ($moduleOld) {
                             if ($this->isMoreRecent(
                                 explode('.', $data['version'], 3),
-                                explode('.', $moduleOld->version, 3))) {
-                                    $toUpdate[] = array("module_id" => $data['module_id'], "name" => $data['name']);
+                                explode('.', $moduleOld->version, 3))
+                            ) {
+                                $toUpdate[] = array("module_id" => $data['module_id'], "name" => $data['name']);
                             }
                         } else {
                             $toInstall[] = array("module_id" => $data['module_id'], "name" => $data['name']);
@@ -65,7 +66,8 @@ class Modules extends ZeCtrl
     {
         $data = array();
 
-        if (strcasecmp($_SERVER['REQUEST_METHOD'], 'post') === 0 && stripos($_SERVER['CONTENT_TYPE'], 'application/json') !== FALSE) {
+        if (strcasecmp($_SERVER['REQUEST_METHOD'], 'post') === 0
+            && stripos($_SERVER['CONTENT_TYPE'], 'application/json') !== FALSE) {
             // POST is actually in json format, do an internal translation
             $data = json_decode(file_get_contents('php://input'), true);
 
@@ -116,7 +118,9 @@ class Modules extends ZeCtrl
                     if ($missingDependencies = $this->isMissingDependencies($data['dependencies'])) {
                         if (is_array($missingDependencies)) {
                             for ($i = 0; $i < sizeof($missingDependencies); $i++) {
-                                if ($this->isQueued($missingDependencies[$i]->module_id, $missingDependencies[$i]->version, $folder)) {
+                                if ($this->isQueued(
+                                    $missingDependencies[$i]->module_id, $missingDependencies[$i]->version, $folder)
+                                ) {
                                     if (!$this->installModule($missingDependencies[$i]->module_id, $folder)) {
                                         return false;
                                     }
@@ -125,7 +129,9 @@ class Modules extends ZeCtrl
                                 }
                             }
                         } else {
-                            if ($this->isQueued($missingDependencies->module_id, $missingDependencies->version, $folder)) {
+                            if ($this->isQueued(
+                                $missingDependencies->module_id, $missingDependencies->version, $folder)
+                            ) {
                                 if (!$this->installModule($missingDependencies->module_id, $folder)) {
                                     return false;
                                 }
@@ -141,7 +147,10 @@ class Modules extends ZeCtrl
                 $moduleOld = $this->modules->get(array("module_id" => $data['module_id']));
 
                 if ($moduleOld) {
-                    if ($this->isMoreRecent(explode('.', $data['version'], 3), explode('.', $moduleOld->version, 3))) {
+                    if ($this->isMoreRecent(
+                        explode('.', $data['version'], 3),
+                        explode('.', $moduleOld->version, 3))
+                    ) {
                         $folderDest = $folderApp . $module;
 
                         if (!is_dir($folderDest)) {
@@ -243,7 +252,8 @@ class Modules extends ZeCtrl
 
     private function isRequirementMet($requirement = null, $version = null)
     {
-        if ($requirement && is_array($requirement) && sizeof($requirement) == 3 && $version && is_array($version) && sizeof($version) == 3) {
+        if ($requirement && is_array($requirement) && sizeof($requirement) == 3 && $version
+            && is_array($version) && sizeof($version) == 3) {
             // ( r0 > v0 ) || ( r0 == v0 && [ r1 > v1 || ( r1 == v1 && r2 > v2 ) ] )
             if (intval($requirement[0]) > intval($version[0]) ||
                 (intval($requirement[0]) == intval($version[0]) &&
@@ -262,7 +272,8 @@ class Modules extends ZeCtrl
 
     private function isMoreRecent($newVersion = null, $oldVersion = null)
     {
-        if ($newVersion && is_array($newVersion) && sizeof($newVersion) == 3 && $oldVersion && is_array($oldVersion) && sizeof($oldVersion) == 3) {
+        if ($newVersion && is_array($newVersion) && sizeof($newVersion) == 3 && $oldVersion
+            && is_array($oldVersion) && sizeof($oldVersion) == 3) {
             // ( new0 > old0 ) || ( new0 == old0 && [ new1 > old1 || ( new1 == old1 && new2 > old2 ) ] )
             if (intval($newVersion[0]) > intval($oldVersion[0]) ||
                 (intval($newVersion[0]) == intval($oldVersion[0]) &&
@@ -294,7 +305,8 @@ class Modules extends ZeCtrl
                     while (false !== ($folderItem = readdir($folderOpen))) {
                         $file = $folder . $folderItem;
 
-                        if (is_file($file) && $folderItem != '.' && $folderItem != '..' && str_ends_with($folderItem, ".sql")) {
+                        if (is_file($file) && $folderItem != '.' && $folderItem != '..'
+                            && str_ends_with($folderItem, ".sql")) {
                             $filename = intval(explode('.', $folderItem)[0]);
 
                             if ($filename > $last) {
