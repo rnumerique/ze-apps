@@ -49,8 +49,8 @@
 
 
 
-	<target name="phpmd" ignorePatterns="*/system/third_party/*">
-	    <phpmd file="${project.basedir}/${source}/">
+	<target name="phpmd">
+	    <phpmd file="${project.basedir}/${source}/" ignorePatterns="*/system/third_party/*">
 	        <formatter type="xml" outfile="${project.basedir}/${source}/build/phpmd.xml" />
 	    </phpmd>
 	</target>
