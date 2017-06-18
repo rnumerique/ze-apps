@@ -9,14 +9,14 @@ class ZeModel
     protected $dbConfig = null ;
     private $_ctrl = null;
     private $_db = null ;
-    protected $_table_name = '' ;
+    protected $_tableName = '' ;
     protected $_fields = array() ;
     protected $_primary_key = null ;
     private $safeDelete = false ;
 
-    private $_order_by = [] ;
+    private $_orderBy = [] ;
     private $_limit = -1 ;
-    private $_limit_offset = 0 ;
+    private $_limitOffset = 0 ;
 
     public function __construct($dbConfig = "default")
     {
@@ -28,12 +28,12 @@ class ZeModel
 
         $this->dbConfig = self::$_dbConfig ;
 
-        if ($this->_table_name == '') {
-            $this->_table_name = str_replace('_model', '', strtolower(get_class($this)));
+        if ($this->_tableName == '') {
+            $this->_tableName = str_replace('_model', '', strtolower(get_class($this)));
         }
 
         // get all fields
-        $this->_fields = $this->database()->table($this->_table_name)->getColumnName();
+        $this->_fields = $this->database()->table($this->_tableName)->getColumnName();
 
 
         // define all fields
@@ -41,7 +41,7 @@ class ZeModel
             $this->$field = null ;
         }
 
-        $this->_primary_key = $this->database()->table($this->_table_name)->getPrimaryKey();
+        $this->_primary_key = $this->database()->table($this->_tableName)->getPrimaryKey();
 
         // check if table is safe delete
         foreach ($this->_fields as $field) {
@@ -53,9 +53,9 @@ class ZeModel
 
     private function clearSql()
     {
-        $this->_order_by = [] ;
+        $this->_orderBy = [] ;
         $this->_limit = -1 ;
-        $this->_limit_offset = 0 ;
+        $this->_limitOffset = 0 ;
     }
 
     public function order_by($fields, $order = 'ASC')
@@ -64,15 +64,15 @@ class ZeModel
             reset($fields);
             if (is_int(key($fields))) { // SIMPLE ARRAY [column1, column2, ...]
                 foreach ($fields as $field) {
-                    $this->_order_by[$field] = $order;
+                    $this->_orderBy[$field] = $order;
                 }
             } else { // ASSOCIATIVE ARRAY [column1 => order1, column2 => order2, ...]
                 foreach ($fields as $field => $order) {
-                    $this->_order_by[$field] = $order;
+                    $this->_orderBy[$field] = $order;
                 }
             }
         } else { // FIELDS IS A STRING (faster way to write it if you want to pass a single value)
-            $this->_order_by[$fields] = $order;
+            $this->_orderBy[$fields] = $order;
         }
 
         return $this ;
@@ -81,7 +81,7 @@ class ZeModel
     public function limit($limit, $offset = 0)
     {
         $this->_limit = $limit ;
-        $this->_limit_offset = $offset ;
+        $this->_limitOffset = $offset ;
 
         return $this ;
     }
@@ -101,7 +101,7 @@ class ZeModel
         // open connexion if necessary
         if ($this->_db == null) {
             $this->_db = new ZeQuery();
-            $this->_db->setDb() ;
+            $this->_db->setDb();
         }
 
         return $this->_db ;
@@ -111,14 +111,14 @@ class ZeModel
     {
         $this->database()->clearSql();
 
-        $db = $this->database()->table($this->_table_name);
+        $db = $this->database()->table($this->_tableName);
 
-        if ($this->_order_by != []) {
-            $db->order_by($this->_order_by);
+        if ($this->_orderBy != []) {
+            $db->order_by($this->_orderBy);
         }
 
         if ($this->_limit != -1) {
-            $db->limit($this->_limit, $this->_limit_offset);
+            $db->limit($this->_limit, $this->_limitOffset);
         }
 
         if ($this->safeDelete) {
@@ -126,7 +126,7 @@ class ZeModel
         }
 
         // to forget "order by" & "limit" for next query
-        $this->clearSql() ;
+        $this->clearSql();
 
         return $db->where($where)->result();
     }
@@ -141,7 +141,7 @@ class ZeModel
                 $where["deleted_at"] = null ;
             }
 
-            $result = $this->database()->table($this->_table_name)->where($where)->result();
+            $result = $this->database()->table($this->_tableName)->where($where)->result();
 
             if ($result && count($result) == 1) {
                 return $result[0] ;
@@ -159,7 +159,7 @@ class ZeModel
         if (count($where) >= 1) {
             if ($forceDelete || $this->safeDelete == false) {
                 $this->database()->clearSql();
-                return $this->database()->table($this->_table_name)->delete($where);
+                return $this->database()->table($this->_tableName)->delete($where);
             } else {
                 $this->database()->clearSql();
                 $data["deleted_at"] = date("Y-m-d H:i:s");
@@ -167,7 +167,8 @@ class ZeModel
             }
         } else {
             throw new Exception("Please pass a condition to the delete function (either value(s) 
-            corresponding to the primary key, or an array)");
+            corresponding to the primary key, or an array)"
+            );
         }
     }
 
@@ -190,7 +191,7 @@ class ZeModel
     {
         $this->database()->clearSql();
 
-        $pdoStat = $this->database()->table($this->_table_name);
+        $pdoStat = $this->database()->table($this->_tableName);
 
         $fieldToUpdate = $this->_fields ;
 
@@ -249,7 +250,7 @@ class ZeModel
     {
         $this->database()->clearSql();
 
-        $pdoStat = $this->database()->table($this->_table_name);
+        $pdoStat = $this->database()->table($this->_tableName);
 
         $fieldToUpdate = $this->_fields ;
 
@@ -334,14 +335,14 @@ class ZeModel
         $columnName = substr($method, strlen('findBy_'));
 
         if (isset($arguments[0])) {
-            $db = $this->database()->table($this->_table_name);
+            $db = $this->database()->table($this->_tableName);
 
-            if ($this->_order_by != []) {
-                $db->order_by($this->_order_by);
+            if ($this->_orderBy != []) {
+                $db->order_by($this->_orderBy);
             }
 
             if ($this->_limit != -1) {
-                $db->limit($this->_limit, $this->_limit_offset);
+                $db->limit($this->_limit, $this->_limitOffset);
             }
 
             // to forget "order by" & "limit" for next query
@@ -374,7 +375,7 @@ class ZeModel
             }
 
 
-            $result = $this->database()->table($this->_table_name)->limit(1)->where($where)->result();
+            $result = $this->database()->table($this->_tableName)->limit(1)->where($where)->result();
 
             if ($result && count($result) == 1) {
                 return $result[0] ;
@@ -401,7 +402,7 @@ class ZeModel
             if ($this->_primary_key) {
                 return array($this->_primary_key => $where);
             } else {
-                throw new Exception('No primary key defined in table : ' . $this->_table_name);
+                throw new Exception('No primary key defined in table : ' . $this->_tableName);
             }
         }
         return $where;
