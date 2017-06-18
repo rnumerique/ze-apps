@@ -9,36 +9,37 @@ class Config extends ZeCtrl
         $this->load->view('config/index');
     }
 
-    public function get($id){
+    public function get($id)
+    {
         $this->load->model('Zeapps_configs', 'configs');
 
-        $config = $this->configs->get(array('id'=>$id));
+        $config = $this->configs->get(array('id' => $id));
 
         echo json_encode($config);
     }
 
-    public function save(){
+    public function save()
+    {
         $this->load->model('Zeapps_configs', 'configs');
 
         // constitution du tableau
-        $data = array() ;
+        $data = array();
 
         if (strcasecmp($_SERVER['REQUEST_METHOD'], 'post') === 0 && stripos($_SERVER['CONTENT_TYPE'], 'application/json') !== FALSE) {
             // POST is actually in json format, do an internal translation
             $data = json_decode(file_get_contents('php://input'), true);
         }
 
-        if($data && is_array($data)){
-            if(isset($data[0]) && is_array($data[0])){ // Multidimensionnal array, we are saving multiple config settings at once
-                for($i=0;$i<sizeof($data);$i++){
-                    if ($this->configs->get(array('id'=>$data[$i]['id']))) {
+        if ($data && is_array($data)) {
+            if (isset($data[0]) && is_array($data[0])) { // Multidimensionnal array, we are saving multiple config settings at once
+                for ($i = 0; $i < sizeof($data); $i++) {
+                    if ($this->configs->get(array('id' => $data[$i]['id']))) {
                         $this->configs->update($data[$i], array('id' => $data[$i]['id']));
                     } else {
                         $this->configs->insert($data[$i]);
                     }
                 }
-            }
-            else {
+            } else {
                 if ($this->configs->get($data['id'])) {
                     $this->configs->update($data, array('id' => $data['id']));
                 } else {
@@ -50,7 +51,8 @@ class Config extends ZeCtrl
         echo json_encode('OK');
     }
 
-    public function emptyCache(){
+    public function emptyCache()
+    {
 
         clearCache();
 

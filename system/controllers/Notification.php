@@ -8,7 +8,7 @@ class Notification extends ZeCtrl
         $this->load->model("Zeapps_notification", "notification");
         $this->load->model("Zeapps_users", "user");
 
-        if($user = $this->user->getUserByToken($this->session->get('token'))) {
+        if ($user = $this->user->getUserByToken($this->session->get('token'))) {
             $user = $user[0];
             if ($notification = $this->notification->all(array('id_user' => $user->id))) {
                 echo json_encode($notification);
@@ -21,9 +21,9 @@ class Notification extends ZeCtrl
         $this->load->model("Zeapps_notification", "notification");
         $this->load->model("Zeapps_users", "user");
 
-        if($user = $this->user->getUserByToken($this->session->get('token'))) {
+        if ($user = $this->user->getUserByToken($this->session->get('token'))) {
             $user = $user[0];
-            if ($notification = $this->notification->all(array("read_state"=>0, 'id_user' => $user->id))) {
+            if ($notification = $this->notification->all(array("read_state" => 0, 'id_user' => $user->id))) {
                 echo json_encode($notification);
             }
         }
@@ -35,7 +35,7 @@ class Notification extends ZeCtrl
         $this->load->model("Zeapps_notification", "notification");
         $this->load->model("Zeapps_users", "user");
 
-        $data = array() ;
+        $data = array();
 
         if (strcasecmp($_SERVER['REQUEST_METHOD'], 'post') === 0 && stripos($_SERVER['CONTENT_TYPE'], 'application/json') !== FALSE) {
             // POST is actually in json format, do an internal translation
@@ -43,7 +43,7 @@ class Notification extends ZeCtrl
 
         }
 
-        if($user = $this->user->getUserByToken($this->session->get('token'))) {
+        if ($user = $this->user->getUserByToken($this->session->get('token'))) {
             $user = $user[0];
             if ($data) {
                 foreach ($data as $module) {
@@ -61,7 +61,7 @@ class Notification extends ZeCtrl
         $this->load->model("Zeapps_notification", "notification");
         $this->load->model("Zeapps_users", "user");
 
-        if($user = $this->user->getUserByToken($this->session->get('token'))) {
+        if ($user = $this->user->getUserByToken($this->session->get('token'))) {
             $user = $user[0];
             if ($id) {
                 $this->notification->update(array("read_state" => 1), array("id" => $id, 'id_user' => $user->id));
@@ -75,7 +75,7 @@ class Notification extends ZeCtrl
         $this->load->model("Zeapps_notification", "notification");
         $this->load->model("Zeapps_users", "user");
 
-        if($user = $this->user->getUserByToken($this->session->get('token'))) {
+        if ($user = $this->user->getUserByToken($this->session->get('token'))) {
             $user = $user[0];
             if ($module) {
                 $this->notification->update(array("read_state" => 1), array('module' => $module, 'id_user' => $user->id));

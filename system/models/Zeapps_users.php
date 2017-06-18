@@ -1,93 +1,88 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Zeapps_users extends ZeModel {
+class Zeapps_users extends ZeModel
+{
     private $typeHash = 'sha256';
 
 
-
-
-
-    public function getUserByToken($token_user) {
-        if (gettype($token_user) == 'string') {
-            $this->load->model("Zeapps_token", "token");
+    public function getUserByToken($tokenUser)
+    {
+        if (gettype($tokenUser) == 'string') {
+            $this->_pLoad->model("Zeapps_token", "token");
 
             // supprime tous les token qui sont dépassés
-            $where = array("date_expire <"=>gmdate("Y-m-d H:i:s")) ;
-            $tokens = $this->load->ctrl->token->all($where) ;
+            $where = array("date_expire <" => gmdate("Y-m-d H:i:s"));
+            $tokens = $this->_pLoad->ctrl->token->all($where);
 
 
             if (is_array($tokens) && count($tokens) > 0) {
-                $ids = array() ;
+                $ids = array();
                 foreach ($tokens as $token) {
                     $ids[] = $token->id;
                 }
 
                 if (count($ids) > 0) {
-                    $this->load->ctrl->token->delete(array('id' => $ids));
+                    $this->_pLoad->ctrl->token->delete(array('id' => $ids));
                 }
             }
 
             // verifie le token
-            $token = $this->load->ctrl->token->findBy_token($token_user) ;
+            $token = $this->_pLoad->ctrl->token->findBy_token($tokenUser);
 
             if ($token && isset($token[0])) {
-                return $this->findBy_id($token[0]->id_user) ;
+                return $this->findBy_id($token[0]->id_user);
             } else {
-                return false ;
+                return false;
             }
         } else {
-            return false ;
+            return false;
         }
     }
 
 
+    public function getToken($email, $password)
+    {
+        global $globalConfig;
 
-
-
-    public function getToken($email, $password) {
-        global $global_config ;
-
-        $session_lifetime = 20 ;
-        if (isset($global_config["session_lifetime"]) && is_numeric($global_config["session_lifetime"])) {
-            $session_lifetime = $global_config["session_lifetime"] ;
+        $sessionLifetime = 20;
+        if (isset($globalConfig["session_lifetime"]) && is_numeric($globalConfig["session_lifetime"])) {
+            $sessionLifetime = $globalConfig["session_lifetime"];
         }
 
 
+        $this->_pLoad->model("Zeapps_token", "token");
 
 
-        $this->load->model("Zeapps_token", "token");
-
-
-        $where = array() ;
-        $where["email"] = $email ;
-        $where["password"] = hash($this->typeHash, $password) ;
+        $where = array();
+        $where["email"] = $email;
+        $where["password"] = hash($this->typeHash, $password);
         $users = $this->all($where);
         if ($users && count($users) == 1) {
 
-            $token = "" ;
+            $token = "";
             while ($token == "") {
-                $tokenGenerated = hash($this->typeHash, uniqid()) ;
+                $tokenGenerated = hash($this->typeHash, uniqid());
 
-                $where = array() ;
-                $where["token"] = $tokenGenerated ;
-                $tokens = $this->load->ctrl->token->all($where) ;
+                $where = array();
+                $where["token"] = $tokenGenerated;
+                $tokens = $this->_pLoad->ctrl->token->all($where);
 
                 if ($tokens && count($tokens) > 0) {
-                    $token = "" ;
+                    $token = "";
                 } else {
-                    $token = new $this->load->ctrl->token();
-                    $token->id_user = $users[0]->id ;
-                    $token->token = $tokenGenerated ;
-                    $token->date_expire = gmdate("Y-m-d H:i:s", time() + $session_lifetime * 60) ;
-                    $token->insert($token) ;
+                    $token = new $this->_pLoad->ctrl->token();
+                    $token->id_user = $users[0]->id;
+                    $token->token = $tokenGenerated;
+                    $token->date_expire = gmdate("Y-m-d H:i:s", time() + $sessionLifetime * 60);
+                    $token->insert($token);
                 }
             }
 
-            return $tokenGenerated ;
+            return $tokenGenerated;
 
         } else {
-            return false ;
+            return false;
         }
     }
 }

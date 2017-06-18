@@ -5,13 +5,14 @@ class Group extends ZeCtrl
 {
     public function index()
     {
-        $data = array() ;
+        $data = array();
 
         $this->load->view('group/index', $data);
     }
 
 
-    public function getAll() {
+    public function getAll()
+    {
         $this->load->model("Zeapps_user_groups", "groups");
         $groups = $this->groups->all();
         echo json_encode($groups);
@@ -19,23 +20,25 @@ class Group extends ZeCtrl
 
     public function form()
     {
-        $data = array() ;
+        $data = array();
 
         $this->load->view('group/form', $data);
     }
 
 
-    public function get($id) {
+    public function get($id)
+    {
         $this->load->model("Zeapps_user_groups", "groups");
         echo json_encode($this->groups->get($id));
     }
 
 
-    public function save() {
+    public function save()
+    {
         $this->load->model("Zeapps_user_groups", "groups");
 
         // constitution du tableau
-        $data = array() ;
+        $data = array();
 
         if (strcasecmp($_SERVER['REQUEST_METHOD'], 'post') === 0 && stripos($_SERVER['CONTENT_TYPE'], 'application/json') !== FALSE) {
             // POST is actually in json format, do an internal translation
@@ -52,13 +55,13 @@ class Group extends ZeCtrl
     }
 
 
-    public function delete($id) {
+    public function delete($id)
+    {
         $this->load->model("Zeapps_user_groups", "groups");
         $this->groups->delete($id);
 
         echo json_encode("OK");
     }
-
 
 
 }

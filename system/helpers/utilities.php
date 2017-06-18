@@ -7,20 +7,22 @@ function str_ends_with($haystack, $needle)
     return strrpos($haystack, $needle) + strlen($needle) === strlen($haystack);
 }
 
-function clearCache(){
+function clearCache()
+{
     rrmdir(FCPATH . 'assets/cache');
     return true;
 }
 
-function rrmdir($dir) {
+function rrmdir($dir)
+{
     if (is_dir($dir)) {
         $objects = scandir($dir);
         foreach ($objects as $object) {
             if ($object != "." && $object != "..") {
-                if (is_dir($dir."/".$object))
-                    rrmdir($dir."/".$object);
+                if (is_dir($dir . "/" . $object))
+                    rrmdir($dir . "/" . $object);
                 else
-                    unlink($dir."/".$object);
+                    unlink($dir . "/" . $object);
             }
         }
         rmdir($dir);
@@ -28,41 +30,44 @@ function rrmdir($dir) {
     return true;
 }
 
-function recursive_mkdir($dirName){
+function recursive_mkdir($dirName)
+{
     if (!is_dir($dirName)) {
         mkdir($dirName, 0777, true);
     }
 }
 
-function r_mvdir($src, $dst){
-    if(is_dir($src)) {
-        $dir_handle=opendir($src);
-        while($file=readdir($dir_handle)){
-            if($file!="." && $file!=".."){
-                if(is_dir($src."/".$file)){
-                    if(!is_dir($dst."/".$file)){
-                        recursive_mkdir($dst."/".$file);
+function r_mvdir($src, $dst)
+{
+    if (is_dir($src)) {
+        $dirHandle = opendir($src);
+        while ($file = readdir($dirHandle)) {
+            if ($file != "." && $file != "..") {
+                if (is_dir($src . "/" . $file)) {
+                    if (!is_dir($dst . "/" . $file)) {
+                        recursive_mkdir($dst . "/" . $file);
                     }
-                    if(!r_mvdir($src."/".$file, $dst."/".$file)){
+                    if (!r_mvdir($src . "/" . $file, $dst . "/" . $file)) {
                         return false;
                     }
                 } else {
-                    if(!copy($src."/".$file, $dst."/".$file)){
+                    if (!copy($src . "/" . $file, $dst . "/" . $file)) {
                         return false;
                     }
                 }
             }
         }
-        closedir($dir_handle);
+        closedir($dirHandle);
     } else {
-        if(!copy($src, $dst)){
+        if (!copy($src, $dst)) {
             return false;
         }
     }
     return true;
 }
 
-function minifyCss($css){
+function minifyCss($css)
+{
     // Remove comments
     $css = preg_replace('!/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $css);
 
@@ -75,7 +80,9 @@ function minifyCss($css){
     return $css;
 }
 
-function minifyJs($js){ // NOT WORKING, DO NOT USE
+function minifyJs($js)
+{
+    // NOT WORKING, DO NOT USE
     // Remove comments
     $js = preg_replace('/(?:(?:\/\*(?:[^*]|(?:\*+[^*\/]))*\*+\/)|(?:(?<!\:|\\\|\'|\")\/\/.*))/', '', $js);
 
@@ -94,12 +101,12 @@ function minifyJs($js){ // NOT WORKING, DO NOT USE
     return $js;
 }
 
-function formatNumber($num, $size, $padded = false){
+function formatNumber($num, $size, $padded = false)
+{
 
-    if($size > strlen($num) && $padded) {
+    if ($size > strlen($num) && $padded) {
         $padded = str_pad($num, $size, '0', STR_PAD_LEFT);
-    }
-    else{
+    } else {
         $padded = substr($num, -$size);
     }
 
