@@ -10,11 +10,11 @@ class Zeapps_users extends ZeModel {
 
     public function getUserByToken($token_user) {
         if (gettype($token_user) == 'string') {
-            $this->load->model("Zeapps_token", "token");
+            $this->_pLoad->model("Zeapps_token", "token");
 
             // supprime tous les token qui sont dépassés
             $where = array("date_expire <"=>gmdate("Y-m-d H:i:s")) ;
-            $tokens = $this->load->ctrl->token->all($where) ;
+            $tokens = $this->_pLoad->ctrl->token->all($where) ;
 
 
             if (is_array($tokens) && count($tokens) > 0) {
@@ -24,12 +24,12 @@ class Zeapps_users extends ZeModel {
                 }
 
                 if (count($ids) > 0) {
-                    $this->load->ctrl->token->delete(array('id' => $ids));
+                    $this->_pLoad->ctrl->token->delete(array('id' => $ids));
                 }
             }
 
             // verifie le token
-            $token = $this->load->ctrl->token->findBy_token($token_user) ;
+            $token = $this->_pLoad->ctrl->token->findBy_token($token_user) ;
 
             if ($token && isset($token[0])) {
                 return $this->findBy_id($token[0]->id_user) ;
@@ -56,7 +56,7 @@ class Zeapps_users extends ZeModel {
 
 
 
-        $this->load->model("Zeapps_token", "token");
+        $this->_pLoad->model("Zeapps_token", "token");
 
 
         $where = array() ;
@@ -71,7 +71,7 @@ class Zeapps_users extends ZeModel {
 
                 $where = array() ;
                 $where["token"] = $tokenGenerated ;
-                $tokens = $this->load->ctrl->token->all($where) ;
+                $tokens = $this->_pLoad->ctrl->token->all($where) ;
 
                 if ($tokens && count($tokens) > 0) {
                     $token = "" ;

@@ -4,15 +4,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class ZeModel
 {
     public static $_load = null ;
-    protected $load = null ;
+    protected $_pLoad = null ;
     public static $_dbConfig = null ;
-    protected $dbConfig = null ;
+    protected $_pDbConfig = null ;
     private $_ctrl = null;
     private $_db = null ;
     protected $_tableName = '' ;
     protected $_fields = array() ;
-    protected $_primary_key = null ;
-    private $safeDelete = false ;
+    protected $_primaryKey = null ;
+    private $_safeDelete = false ;
 
     private $_orderBy = [] ;
     private $_limit = -1 ;
@@ -20,13 +20,13 @@ class ZeModel
 
     public function __construct($dbConfig = "default")
     {
-        $this->load = self::$_load ;
+        $this->_pLoad = self::$_load ;
 
         if (self::$_dbConfig == null) {
             self::$_dbConfig = $dbConfig ;
         }
 
-        $this->dbConfig = self::$_dbConfig ;
+        $this->_pDbConfig = self::$_dbConfig ;
 
         if ($this->_tableName == '') {
             $this->_tableName = str_replace('_model', '', strtolower(get_class($this)));
@@ -41,12 +41,12 @@ class ZeModel
             $this->$field = null ;
         }
 
-        $this->_primary_key = $this->database()->table($this->_tableName)->getPrimaryKey();
+        $this->_primaryKey = $this->database()->table($this->_tableName)->getPrimaryKey();
 
         // check if table is safe delete
         foreach ($this->_fields as $field) {
             if ($field == 'deleted_at') {
-                $this->safeDelete = true ;
+                $this->_safeDelete = true ;
             }
         }
     }
@@ -121,7 +121,7 @@ class ZeModel
             $db->limit($this->_limit, $this->_limitOffset);
         }
 
-        if ($this->safeDelete) {
+        if ($this->_safeDelete) {
             $where["deleted_at"] = null ;
         }
 
@@ -137,7 +137,7 @@ class ZeModel
         $where = $this->_formatWhere($where);
         if (count($where) >= 1) {
 
-            if ($this->safeDelete) {
+            if ($this->_safeDelete) {
                 $where["deleted_at"] = null ;
             }
 
@@ -157,7 +157,7 @@ class ZeModel
     {
         $where = $this->_formatWhere($where);
         if (count($where) >= 1) {
-            if ($forceDelete || $this->safeDelete == false) {
+            if ($forceDelete || $this->_safeDelete == false) {
                 $this->database()->clearSql();
                 return $this->database()->table($this->_tableName)->delete($where);
             } else {
@@ -166,7 +166,8 @@ class ZeModel
                 return $this->update($data, $where);
             }
         } else {
-            throw new Exception("Please pass a condition to the delete function (either value(s) 
+            throw new Exception(
+                "Please pass a condition to the delete function (either value(s) 
             corresponding to the primary key, or an array)"
             );
         }
@@ -279,18 +280,18 @@ class ZeModel
 
 
         // check if find update_at field
-        $updated_at_find = false ;
+        $updatedAtFind = false ;
 
         foreach ($fieldToUpdate as $field) {
             if ($field == "updated_at") {
-                $updated_at_find = true ;
+                $updatedAtFind = true ;
                 $this->$field = date("Y-m-d H:i:s");
             }
 
             $pdoStat->updateNewField($field, $this->$field);
         }
 
-        if ($updated_at_find == false) {
+        if ($updatedAtFind == false) {
             foreach ($this->_fields as $field) {
                 if ($field == "updated_at") {
                     $this->$field = date("Y-m-d H:i:s");
@@ -351,7 +352,7 @@ class ZeModel
 
             $where = array($columnName => $arguments[0]);
 
-            if ($this->safeDelete) {
+            if ($this->_safeDelete) {
                 $where["deleted_at"] = null ;
             }
 
@@ -370,7 +371,7 @@ class ZeModel
         if (isset($arguments[0])) {
             $where = array($columnName => $arguments[0]);
 
-            if ($this->safeDelete) {
+            if ($this->_safeDelete) {
                 $where["deleted_at"] = null ;
             }
 
@@ -399,8 +400,8 @@ class ZeModel
     private function _formatWhere($where)
     {
         if (!is_array($where) || is_int(key($where))) {
-            if ($this->_primary_key) {
-                return array($this->_primary_key => $where);
+            if ($this->_primaryKey) {
+                return array($this->_primaryKey => $where);
             } else {
                 throw new Exception('No primary key defined in table : ' . $this->_tableName);
             }
