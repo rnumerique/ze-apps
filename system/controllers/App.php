@@ -178,8 +178,10 @@ class App extends ZeCtrl
                                 ) {
                                     $i8n[$lang][$this->_modules[$i]->module_id] = [];
                                 }
-                                $filecontent = preg_replace(array('/\t/', '/\r/'), '',
-                                    file_get_contents($fileJS));
+                                $filecontent = preg_replace(
+                                    array('/\t/', '/\r/'), '',
+                                    file_get_contents($fileJS)
+                                );
 
                                 $arr = preg_split('/\n/', $filecontent);
 
