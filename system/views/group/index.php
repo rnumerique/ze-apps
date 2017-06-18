@@ -24,12 +24,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <tbody>
                 <tr ng-repeat="group in groups">
                     <td><a href="/ng/com_zeapps/groups/view/{{group.id}}">{{group.name}}</a></td>
-                    <td><button type="button" class="btn btn-danger btn-sm" ng-click="delete(group.id)" i8n="Supprimer"></button></td>
+                    <td>
+                        <button type="button" class="btn btn-danger btn-sm" ng-click="delete(group.id)"
+                                i8n="Supprimer"></button>
+                    </td>
                 </tr>
                 </tbody>
             </table>
         </div>
     </div>
-
-
 </div>
