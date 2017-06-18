@@ -40,8 +40,8 @@ function recursive_mkdir($dirName)
 function r_mvdir($src, $dst)
 {
     if (is_dir($src)) {
-        $dir_handle = opendir($src);
-        while ($file = readdir($dir_handle)) {
+        $dirHandle = opendir($src);
+        while ($file = readdir($dirHandle)) {
             if ($file != "." && $file != "..") {
                 if (is_dir($src . "/" . $file)) {
                     if (!is_dir($dst . "/" . $file)) {
@@ -57,7 +57,7 @@ function r_mvdir($src, $dst)
                 }
             }
         }
-        closedir($dir_handle);
+        closedir($dirHandle);
     } else {
         if (!copy($src, $dst)) {
             return false;
@@ -81,7 +81,8 @@ function minifyCss($css)
 }
 
 function minifyJs($js)
-{ // NOT WORKING, DO NOT USE
+{
+    // NOT WORKING, DO NOT USE
     // Remove comments
     $js = preg_replace('/(?:(?:\/\*(?:[^*]|(?:\*+[^*\/]))*\*+\/)|(?:(?<!\:|\\\|\'|\")\/\/.*))/', '', $js);
 
