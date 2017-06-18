@@ -3,7 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class App extends ZeCtrl
 {
-    private $modules = [];
+    private $_modules = [];
 
     public function index()
     {
@@ -52,7 +52,7 @@ class App extends ZeCtrl
     private function appLoading()
     {
         $this->load->model("Zeapps_modules", "module");
-        $this->modules = $this->module->all(array('active' => '1'));
+        $this->_modules = $this->module->all(array('active' => '1'));
 
         $this->loadCache();
 
@@ -152,11 +152,11 @@ class App extends ZeCtrl
             }
         }
 
-        if ($this->modules && is_array($this->modules)) {
+        if ($this->_modules && is_array($this->_modules)) {
             $folderApp = MODULEPATH;
 
-            for ($i = 0; $i < sizeof($this->modules); $i++) {
-                $folderModule = $folderApp . $this->modules[$i]->module_id;
+            for ($i = 0; $i < sizeof($this->_modules); $i++) {
+                $folderModule = $folderApp . $this->_modules[$i]->module_id;
 
 
                 $folderLangs = $folderModule . "/language";
@@ -173,10 +173,10 @@ class App extends ZeCtrl
                                 if (!isset($i8n[$lang]) || !is_array($i8n[$lang])) {
                                     $i8n[$lang] = [];
                                 }
-                                if (!isset($i8n[$lang][$this->modules[$i]->module_id])
-                                    || !is_array($i8n[$lang][$this->modules[$i]->module_id])
+                                if (!isset($i8n[$lang][$this->_modules[$i]->module_id])
+                                    || !is_array($i8n[$lang][$this->_modules[$i]->module_id])
                                 ) {
-                                    $i8n[$lang][$this->modules[$i]->module_id] = [];
+                                    $i8n[$lang][$this->_modules[$i]->module_id] = [];
                                 }
                                 $filecontent = preg_replace(array('/\t/', '/\r/'), '',
                                     file_get_contents($fileJS));
@@ -188,7 +188,7 @@ class App extends ZeCtrl
                                         $trad = explode('=>', $arr[$index], 2);
                                     }
                                     if (is_array($trad) && sizeof($trad) == 2) {
-                                        $idModule = $this->modules[$i]->module_id;
+                                        $idModule = $this->_modules[$i]->module_id;
                                         $i8n[$lang][$idModule][strtolower(trim($trad[0]))] = trim($trad[1]);
                                     }
                                 }
@@ -219,9 +219,9 @@ class App extends ZeCtrl
         }
 
 
-        if ($this->modules && is_array($this->modules)) {
-            for ($i = 0; $i < sizeof($this->modules); $i++) {
-                $folderModule = MODULEPATH . $this->modules[$i]->module_id;
+        if ($this->_modules && is_array($this->_modules)) {
+            for ($i = 0; $i < sizeof($this->_modules); $i++) {
+                $folderModule = MODULEPATH . $this->_modules[$i]->module_id;
                 if (is_dir($folderModule)) {
                     $folderAngularJs = $folderModule . "/angularjs";
 
@@ -257,9 +257,9 @@ class App extends ZeCtrl
         }
 
 
-        if ($this->modules && is_array($this->modules)) {
-            for ($i = 0; $i < sizeof($this->modules); $i++) {
-                $folderModule = MODULEPATH . $this->modules[$i]->module_id;
+        if ($this->_modules && is_array($this->_modules)) {
+            for ($i = 0; $i < sizeof($this->_modules); $i++) {
+                $folderModule = MODULEPATH . $this->_modules[$i]->module_id;
                 if (is_dir($folderModule)) {
                     $folderCss = $folderModule . "/assets/css";
 
@@ -294,9 +294,9 @@ class App extends ZeCtrl
         }
 
 
-        if ($this->modules && is_array($this->modules)) {
-            for ($i = 0; $i < sizeof($this->modules); $i++) {
-                $folderModule = MODULEPATH . $this->modules[$i]->module_id;
+        if ($this->_modules && is_array($this->_modules)) {
+            for ($i = 0; $i < sizeof($this->_modules); $i++) {
+                $folderModule = MODULEPATH . $this->_modules[$i]->module_id;
                 if (is_dir($folderModule)) {
                     $folderCss = $folderModule . "/assets/js";
 
@@ -350,11 +350,11 @@ class App extends ZeCtrl
             }
         }
 
-        if ($this->modules && is_array($this->modules)) {
+        if ($this->_modules && is_array($this->_modules)) {
             $folderApp = MODULEPATH;
             if ($folder = opendir($folderApp)) {
-                for ($i = 0; $i < sizeof($this->modules); $i++) {
-                    $folderModule = $folderApp . $this->modules[$i]->module_id;
+                for ($i = 0; $i < sizeof($this->_modules); $i++) {
+                    $folderModule = $folderApp . $this->_modules[$i]->module_id;
                     if (is_dir($folderModule) && $folderItem != '.' && $folderItem != '..') {
                         $folderImagesFile = $folderModule . "/assets/images";
                         if (is_dir($folderImagesFile)) {
@@ -441,10 +441,10 @@ class App extends ZeCtrl
         $menuEssential = array();
 
 
-        if ($this->modules && is_array($this->modules)) {
+        if ($this->_modules && is_array($this->_modules)) {
             // charge tous les fichiers de conf des menus
-            for ($i = 0; $i < sizeof($this->modules); $i++) {
-                $folderModule = MODULEPATH . $this->modules[$i]->module_id;
+            for ($i = 0; $i < sizeof($this->_modules); $i++) {
+                $folderModule = MODULEPATH . $this->_modules[$i]->module_id;
 
                 if (is_file($folderModule . '/config/menu.php')) {
                     require_once $folderModule . '/config/menu.php';
@@ -483,10 +483,10 @@ class App extends ZeCtrl
         }
 
         if ($maxOrder >= 0) {
-            for ($i_element_menu = 0; $i_element_menu <= $maxOrder; $i_element_menu++) {
+            for ($iElementMenu = 0; $iElementMenu <= $maxOrder; $iElementMenu++) {
                 foreach ($menuEssential as $menuItem) {
                     if (isset($menuItem["order"])) {
-                        if ($menuItem["order"] == $i_element_menu) {
+                        if ($menuItem["order"] == $iElementMenu) {
                             $data[] = $menuItem;
                         }
                     }
@@ -504,16 +504,16 @@ class App extends ZeCtrl
         // charges les différents menus
         $data = array();
         if (isset($space)) {
-            foreach ($space as $space_item) {
+            foreach ($space as $spaceItem) {
                 $dataMenu = array();
-                $dataMenu["info"] = $space_item;
+                $dataMenu["info"] = $spaceItem;
                 $dataMenu["item"] = array();
 
                 // calcul le numero ordre le plus élevé
                 $maxOrder = -1;
                 foreach ($menuLeft as $menuLeftItem) {
                     if (isset($menuLeftItem["space"]) && isset($menuLeftItem["order"])) {
-                        if ($menuLeftItem["space"] == $space_item["id"] && $menuLeftItem["order"] > $maxOrder) {
+                        if ($menuLeftItem["space"] == $spaceItem["id"] && $menuLeftItem["order"] > $maxOrder) {
                             $maxOrder = $menuLeftItem["order"];
                         }
                     }
@@ -523,7 +523,7 @@ class App extends ZeCtrl
                     for ($i = 0; $i <= $maxOrder; $i++) {
                         foreach ($menuLeft as $menuLeftItem) {
                             if (isset($menuLeftItem["space"]) && isset($menuLeftItem["order"])) {
-                                if ($menuLeftItem["space"] == $space_item["id"] && $menuLeftItem["order"] == $i) {
+                                if ($menuLeftItem["space"] == $spaceItem["id"] && $menuLeftItem["order"] == $i) {
                                     $dataMenu["item"][] = $menuLeftItem;
                                 }
                             }
@@ -565,10 +565,10 @@ class App extends ZeCtrl
             }
 
             if ($maxOrderCol >= 0) {
-                for ($i_order_space = 0; $i_order_space <= $maxOrderCol; $i_order_space++) {
+                for ($iOrderSpace = 0; $iOrderSpace <= $maxOrderCol; $iOrderSpace++) {
                     foreach ($space as $spaceItem) {
                         if (isset($spaceItem["menu-header"]["col"]) && isset($spaceItem["menu-header"]["order"])) {
-                            if ($i_order_space == $spaceItem["menu-header"]["order"]
+                            if ($iOrderSpace == $spaceItem["menu-header"]["order"]
                                 && $spaceItem["menu-header"]["col"] == $col
                             ) {
 
