@@ -11,8 +11,8 @@ class ZeQuery
     private $_table = "";
     private $_join = "";
     private $_where = "";
-    private $_group_by = "";
-    private $_order_by = [];
+    private $_groupBy = "";
+    private $_orderBy = [];
     private $_limit = "";
     private $_query = "";
     private $_valueQuery = array();
@@ -39,8 +39,8 @@ class ZeQuery
         $this->_table = "";
         $this->_join = "";
         $this->_where = "";
-        $this->_group_by = "";
-        $this->_order_by = [];
+        $this->_groupBy = "";
+        $this->_orderBy = [];
         $this->_limit = "";
         $this->_query = "";
         $this->_insertFieldName = "";
@@ -147,11 +147,11 @@ class ZeQuery
                 $this->_where .= $key . " IS NULL ";
             } elseif (is_array($value)) {
                 $stringValue = "";
-                foreach ($value as $value_content) {
+                foreach ($value as $valueContent) {
                     if ($stringValue != '') {
                         $stringValue .= ", ";
                     }
-                    $stringValue .= "'" . $value_content . "'";
+                    $stringValue .= "'" . $valueContent . "'";
                 }
                 $this->_where .= $key . " IN (" . $stringValue . ") ";
             } elseif (strpos($key, "<") || strpos($key, ">")) {
@@ -184,11 +184,11 @@ class ZeQuery
                 $this->_where .= $key . " IS NOT NULL ";
             } elseif (is_array($value)) {
                 $stringValue = "";
-                foreach ($value as $value_content) {
+                foreach ($value as $valueContent) {
                     if ($stringValue != '') {
                         $stringValue .= ", ";
                     }
-                    $stringValue .= "'" . $value_content . "'";
+                    $stringValue .= "'" . $valueContent . "'";
                 }
                 $this->_where .= $key . " NOT IN (" . $stringValue . ") ";
             } else {
@@ -201,7 +201,7 @@ class ZeQuery
 
     public function group_by($argString)
     {
-        $this->_group_by = $argString;
+        $this->_groupBy = $argString;
 
         return $this;
     }
@@ -212,15 +212,15 @@ class ZeQuery
             reset($fields);
             if (is_int(key($fields))) { // SIMPLE ARRAY [column1, column2, ...]
                 foreach ($fields as $field) {
-                    $this->_order_by[$field] = $order;
+                    $this->_orderBy[$field] = $order;
                 }
             } else { // ASSOCIATIVE ARRAY [column1 => order1, column2 => order2, ...]
                 foreach ($fields as $field => $order) {
-                    $this->_order_by[$field] = $order;
+                    $this->_orderBy[$field] = $order;
                 }
             }
         } else { // FIELDS IS A STRING (faster way to write it if you want to pass a single value)
-            $this->_order_by[$fields] = $order;
+            $this->_orderBy[$fields] = $order;
         }
 
         return $this;
@@ -277,12 +277,12 @@ class ZeQuery
 
         $this->_cast($sth);
 
-        $last_id = $this->_dbPDO->lastInsertId();
+        $lastId = $this->_dbPDO->lastInsertId();
 
-        if (is_numeric($last_id))
-            $last_id = intval($last_id);
+        if (is_numeric($lastId))
+            $lastId = intval($lastId);
 
-        return $last_id ?: false;
+        return $lastId ?: false;
     }
 
     public function update()
@@ -322,7 +322,15 @@ class ZeQuery
                     }
                 }
                 $trace .= '</table>';
-                echo '<br /><br /><br /><fieldset style="width: 66%; border: 4px solid white; background: black;"><legend><b>[</b>PHP PDO Error ' . strval($err->getCode()) . '<b>]</b></legend> <table border="0"><tr><td align="right"><b><u>Message:</u></b></td><td><i>' . $err->getMessage() . '</i></td></tr><tr><td align="right"><b><u>Code:</u></b></td><td><i>' . strval($err->getCode()) . '</i></td></tr><tr><td align="right"><b><u>File:</u></b></td><td><i>' . $err->getFile() . '</i></td></tr><tr><td align="right"><b><u>Line:</u></b></td><td><i>' . strval($err->getLine()) . '</i></td></tr><tr><td align="right"><b><u>Trace:</u></b></td><td><br /><br />' . $trace . '</td></tr></table></fieldset>';
+                echo '<br /><br /><br /><fieldset style="width: 66%; border: 4px solid white; background: black;">' ;
+                echo '<legend><b>[</b>PHP PDO Error ' . strval($err->getCode()) . '<b>]</b></legend>' ;
+                echo '<table border="0"><tr><td align="right"><b><u>Message:</u></b></td><td><i>' ;
+                echo $err->getMessage() . '</i></td></tr><tr><td align="right"><b><u>Code:</u></b></td>' ;
+                echo '<td><i>' . strval($err->getCode()) . '</i></td></tr>' ;
+                echo '<tr><td align="right"><b><u>File:</u></b></td><td><i>' . $err->getFile() . '</i></td></tr>' ;
+                echo '<tr><td align="right"><b><u>Line:</u></b></td><td><i>' . strval($err->getLine()) ;
+                echo '</i></td></tr><tr><td align="right"><b><u>Trace:</u></b></td>' ;
+                echo '<td><br /><br />' . $trace . '</td></tr></table></fieldset>';
                 return false;
             }
         } else {
@@ -343,13 +351,13 @@ class ZeQuery
             $this->_query .= "WHERE " . $this->_where . " ";
         }
 
-        if ($this->_group_by != '') {
-            $this->_query .= "GROUP BY " . $this->_group_by . " ";
+        if ($this->_groupBy != '') {
+            $this->_query .= "GROUP BY " . $this->_groupBy . " ";
         }
 
-        if ($this->_order_by != []) {
+        if ($this->_orderBy != []) {
             $this->_query .= 'ORDER BY ';
-            foreach ($this->_order_by as $column => $order) {
+            foreach ($this->_orderBy as $column => $order) {
                 $this->_query .= $column . " " . $order . ", ";
             }
             $this->_query = rtrim($this->_query, ', ') . ' ';
