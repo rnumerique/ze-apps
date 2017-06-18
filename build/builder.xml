@@ -94,10 +94,11 @@
 	    <exec executable="phpcs" output="/dev/null">
 	      <arg value="--report=checkstyle" />
 	      <arg value="--report-file=${project.basedir}/${source}/build/logs/checkstyle.xml" />
-	      <arg value="--standard=Symfony2" />
+	      <arg value="--standard=Zend" />
 	      <arg path="${project.basedir}/${source}/" />
 	    </exec>
 	</target>
+	build/logs/checkstyle.xml
 
 
 
