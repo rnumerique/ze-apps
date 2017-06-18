@@ -88,7 +88,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <ul class="nav">
 
                 <?php foreach ($menuEssential as $menuItem) { ?>
-                    <li><a href="<?php echo $menuItem["url"]; ?>"><span i8n="<?php echo $menuItem["label"]; ?>"></span></a>
+                    <li>
+                        <a href="<?php echo $menuItem["url"]; ?>">
+                            <span i8n="<?php echo $menuItem["label"]; ?>"></span>
+                        </a>
                     </li>
                 <?php } ?>
 
@@ -172,9 +175,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </span>
 
                     <span ng-click="toggleDropdown()" class="pointer">
-                     {{user.firstname[0] +'. '+user.lastname}} <span class="fa fa-fw"
-                                                                     ng-class="dropdown ? 'fa-caret-up' : 'fa-caret-down'"
-                                                                     aria-hidden="true"></span>
+                     {{user.firstname[0] +'. '+user.lastname}}
+                        <span class="fa fa-fw" ng-class="dropdown ? 'fa-caret-up' : 'fa-caret-down'"
+                              aria-hidden="true"></span>
                     </span>
 
                 </div>
@@ -196,7 +199,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <?php foreach ($menuLeft as $menuSpace) { ?>
             <div ng-show="menu == '<?php echo $menuSpace["info"]["id"]; ?>'?true:false" class="app-sale">
                 <div class="title-app" ng-click="toggleMenuSize()">
-                    <span class="fa fa-fw fa-<?php echo isset($menuSpace["info"]["fa-icon"]) ? $menuSpace["info"]["fa-icon"] : 'font-awesome'; ?>"></span>
+                    <span class="fa fa-fw fa-<?php echo isset($menuSpace["info"]["fa-icon"]) ?
+                        $menuSpace["info"]["fa-icon"] :
+                        'font-awesome'; ?>"></span>
                     <span class="menu_title" i8n="<?php echo $menuSpace["info"]["name"]; ?>"></span>
                 </div>
                 <div>
@@ -204,7 +209,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <?php foreach ($menuSpace["item"] as $menuItem) { ?>
                             <li ng-class="menu_active == '<?php echo $menuItem["id"]; ?>' ? 'active' :''">
                                 <a href="<?php echo $menuItem["url"]; ?>">
-                                    <span class="fa fa-fw fa-<?php echo isset($menuItem["fa-icon"]) ? $menuItem["fa-icon"] : 'font-awesome'; ?>"
+                                    <span class="fa fa-fw fa-<?php echo isset($menuItem["fa-icon"]) ?
+                                        $menuItem["fa-icon"] :
+                                        'font-awesome'; ?>"
                                           aria-hidden="true"></span>
                                     <span class="menu_item" i8n="<?php echo $menuItem["label"]; ?>"></span>
                                 </a>
