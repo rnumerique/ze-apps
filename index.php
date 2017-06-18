@@ -1,6 +1,9 @@
 <?php
-define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ?
-    $_SERVER['CI_ENV'] : 'development');
+define(
+    'ENVIRONMENT',
+    isset($_SERVER['CI_ENV']) ?
+        $_SERVER['CI_ENV'] : 'development'
+);
 
 switch (ENVIRONMENT) {
     case 'development':
@@ -39,10 +42,10 @@ if (($systemRealPath = realpath($systemPath)) !== FALSE) {
 } else {
     // Ensure there's a trailing slash
     $systemPath = strtr(
-        rtrim($systemPath, '/\\'),
-        '/\\',
-        DIRECTORY_SEPARATOR . DIRECTORY_SEPARATOR
-    ) . DIRECTORY_SEPARATOR;
+            rtrim($systemPath, '/\\'),
+            '/\\',
+            DIRECTORY_SEPARATOR . DIRECTORY_SEPARATOR
+        ) . DIRECTORY_SEPARATOR;
 }
 
 // Is the system path correct?
@@ -77,34 +80,34 @@ require_once FCPATH . 'autoload.php';
 $routeur = new ZeRouteur();
 
 // charge le controller
-    if ($routeur->module == 'ng') {
-        // All /ng/* urls are angular urls, so we load the app and let angular deal with it
-        $controllerPath = BASEPATH . 'controllers/App.php';
-        $routeur->controller = 'App';
-        $routeur->function = 'index';
-    } elseif ($routeur->module == 'zeapps') {
-        // App core controllers
-        $controllerPath = BASEPATH . 'controllers/' . ucfirst($routeur->controller) . '.php';
-    } else {
-        $controllerPath = MODULEPATH . $routeur->module . '/controllers/' . ucfirst($routeur->controller) . '.php';
-    }
+if ($routeur->module == 'ng') {
+    // All /ng/* urls are angular urls, so we load the app and let angular deal with it
+    $controllerPath = BASEPATH . 'controllers/App.php';
+    $routeur->controller = 'App';
+    $routeur->function = 'index';
+} elseif ($routeur->module == 'zeapps') {
+    // App core controllers
+    $controllerPath = BASEPATH . 'controllers/' . ucfirst($routeur->controller) . '.php';
+} else {
+    $controllerPath = MODULEPATH . $routeur->module . '/controllers/' . ucfirst($routeur->controller) . '.php';
+}
 
 // verifie que le controller existe
-    if (is_file($controllerPath)) {
-        require_once $controllerPath;
+if (is_file($controllerPath)) {
+    require_once $controllerPath;
 
-        $ctrlName = ucfirst($routeur->controller);
-        $controller = new $ctrlName();
+    $ctrlName = ucfirst($routeur->controller);
+    $controller = new $ctrlName();
 
-        if (method_exists($ctrlName, $routeur->function)) {
-            call_user_func_array(array($controller, $routeur->function), $routeur->params);
-        } else {
-            header('HTTP/1.1 404 Not Found', TRUE, 404);
-            echo 'Page Not Found. Unknow function';
-            exit(1); // EXIT_ERROR
-        }
+    if (method_exists($ctrlName, $routeur->function)) {
+        call_user_func_array(array($controller, $routeur->function), $routeur->params);
     } else {
         header('HTTP/1.1 404 Not Found', TRUE, 404);
-        echo 'Page Not Found. Unknow controller';
+        echo 'Page Not Found. Unknow function';
         exit(1); // EXIT_ERROR
     }
+} else {
+    header('HTTP/1.1 404 Not Found', TRUE, 404);
+    echo 'Page Not Found. Unknow controller';
+    exit(1); // EXIT_ERROR
+}
