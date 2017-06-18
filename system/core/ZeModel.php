@@ -33,7 +33,7 @@ class ZeModel
         }
 
         // get all fields
-        $this->_fields = $this->database()->table($this->_table_name)->getColumnName() ;
+        $this->_fields = $this->database()->table($this->_table_name)->getColumnName();
 
 
         // define all fields
@@ -41,7 +41,7 @@ class ZeModel
             $this->$field = null ;
         }
 
-        $this->_primary_key = $this->database()->table($this->_table_name)->getPrimaryKey() ;
+        $this->_primary_key = $this->database()->table($this->_table_name)->getPrimaryKey();
 
         // check if table is safe delete
         foreach ($this->_fields as $field) {
@@ -92,7 +92,7 @@ class ZeModel
     public function setDb($dbConfig)
     {
         self::$_dbConfig = $dbConfig ;
-        $this->database()->setDb($dbConfig) ;
+        $this->database()->setDb($dbConfig);
     }
 
 
@@ -100,7 +100,7 @@ class ZeModel
     {
         // open connexion if necessary
         if ($this->_db == null) {
-            $this->_db = new ZeQuery() ;
+            $this->_db = new ZeQuery();
             $this->_db->setDb() ;
         }
 
@@ -109,16 +109,16 @@ class ZeModel
 
     public function all($where = array())
     {
-        $this->database()->clearSql() ;
+        $this->database()->clearSql();
 
-        $db = $this->database()->table($this->_table_name) ;
+        $db = $this->database()->table($this->_table_name);
 
         if ($this->_order_by != []) {
-            $db->order_by($this->_order_by) ;
+            $db->order_by($this->_order_by);
         }
 
         if ($this->_limit != -1) {
-            $db->limit($this->_limit, $this->_limit_offset) ;
+            $db->limit($this->_limit, $this->_limit_offset);
         }
 
         if ($this->safeDelete) {
@@ -128,12 +128,12 @@ class ZeModel
         // to forget "order by" & "limit" for next query
         $this->clearSql() ;
 
-        return $db->where($where)->result() ;
+        return $db->where($where)->result();
     }
 
     public function get($where)
     {
-        $this->database()->clearSql() ;
+        $this->database()->clearSql();
         $where = $this->_formatWhere($where);
         if (count($where) >= 1) {
 
@@ -141,17 +141,9 @@ class ZeModel
                 $where["deleted_at"] = null ;
             }
 
-            $result = $this->database()->table($this->_table_name)->where($where)->result() ;
+            $result = $this->database()->table($this->_table_name)->where($where)->result();
 
             if ($result && count($result) == 1) {
-                /*foreach ($this->_fields as $field) {
-                    if (isset($result[0]->$field)) {
-                        $this->$field = $result[0]->$field ;
-                    } else {
-                        $this->$field = null ;
-                    }
-                }*/
-
                 return $result[0] ;
             } else {
                 return false ;
@@ -174,19 +166,20 @@ class ZeModel
                 return $this->update($data, $where);
             }
         } else {
-            throw new Exception("Please pass a condition to the delete function (either value(s) corresponding to the primary key, or an array)");
+            throw new Exception("Please pass a condition to the delete function (either value(s) 
+            corresponding to the primary key, or an array)");
         }
     }
 
     /*public function save() {
-        $this->database()->clearSql() ;
+        $this->database()->clearSql();
 
         if ($this->_primary_key) {
             $primaryKey = $this->_primary_key ;
             if ($this->$primaryKey) {
-                return $this->update(null, array($primaryKey=>$this->$primaryKey)) ;
+                return $this->update(null, array($primaryKey=>$this->$primaryKey));
             } else {
-                return $this->insert() ;
+                return $this->insert();
             }
         } else {
             throw new Exception('No primary key defined in table : ' . $this->_table_name);
@@ -195,9 +188,9 @@ class ZeModel
 
     public function insert($objData = null)
     {
-        $this->database()->clearSql() ;
+        $this->database()->clearSql();
 
-        $pdoStat = $this->database()->table($this->_table_name) ;
+        $pdoStat = $this->database()->table($this->_table_name);
 
         $fieldToUpdate = $this->_fields ;
 
@@ -213,7 +206,7 @@ class ZeModel
             }
             // copie all data to object if array
         } elseif (is_array($objData)) {
-            $fieldToUpdate = array() ;
+            $fieldToUpdate = array();
 
             foreach ($this->_fields as $field) {
                 if (isset($objData[$field])) {
@@ -239,11 +232,11 @@ class ZeModel
 
         foreach ($this->_fields as $field) {
             if ($field == "created_at") {
-                $this->$field = date("Y-m-d H:i:s") ;
-                $pdoStat->insertNewField($field, $this->$field) ;
+                $this->$field = date("Y-m-d H:i:s");
+                $pdoStat->insertNewField($field, $this->$field);
             } elseif ($field == "updated_at") {
-                $this->$field = date("Y-m-d H:i:s") ;
-                $pdoStat->insertNewField($field, $this->$field) ;
+                $this->$field = date("Y-m-d H:i:s");
+                $pdoStat->insertNewField($field, $this->$field);
             }
         }
 
@@ -252,11 +245,11 @@ class ZeModel
         return $pdoStat->create();
     }
 
-    public function update($objData = null, $where)
+    public function update($objData = null, $where = null)
     {
-        $this->database()->clearSql() ;
+        $this->database()->clearSql();
 
-        $pdoStat = $this->database()->table($this->_table_name) ;
+        $pdoStat = $this->database()->table($this->_table_name);
 
         $fieldToUpdate = $this->_fields ;
 
@@ -273,7 +266,7 @@ class ZeModel
             }
             // copie all data to object if array
         } elseif (is_array($objData)) {
-            $fieldToUpdate = array() ;
+            $fieldToUpdate = array();
 
             foreach ($this->_fields as $field) {
                 if (isset($objData[$field])) {
@@ -290,24 +283,24 @@ class ZeModel
         foreach ($fieldToUpdate as $field) {
             if ($field == "updated_at") {
                 $updated_at_find = true ;
-                $this->$field = date("Y-m-d H:i:s") ;
+                $this->$field = date("Y-m-d H:i:s");
             }
 
-            $pdoStat->updateNewField($field, $this->$field) ;
+            $pdoStat->updateNewField($field, $this->$field);
         }
 
         if ($updated_at_find == false) {
             foreach ($this->_fields as $field) {
                 if ($field == "updated_at") {
-                    $this->$field = date("Y-m-d H:i:s") ;
-                    $pdoStat->updateNewField($field, $this->$field) ;
+                    $this->$field = date("Y-m-d H:i:s");
+                    $pdoStat->updateNewField($field, $this->$field);
                 }
             }
         }
 
         $where = $this->_formatWhere($where);
 
-        $pdoStat->where($where) ;
+        $pdoStat->where($where);
 
         // effectue la mise à jour
         return $pdoStat->update();
@@ -324,9 +317,9 @@ class ZeModel
     {
         // search a generic method
         if ($this->startsWith($method, 'findBy_')) {
-            return $this->findBy($method, $arguments) ;
+            return $this->findBy($method, $arguments);
         } elseif ($this->startsWith($method, 'findOneBy_')) {
-            return $this->findOneBy($method, $arguments) ;
+            return $this->findOneBy($method, $arguments);
         } else {
             throw new Exception('Unknown method : ' . $method . ' in model');
         }
@@ -336,32 +329,32 @@ class ZeModel
 
     private function findBy($method, $arguments)
     {
-        $this->database()->clearSql() ;
+        $this->database()->clearSql();
 
-        $columnName = substr($method, strlen('findBy_')) ;
+        $columnName = substr($method, strlen('findBy_'));
 
         if (isset($arguments[0])) {
-            $db = $this->database()->table($this->_table_name) ;
+            $db = $this->database()->table($this->_table_name);
 
             if ($this->_order_by != []) {
-                $db->order_by($this->_order_by) ;
+                $db->order_by($this->_order_by);
             }
 
             if ($this->_limit != -1) {
-                $db->limit($this->_limit, $this->_limit_offset) ;
+                $db->limit($this->_limit, $this->_limit_offset);
             }
 
             // to forget "order by" & "limit" for next query
-            $this->clearSql() ;
+            $this->clearSql();
 
 
-            $where = array($columnName => $arguments[0]) ;
+            $where = array($columnName => $arguments[0]);
 
             if ($this->safeDelete) {
                 $where["deleted_at"] = null ;
             }
 
-            return $db->where($where)->result() ;
+            return $db->where($where)->result();
         } else {
             return null ;
         }
@@ -369,19 +362,19 @@ class ZeModel
 
     private function findOneBy($method, $arguments)
     {
-        $this->database()->clearSql() ;
+        $this->database()->clearSql();
 
-        $columnName = substr($method, strlen('findOneBy_')) ;
+        $columnName = substr($method, strlen('findOneBy_'));
 
         if (isset($arguments[0])) {
-            $where = array($columnName => $arguments[0]) ;
+            $where = array($columnName => $arguments[0]);
 
             if ($this->safeDelete) {
                 $where["deleted_at"] = null ;
             }
 
 
-            $result = $this->database()->table($this->_table_name)->limit(1)->where($where)->result() ;
+            $result = $this->database()->table($this->_table_name)->limit(1)->where($where)->result();
 
             if ($result && count($result) == 1) {
                 return $result[0] ;
@@ -405,7 +398,7 @@ class ZeModel
     private function _formatWhere($where)
     {
         if (!is_array($where) || is_int(key($where))) {
-            if($this->_primary_key) {
+            if ($this->_primary_key) {
                 return array($this->_primary_key => $where);
             } else {
                 throw new Exception('No primary key defined in table : ' . $this->_table_name);
