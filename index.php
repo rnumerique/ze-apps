@@ -42,10 +42,10 @@ if (($systemRealPath = realpath($systemPath)) !== FALSE) {
 } else {
     // Ensure there's a trailing slash
     $systemPath = strtr(
-            rtrim($systemPath, '/\\'),
-            '/\\',
-            DIRECTORY_SEPARATOR . DIRECTORY_SEPARATOR
-        ) . DIRECTORY_SEPARATOR;
+        rtrim($systemPath, '/\\'),
+        '/\\',
+        DIRECTORY_SEPARATOR . DIRECTORY_SEPARATOR
+    ) . DIRECTORY_SEPARATOR;
 }
 
 // Is the system path correct?
