@@ -19,15 +19,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <link rel="stylesheet" href="/assets/css/login.css">
 
     <script>
-        $(window).load(function() {
+        $(window).load(function () {
 
-            var theWindow        = $(window),
-                $bg              = $("#bg"),
-                aspectRatio      = $bg.width() / $bg.height();
+            var theWindow = $(window),
+                $bg = $("#bg"),
+                aspectRatio = $bg.width() / $bg.height();
 
             function resizeBg() {
 
-                if ( (theWindow.width() / theWindow.height()) < aspectRatio ) {
+                if ((theWindow.width() / theWindow.height()) < aspectRatio) {
                     $bg
                         .removeClass()
                         .addClass('bgheight');
@@ -51,7 +51,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 <form action="/zeapps/auth" method="post">
     <div id="form-login">
-        <img src="/assets/images/logo.png" alt="zeapps" />
+        <img src="/assets/images/logo.png" alt="zeapps"/>
         <div class="form-group">
             <label for="exampleInputEmail1" i8n="Login"></label>
             <input type="text" class="form-control" name="email">
@@ -60,7 +60,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <label for="exampleInputPassword1" i8n="Password"></label>
             <input type="password" class="form-control" name="password">
         </div>
-        <a href="#">Mot de passe oublié</a> <button type="submit" class="btn btn-primary pull-right" i8n="Connexion">Connexion</button>
+        <a href="#">Mot de passe oublié</a>
+        <button type="submit" class="btn btn-primary pull-right" i8n="Connexion">Connexion</button>
     </div>
 </form>
 
