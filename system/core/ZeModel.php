@@ -1,7 +1,8 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class ZeModel {
+class ZeModel
+{
     public static $_load = null ;
     protected $load = null ;
     public static $_dbConfig = null ;
@@ -17,7 +18,8 @@ class ZeModel {
     private $_limit = -1 ;
     private $_limit_offset = 0 ;
 
-    public function __construct($dbConfig = "default") {
+    public function __construct($dbConfig = "default")
+    {
         $this->load = self::$_load ;
 
         if (self::$_dbConfig == null) {
@@ -26,7 +28,7 @@ class ZeModel {
 
         $this->dbConfig = self::$_dbConfig ;
 
-        if($this->_table_name == '') {
+        if ($this->_table_name == '') {
             $this->_table_name = str_replace('_model', '', strtolower(get_class($this)));
         }
 
@@ -49,34 +51,35 @@ class ZeModel {
         }
     }
 
-    private function clearSql() {
+    private function clearSql()
+    {
         $this->_order_by = [] ;
         $this->_limit = -1 ;
         $this->_limit_offset = 0 ;
     }
 
-    public function order_by($fields, $order = 'ASC') {
-        if(is_array($fields)){
+    public function order_by($fields, $order = 'ASC')
+    {
+        if (is_array($fields)) {
             reset($fields);
-            if(is_int(key($fields))){ // SIMPLE ARRAY [column1, column2, ...]
+            if (is_int(key($fields))) { // SIMPLE ARRAY [column1, column2, ...]
                 foreach ($fields as $field) {
                     $this->_order_by[$field] = $order;
                 }
-            }
-            else { // ASSOCIATIVE ARRAY [column1 => order1, column2 => order2, ...]
+            } else { // ASSOCIATIVE ARRAY [column1 => order1, column2 => order2, ...]
                 foreach ($fields as $field => $order) {
                     $this->_order_by[$field] = $order;
                 }
             }
-        }
-        else { // FIELDS IS A STRING (faster way to write it if you want to pass a single value)
+        } else { // FIELDS IS A STRING (faster way to write it if you want to pass a single value)
             $this->_order_by[$fields] = $order;
         }
 
         return $this ;
     }
 
-    public function limit($limit, $offset = 0) {
+    public function limit($limit, $offset = 0)
+    {
         $this->_limit = $limit ;
         $this->_limit_offset = $offset ;
 
@@ -86,13 +89,15 @@ class ZeModel {
 
 
 
-    public function setDb($dbConfig) {
+    public function setDb($dbConfig)
+    {
         self::$_dbConfig = $dbConfig ;
         $this->database()->setDb($dbConfig) ;
     }
 
 
-    public function database() {
+    public function database()
+    {
         // open connexion if necessary
         if ($this->_db == null) {
             $this->_db = new ZeQuery() ;
@@ -102,7 +107,8 @@ class ZeModel {
         return $this->_db ;
     }
 
-    public function all($where = array()) {
+    public function all($where = array())
+    {
         $this->database()->clearSql() ;
 
         $db = $this->database()->table($this->_table_name) ;
@@ -125,7 +131,8 @@ class ZeModel {
         return $db->where($where)->result() ;
     }
 
-    public function get($where) {
+    public function get($where)
+    {
         $this->database()->clearSql() ;
         $where = $this->_formatWhere($where);
         if (count($where) >= 1) {
@@ -154,7 +161,8 @@ class ZeModel {
         return null ;
     }
 
-    public function delete($where, $forceDelete = false) {
+    public function delete($where, $forceDelete = false)
+    {
         $where = $this->_formatWhere($where);
         if (count($where) >= 1) {
             if ($forceDelete || $this->safeDelete == false) {
@@ -185,7 +193,8 @@ class ZeModel {
         }
     }*/
 
-    public function insert($objData = null) {
+    public function insert($objData = null)
+    {
         $this->database()->clearSql() ;
 
         $pdoStat = $this->database()->table($this->_table_name) ;
@@ -194,17 +203,16 @@ class ZeModel {
 
         // copie all data to object if object
         if (is_object($objData)) {
-            $fieldToUpdate = array() ;
+            $fieldToUpdate = array();
 
             foreach ($this->_fields as $field) {
                 if (isset($objData->$field)) {
-                    $fieldToUpdate[] = $field ;
-                    $this->$field = $objData->$field ;
+                    $fieldToUpdate[] = $field;
+                    $this->$field = $objData->$field;
                 }
             }
-        }
-        // copie all data to object if array
-        else if (is_array($objData)) {
+            // copie all data to object if array
+        } elseif (is_array($objData)) {
             $fieldToUpdate = array() ;
 
             foreach ($this->_fields as $field) {
@@ -244,7 +252,8 @@ class ZeModel {
         return $pdoStat->create();
     }
 
-    public function update($objData = null, $where) {
+    public function update($objData = null, $where)
+    {
         $this->database()->clearSql() ;
 
         $pdoStat = $this->database()->table($this->_table_name) ;
@@ -254,17 +263,16 @@ class ZeModel {
 
         // copie all data to object if object
         if (is_object($objData)) {
-            $fieldToUpdate = array() ;
+            $fieldToUpdate = array();
 
             foreach ($this->_fields as $field) {
                 if (isset($objData->$field)) {
-                    $fieldToUpdate[] = $field ;
-                    $this->$field = $objData->$field ;
+                    $fieldToUpdate[] = $field;
+                    $this->$field = $objData->$field;
                 }
             }
-        }
-        // copie all data to object if array
-        else if (is_array($objData)) {
+            // copie all data to object if array
+        } elseif (is_array($objData)) {
             $fieldToUpdate = array() ;
 
             foreach ($this->_fields as $field) {
@@ -312,7 +320,8 @@ class ZeModel {
 
     /************* magic function ***************/
 
-    public function __call($method, $arguments) {
+    public function __call($method, $arguments)
+    {
         // search a generic method
         if ($this->startsWith($method, 'findBy_')) {
             return $this->findBy($method, $arguments) ;
@@ -325,7 +334,8 @@ class ZeModel {
 
 
 
-    private function findBy($method, $arguments) {
+    private function findBy($method, $arguments)
+    {
         $this->database()->clearSql() ;
 
         $columnName = substr($method, strlen('findBy_')) ;
@@ -357,7 +367,8 @@ class ZeModel {
         }
     }
 
-    private function findOneBy($method, $arguments) {
+    private function findOneBy($method, $arguments)
+    {
         $this->database()->clearSql() ;
 
         $columnName = substr($method, strlen('findOneBy_')) ;
@@ -385,13 +396,15 @@ class ZeModel {
 
 
 
-    private function startsWith($haystack, $needle) {
+    private function startsWith($haystack, $needle)
+    {
         $length = strlen($needle);
         return (substr($haystack, 0, $length) === $needle);
     }
 
-    private function _formatWhere($where){
-        if(!is_array($where) || is_int(key($where))){
+    private function _formatWhere($where)
+    {
+        if (!is_array($where) || is_int(key($where))) {
             if($this->_primary_key) {
                 return array($this->_primary_key => $where);
             } else {
