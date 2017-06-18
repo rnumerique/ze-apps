@@ -71,15 +71,15 @@ class App extends ZeCtrl
 
     private function loadCache()
     {
-        if(!is_file(FCPATH . 'cache/js/main.js') || ENVIRONMENT != 'production') {
+        if (!is_file(FCPATH . 'cache/js/main.js') || ENVIRONMENT != 'production') {
             $this->generateMainJs();
         }
 
-        if(!is_file(FCPATH . 'cache/css/global.css') || ENVIRONMENT != 'production') {
+        if (!is_file(FCPATH . 'cache/css/global.css') || ENVIRONMENT != 'production') {
             $this->generateGlobalCss();
         }
 
-        if(!is_file(FCPATH . 'cache/js/global.js') || ENVIRONMENT != 'production') {
+        if (!is_file(FCPATH . 'cache/js/global.js') || ENVIRONMENT != 'production') {
             $this->generateGlobalJs();
         }
 
@@ -131,23 +131,23 @@ class App extends ZeCtrl
 
         if (is_dir($folderLangs)) {
             $folderLangs .= "/" ;
-            if($folderLang = opendir($folderLangs)) {
+            if ($folderLang = opendir($folderLangs)) {
                 while (false !== ($folderItemLang = readdir($folderLang))) {
                     $fileJS = $folderLangs . $folderItemLang;
                     if (is_file($fileJS) && $folderItemLang != '.' && $folderItemLang != '..' && str_ends_with($folderItemLang, ".lang")) {
                         $lang = str_replace('.lang', '', $folderItemLang);
-                        if(!isset($i8n[$lang]) || !is_array($i8n[$lang]))
+                        if (!isset($i8n[$lang]) || !is_array($i8n[$lang]))
                             $i8n[$lang] = [];
-                        if(!isset($i8n[$lang]['com_zeapps']) || !is_array($i8n[$lang]['com_zeapps']))
+                        if (!isset($i8n[$lang]['com_zeapps']) || !is_array($i8n[$lang]['com_zeapps']))
                             $i8n[$lang]['com_zeapps'] = [];
                         $filecontent = preg_replace(array('/\t/', '/\r/'), '', file_get_contents($fileJS));
 
                         $arr = preg_split('/\n/', $filecontent);
 
                         for($index=0; $index < sizeof($arr); $index++){
-                            if(sizeof($arr[$index]) > 0)
+                            if (sizeof($arr[$index]) > 0)
                                 $trad = explode('=>', $arr[$index], 2);
-                            if(is_array($trad) && sizeof($trad) == 2)
+                            if (is_array($trad) && sizeof($trad) == 2)
                                 $i8n[$lang]['com_zeapps'][strtolower(trim($trad[0]))] = trim($trad[1]);
                         }
                     }
@@ -155,7 +155,7 @@ class App extends ZeCtrl
             }
         }
 
-        if($this->modules && is_array($this->modules)) {
+        if ($this->modules && is_array($this->modules)) {
             $folderApp = MODULEPATH;
 
             for ($i = 0; $i < sizeof($this->modules); $i++) {
@@ -205,7 +205,7 @@ class App extends ZeCtrl
 
 
         $folderApp = BASEPATH ;
-        if($folder = opendir($folderApp)) {
+        if ($folder = opendir($folderApp)) {
             $folderAngularJs = $folderApp . "/angularjs" ;
 
             $mainjs .= $this->getContentFolder($folderAngularJs, 'js');
@@ -213,7 +213,7 @@ class App extends ZeCtrl
 
 
 
-        if($this->modules && is_array($this->modules)) {
+        if ($this->modules && is_array($this->modules)) {
             for ($i = 0; $i < sizeof($this->modules); $i++) {
                 $folderModule = MODULEPATH . $this->modules[$i]->module_id;
                 if (is_dir($folderModule)) {
@@ -243,7 +243,7 @@ class App extends ZeCtrl
 
         /*************** copie des fichiers css *************/
         $folderApp = BASEPATH ;
-        if($folder = opendir($folderApp)) {
+        if ($folder = opendir($folderApp)) {
             $folderCss = $folderApp . "/assets/css" ;
 
             $globalCss .= minifyCss($this->getContentFolder($folderCss, 'css'));
@@ -251,7 +251,7 @@ class App extends ZeCtrl
 
 
 
-        if($this->modules && is_array($this->modules)) {
+        if ($this->modules && is_array($this->modules)) {
             for ($i = 0; $i < sizeof($this->modules); $i++) {
                 $folderModule = MODULEPATH . $this->modules[$i]->module_id;
                 if (is_dir($folderModule)) {
@@ -280,7 +280,7 @@ class App extends ZeCtrl
 
         /*************** copie des fichiers css *************/
         $folderApp = BASEPATH ;
-        if($folder = opendir($folderApp)) {
+        if ($folder = opendir($folderApp)) {
             $folderCss = $folderApp . "/assets/js" ;
 
             $globalJs .= $this->getContentFolder($folderCss, 'js');
@@ -288,7 +288,7 @@ class App extends ZeCtrl
 
 
 
-        if($this->modules && is_array($this->modules)) {
+        if ($this->modules && is_array($this->modules)) {
             for ($i = 0; $i < sizeof($this->modules); $i++) {
                 $folderModule = MODULEPATH . $this->modules[$i]->module_id;
                 if (is_dir($folderModule)) {
@@ -311,15 +311,15 @@ class App extends ZeCtrl
     private function copyImages(){
         /*************** copie des fichiers images *************/
         $folderApp = BASEPATH ;
-        if($folder = opendir($folderApp)) {
+        if ($folder = opendir($folderApp)) {
             while(false !== ($folderItem = readdir($folder)))
             {
                 $folderModule = $folderApp . $folderItem ;
-                if(is_dir($folderModule) && $folderItem != '.' && $folderItem != '..') {
+                if (is_dir($folderModule) && $folderItem != '.' && $folderItem != '..') {
                     $folderImagesFile = $folderModule . "/assets/images" ;
                     if (is_dir($folderImagesFile)) {
                         $folderImagesFile .= "/" ;
-                        if($folderJS = opendir($folderImagesFile)) {
+                        if ($folderJS = opendir($folderImagesFile)) {
                             while (false !== ($folderItemImage = readdir($folderJS))) {
                                 $fileJS = $folderImagesFile . $folderItemImage;
                                 if (is_file($fileJS) && $folderItemImage != '.'
@@ -342,7 +342,7 @@ class App extends ZeCtrl
             }
         }
 
-        if($this->modules && is_array($this->modules)) {
+        if ($this->modules && is_array($this->modules)) {
             $folderApp = MODULEPATH;
             if ($folder = opendir($folderApp)) {
                 for ($i = 0; $i < sizeof($this->modules); $i++) {
@@ -383,7 +383,7 @@ class App extends ZeCtrl
 
         if (is_dir($folder)) {
             $folder .= "/" ;
-            if($folderOpen = opendir($folder)) {
+            if ($folderOpen = opendir($folder)) {
                 while (false !== ($folderItem = readdir($folderOpen))) {
                     $file = $folder . $folderItem;
                     if (is_file($file) && $folderItem != '.' && $folderItem != '..' && str_ends_with($folderItem, ".".$ext) && $folderItem != 'main.js') {
@@ -405,11 +405,11 @@ class App extends ZeCtrl
         $space = array();
         $folderSpace  = FCPATH . "space/" ;
         // charge tous les fichiers de conf des menus
-        if($folder = opendir($folderSpace)) {
+        if ($folder = opendir($folderSpace)) {
             while(false !== ($folderItem = readdir($folder)))
             {
                 $fileSpace = $folderSpace . $folderItem ;
-                if(is_file($fileSpace) && $folderItem != '.' && $folderItem != '..' && $this->endsWith(strtolower($fileSpace), ".php")) {
+                if (is_file($fileSpace) && $folderItem != '.' && $folderItem != '..' && $this->endsWith(strtolower($fileSpace), ".php")) {
                     require_once $fileSpace ;
                 }
             }
@@ -426,7 +426,7 @@ class App extends ZeCtrl
         $menuEssential = array();
 
 
-        if($this->modules && is_array($this->modules)) {
+        if ($this->modules && is_array($this->modules)) {
             // charge tous les fichiers de conf des menus
             for ($i = 0; $i < sizeof($this->modules); $i++) {
                 $folderModule = MODULEPATH . $this->modules[$i]->module_id;
@@ -486,7 +486,7 @@ class App extends ZeCtrl
         /*************** creation du menu gauche *************/
         // charges les différents menus
         $data = array();
-        if(isset($space)) {
+        if (isset($space)) {
             foreach ($space as $space_item) {
                 $dataMenu = array();
                 $dataMenu["info"] = $space_item;
@@ -534,7 +534,7 @@ class App extends ZeCtrl
 
             // calcul le numero ordre le plus élevé
             $maxOrderCol = -1;
-            if(isset($space)) {
+            if (isset($space)) {
                 foreach ($space as $space_item) {
                     if (isset($space_item["menu-header"]["col"]) && isset($space_item["menu-header"]["order"])) {
                         if ($space_item["menu-header"]["col"] == $col && $space_item["menu-header"]["order"] > $maxOrderCol) {

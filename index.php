@@ -38,16 +38,17 @@ if (($_temp = realpath($system_path)) !== FALSE) {
 } else {
     // Ensure there's a trailing slash
     $system_path = strtr(
-            rtrim($system_path, '/\\'),
-            '/\\',
-            DIRECTORY_SEPARATOR . DIRECTORY_SEPARATOR
-        ) . DIRECTORY_SEPARATOR;
+        rtrim($system_path, '/\\'),
+        '/\\',
+        DIRECTORY_SEPARATOR . DIRECTORY_SEPARATOR
+    ) . DIRECTORY_SEPARATOR;
 }
 
 // Is the system path correct?
 if (!is_dir($system_path)) {
     header('HTTP/1.1 503 Service Unavailable.', TRUE, 503);
-    echo 'Your system folder path does not appear to be set correctly. Please open the following file and correct this: ' . pathinfo(__FILE__, PATHINFO_BASENAME);
+    echo 'Your system folder path does not appear to be set correctly. 
+    Please open the following file and correct this: ' . pathinfo(__FILE__, PATHINFO_BASENAME);
     exit(3); // EXIT_CONFIG
 }
 
@@ -75,17 +76,15 @@ require_once FCPATH . 'autoload.php';
 $routeur = new ZeRouteur();
 
 // charge le controller
-    if ($routeur->module == 'ng'){
+    if ($routeur->module == 'ng') {
         // All /ng/* urls are angular urls, so we load the app and let angular deal with it
         $controllerPath = BASEPATH . 'controllers/App.php';
         $routeur->controller = 'App';
         $routeur->function = 'index';
-    }
-    elseif ($routeur->module == 'zeapps') {
+    } elseif ($routeur->module == 'zeapps') {
         // App core controllers
         $controllerPath = BASEPATH . 'controllers/' . ucfirst($routeur->controller) . '.php';
-    }
-    else {
+    } else {
         $controllerPath = MODULEPATH . $routeur->module . '/controllers/' . ucfirst($routeur->controller) . '.php';
     }
 
