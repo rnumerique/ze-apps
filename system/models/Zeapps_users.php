@@ -46,11 +46,11 @@ class Zeapps_users extends ZeModel {
 
 
     public function getToken($email, $password) {
-        global $global_config ;
+        global $globalConfig ;
 
         $session_lifetime = 20 ;
-        if (isset($global_config["session_lifetime"]) && is_numeric($global_config["session_lifetime"])) {
-            $session_lifetime = $global_config["session_lifetime"] ;
+        if (isset($globalConfig["session_lifetime"]) && is_numeric($globalConfig["session_lifetime"])) {
+            $session_lifetime = $globalConfig["session_lifetime"] ;
         }
 
 

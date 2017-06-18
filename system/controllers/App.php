@@ -30,13 +30,13 @@ class App extends ZeCtrl
 
     public function update_token()
     {
-        global $global_config ;
+        global $globalConfig ;
 
         $this->load->model("Zeapps_token", "token");
 
         $sessionLifeTime = 20 ;
-        if (isset($global_config["session_lifetime"]) && is_numeric($global_config["session_lifetime"])) {
-            $sessionLifeTime = $global_config["session_lifetime"] ;
+        if (isset($globalConfig["session_lifetime"]) && is_numeric($globalConfig["session_lifetime"])) {
+            $sessionLifeTime = $globalConfig["session_lifetime"] ;
         }
 
 
