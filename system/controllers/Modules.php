@@ -34,9 +34,9 @@ class Modules extends ZeCtrl
 
                     if (is_file($configFile)) {
 
-                        $config_raw = preg_replace(array('/\t/', '/\R/'), '', file_get_contents($configFile));
+                        $configRaw = preg_replace(array('/\t/', '/\R/'), '', file_get_contents($configFile));
 
-                        $config = new SimpleXMLElement($config_raw);
+                        $config = new SimpleXMLElement($configRaw);
 
                         $data = json_encode($config->module);
                         $data = json_decode($data, true);
@@ -44,10 +44,10 @@ class Modules extends ZeCtrl
                         $moduleOld = $this->modules->get(array("module_id" => $folderItem));
 
                         if ($moduleOld) {
-                            if ($this->isMoreRecent(explode('.', $data['version'], 3),
-                                explode('.', $moduleOld->version, 3))
-                            ) {
-                                $toUpdate[] = array("module_id" => $data['module_id'], "name" => $data['name']);
+                            if ($this->isMoreRecent(
+                                explode('.', $data['version'], 3),
+                                explode('.', $moduleOld->version, 3))) {
+                                    $toUpdate[] = array("module_id" => $data['module_id'], "name" => $data['name']);
                             }
                         } else {
                             $toInstall[] = array("module_id" => $data['module_id'], "name" => $data['name']);
@@ -103,9 +103,9 @@ class Modules extends ZeCtrl
 
             if (is_file($configFile)) {
 
-                $config_raw = preg_replace(array('/\t/', '/\R/'), '', file_get_contents($configFile));
+                $configRaw = preg_replace(array('/\t/', '/\R/'), '', file_get_contents($configFile));
 
-                $config = new SimpleXMLElement($config_raw);
+                $config = new SimpleXMLElement($configRaw);
 
                 $data = json_encode($config->module);
                 $data = json_decode($data, true);
@@ -113,11 +113,11 @@ class Modules extends ZeCtrl
                 if ($data['dependencies'] && is_array($data['dependencies'])) {
                     $data['dependencies'] = json_encode($data['dependencies']['module']);
 
-                    if ($missing_dependencies = $this->isMissingDependencies($data['dependencies'])) {
-                        if (is_array($missing_dependencies)) {
-                            for ($i = 0; $i < sizeof($missing_dependencies); $i++) {
-                                if ($this->isQueued($missing_dependencies[$i]->module_id, $missing_dependencies[$i]->version, $folder)) {
-                                    if (!$this->installModule($missing_dependencies[$i]->module_id, $folder)) {
+                    if ($missingDependencies = $this->isMissingDependencies($data['dependencies'])) {
+                        if (is_array($missingDependencies)) {
+                            for ($i = 0; $i < sizeof($missingDependencies); $i++) {
+                                if ($this->isQueued($missingDependencies[$i]->module_id, $missingDependencies[$i]->version, $folder)) {
+                                    if (!$this->installModule($missingDependencies[$i]->module_id, $folder)) {
                                         return false;
                                     }
                                 } else {
@@ -125,8 +125,8 @@ class Modules extends ZeCtrl
                                 }
                             }
                         } else {
-                            if ($this->isQueued($missing_dependencies->module_id, $missing_dependencies->version, $folder)) {
-                                if (!$this->installModule($missing_dependencies->module_id, $folder)) {
+                            if ($this->isQueued($missingDependencies->module_id, $missingDependencies->version, $folder)) {
+                                if (!$this->installModule($missingDependencies->module_id, $folder)) {
                                     return false;
                                 }
                             } else {
@@ -190,9 +190,9 @@ class Modules extends ZeCtrl
 
             if (is_file($configFile)) {
 
-                $config_raw = preg_replace(array('/\t/', '/\R/'), '', file_get_contents($configFile));
+                $configRaw = preg_replace(array('/\t/', '/\R/'), '', file_get_contents($configFile));
 
-                $config = new SimpleXMLElement($config_raw);
+                $config = new SimpleXMLElement($configRaw);
 
                 $data = json_encode($config->module);
                 $data = json_decode($data, true);
@@ -215,7 +215,7 @@ class Modules extends ZeCtrl
             $this->load->model("Zeapps_modules", "modules");
 
             $dependencies = json_decode($dependencies);
-            $missing_dependencies = [];
+            $missingDependencies = [];
 
             if (is_array($dependencies)) {
                 for ($i = 0; $i < sizeof($dependencies); $i++) {
@@ -223,7 +223,7 @@ class Modules extends ZeCtrl
                     $requirement = explode('.', $dependencies[$i]->version, 3);
                     $version = explode('.', $res->version, 3);
                     if (!$this->isRequirementMet($requirement, $version)) {
-                        array_push($missing_dependencies, $dependencies[$i]);
+                        array_push($missingDependencies, $dependencies[$i]);
                     }
                 }
             } else {
@@ -231,12 +231,12 @@ class Modules extends ZeCtrl
                 $requirement = explode('.', $dependencies->version, 3);
                 $version = explode('.', $res->version, 3);
                 if (!$this->isRequirementMet($requirement, $version)) {
-                    array_push($missing_dependencies, $dependencies);
+                    array_push($missingDependencies, $dependencies);
                 }
             }
         }
-        if (isset($missing_dependencies) && sizeof($missing_dependencies) > 0) {
-            return $missing_dependencies;
+        if (isset($missingDependencies) && sizeof($missingDependencies) > 0) {
+            return $missingDependencies;
         } else
             return false;
     }
