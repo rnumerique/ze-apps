@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="Zeapps" default="ci" basedir="../">
-    <property name="source" value="src" />
+    <property name="source" value="ze-apps" />
 
     <target name="ci"
         description="Tâche principale d'intégration continue"
@@ -17,7 +17,7 @@
 	    <mkdir dir="${project.basedir}/build/api" />
 	    <mkdir dir="${project.basedir}/build/code-browser" />
 	    <mkdir dir="${project.basedir}/build/coverage" />
-	    <mkdir dir="${project.basedir}/build/logs" />
+	    <mkdir dir="${project.basedir//build/logs" />
 	    <mkdir dir="${project.basedir}/build/pdepend" />
     </target>
 
@@ -38,7 +38,7 @@
 
 
 	<target name="pdepend">
-	    <phpdepend file="${project.basedir}/">
+	    <phpdepend file="${project.basedir}/${source}/">
 	        <logger type="jdepend-xml" outfile="${project.basedir}/build/logs/jdepend.xml" />
 	        <logger type="jdepend-chart" outfile="${project.basedir}/build/pdepend/dependencies.svg" />
 	        <logger type="overview-pyramid" outfile="${project.basedir}/build/pdepend/overview-pyramid.svg" />
@@ -50,7 +50,7 @@
 
 
 	<target name="phpmd">
-	    <phpmd file="${project.basedir}/">
+	    <phpmd file="${project.basedir}/${source}/">
 	        <formatter type="xml" outfile="${project.basedir}/build/phpmd.xml" />
 	    </phpmd>
 	</target>
@@ -58,7 +58,7 @@
 
 
 	<target name="phpcpd">
-	    <phpcpd file="${project.basedir}/">
+	    <phpcpd file="${project.basedir}/${source}/">
 	        <formatter type="pmd" outfile="${project.basedir}/build/logs/pmd-cpd.xml"/>
 	    </phpcpd>
 	</target>
@@ -66,7 +66,7 @@
 
 
 	<target name="phploc">
-	    <exec logoutput="true" dir="${project.basedir}" command="phploc --log-csv '${project.basedir}/build/logs/phploc.csv' '${project.basedir}/'" escape="false" />
+	    <exec logoutput="true" dir="${project.basedir}" command="phploc --log-csv '${project.basedir}/build/logs/phploc.csv' '${project.basedir}/${source}/'" escape="false" />
 	</target>
 
 
@@ -86,7 +86,7 @@
 	<target name="phpcs" description="Find coding standard violations using PHP_CodeSniffer and print human readable output. Intended for usage on the command line before committing.">
 	    <exec executable="phpcs">
 	      <arg value="--standard=Symfony2" />
-	      <arg path="${project.basedir}/" />
+	      <arg path="${project.basedir}/${source}/" />
 	    </exec>
 	</target>
 
@@ -95,7 +95,7 @@
 	      <arg value="--report=checkstyle" />
 	      <arg value="--report-file=${project.basedir}/build/logs/checkstyle.xml" />
 	      <arg value="--standard=Symfony2" />
-	      <arg path="${project.basedir}/" />
+	      <arg path="${project.basedir}/${source}/" />
 	    </exec>
 	</target>
 
@@ -108,7 +108,7 @@
 	            destdir="${project.basedir}/build/api"
 	            sourcecode="false"
 	            output="HTML:Smarty:PHP">
-	        <fileset dir="${project.basedir}/">
+	        <fileset dir="${project.basedir}/${source}/">
 	            <include name="**/*.php"/>
 	        </fileset>
 	        <projdocfileset dir=".">
@@ -121,12 +121,12 @@
 
 
 	<target name="phpunit">
-	    <exec logoutput="true" dir="${project.basedir}/tests" command="phpunit" escape="false" />
+	    <exec logoutput="true" dir="${project.basedir}/${source}/tests" command="phpunit" escape="false" />
 	</target>
 
 
 	<target name="phpcb">
-	    <exec logoutput="true" command="phpcb --log '${project.basedir}/build/logs' --source '${project.basedir}/' --output '${project.basedir}/build/code-browser'" escape="false" />
+	    <exec logoutput="true" command="phpcb --log '${project.basedir}/build/logs' --source '${project.basedir}/${source}/' --output '${project.basedir}/build/code-browser'" escape="false" />
 	</target>
 
 
