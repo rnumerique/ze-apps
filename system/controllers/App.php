@@ -43,7 +43,7 @@ class App extends ZeCtrl
         if ($this->session->get('token')) {
             $tokens = $this->token->findBy_token($this->session->get('token'));
             if ($tokens && count($tokens) == 1) {
-                $tokens[0]->date_expire = date("Y-m-d H:i:s", time() + $session_lifetime * 60) ;
+                $tokens[0]->date_expire = date("Y-m-d H:i:s", time() + $session_lifetime * 60);
 
                 $this->token->update($tokens[0], array('id'=>$tokens[0]->id));
             }
@@ -144,7 +144,7 @@ class App extends ZeCtrl
 
                         $arr = preg_split('/\n/', $filecontent);
 
-                        for($index=0; $index < sizeof($arr); $index++){
+                        for ($index=0; $index < sizeof($arr); $index++){
                             if (sizeof($arr[$index]) > 0)
                                 $trad = explode('=>', $arr[$index], 2);
                             if (is_array($trad) && sizeof($trad) == 2)
@@ -199,7 +199,7 @@ class App extends ZeCtrl
         /*************** END : compilation of languages files *************/
 
         if (is_file(BASEPATH . "angularjs/main.js")) { // We start with the root of our AngularJS application
-            $mainjs .= file_get_contents(BASEPATH . "angularjs/main.js") ;
+            $mainjs .= file_get_contents(BASEPATH . "angularjs/main.js");
             $mainjs .= "\n";
         }
 
@@ -227,7 +227,7 @@ class App extends ZeCtrl
 
 
         // ecriture du fichier javascript
-        recursive_mkdir(FCPATH . "cache/js/") ;
+        recursive_mkdir(FCPATH . "cache/js/");
         file_put_contents(FCPATH . "cache/js/main.js", $mainjs);
         /*************** END : génération du fichier main.js dans le cache *************/
 
@@ -265,7 +265,7 @@ class App extends ZeCtrl
         /*************** END : copie des fichiers css *************/
 
 
-        recursive_mkdir(FCPATH . "cache/css/") ;
+        recursive_mkdir(FCPATH . "cache/css/");
         file_put_contents(FCPATH . "cache/css/global.css", $globalCss);
 
         return true;
@@ -302,7 +302,7 @@ class App extends ZeCtrl
         /*************** END : copie des fichiers css *************/
 
 
-        recursive_mkdir(FCPATH . "cache/js/") ;
+        recursive_mkdir(FCPATH . "cache/js/");
         file_put_contents(FCPATH . "cache/js/global.js", $globalJs);
 
         return true;
@@ -312,7 +312,7 @@ class App extends ZeCtrl
         /*************** copie des fichiers images *************/
         $folderApp = BASEPATH ;
         if ($folder = opendir($folderApp)) {
-            while(false !== ($folderItem = readdir($folder)))
+            while (false !== ($folderItem = readdir($folder)))
             {
                 $folderModule = $folderApp . $folderItem ;
                 if (is_dir($folderModule) && $folderItem != '.' && $folderItem != '..') {
@@ -330,7 +330,7 @@ class App extends ZeCtrl
                                         || str_ends_with($folderItemImage, ".gif")
                                     )) {
                                     // creation du dossier d'accueil
-                                    recursive_mkdir(FCPATH . "cache/images/" . $folderItem) ;
+                                    recursive_mkdir(FCPATH . "cache/images/" . $folderItem);
 
                                     // copie du fichier
                                     copy($fileJS, FCPATH . "cache/images/" . $folderItem . "/" . $folderItemImage);
@@ -387,7 +387,7 @@ class App extends ZeCtrl
                 while (false !== ($folderItem = readdir($folderOpen))) {
                     $file = $folder . $folderItem;
                     if (is_file($file) && $folderItem != '.' && $folderItem != '..' && str_ends_with($folderItem, ".".$ext) && $folderItem != 'main.js') {
-                        $valRetour .= file_get_contents($file) ;
+                        $valRetour .= file_get_contents($file);
                         $valRetour .= "\n";
                     } elseif (is_dir($file) && $folderItem != '.' && $folderItem != '..') {
                         $valRetour .= $this->getContentFolder($file, $ext);
@@ -406,7 +406,7 @@ class App extends ZeCtrl
         $folderSpace  = FCPATH . "space/" ;
         // charge tous les fichiers de conf des menus
         if ($folder = opendir($folderSpace)) {
-            while(false !== ($folderItem = readdir($folder)))
+            while (false !== ($folderItem = readdir($folder)))
             {
                 $fileSpace = $folderSpace . $folderItem ;
                 if (is_file($fileSpace) && $folderItem != '.' && $folderItem != '..' && $this->endsWith(strtolower($fileSpace), ".php")) {
@@ -467,7 +467,7 @@ class App extends ZeCtrl
         }
 
         if ($maxOrder >= 0) {
-            for($i_element_menu = 0 ; $i_element_menu <= $maxOrder ; $i_element_menu++) {
+            for ($i_element_menu = 0 ; $i_element_menu <= $maxOrder ; $i_element_menu++) {
                 foreach ($menuEssential as $menuItem) {
                     if (isset($menuItem["order"])) {
                         if ($menuItem["order"] == $i_element_menu) {
@@ -610,4 +610,3 @@ class App extends ZeCtrl
 }
 
 
-?>
