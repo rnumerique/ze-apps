@@ -8,17 +8,17 @@
     />
 
     <target name="clean" description="Vide les répertoires d'artefacts">
-		<delete dir="${project.basedir}/build/api" />
-	    <delete dir="${project.basedir}/build/code-browser" />
-	    <delete dir="${project.basedir}/build/coverage" />
-	    <delete dir="${project.basedir}/build/logs" />
-	    <delete dir="${project.basedir}/build/pdepend" />
+		<delete dir="${project.basedir}/${source}/build/api" />
+	    <delete dir="${project.basedir}/${source}/build/code-browser" />
+	    <delete dir="${project.basedir}/${source}/build/coverage" />
+	    <delete dir="${project.basedir}/${source}/build/logs" />
+	    <delete dir="${project.basedir}/${source}/build/pdepend" />
 
-	    <mkdir dir="${project.basedir}/build/api" />
-	    <mkdir dir="${project.basedir}/build/code-browser" />
-	    <mkdir dir="${project.basedir}/build/coverage" />
-	    <mkdir dir="${project.basedir//build/logs" />
-	    <mkdir dir="${project.basedir}/build/pdepend" />
+	    <mkdir dir="${project.basedir}/${source}/build/api" />
+	    <mkdir dir="${project.basedir}/${source}/build/code-browser" />
+	    <mkdir dir="${project.basedir}/${source}/build/coverage" />
+	    <mkdir dir="${project.basedir}/${source}/build/logs" />
+	    <mkdir dir="${project.basedir}/${source}/build/pdepend" />
     </target>
 
     <target name="qa" description="Lance les outils d'analyse">
@@ -39,9 +39,9 @@
 
 	<target name="pdepend">
 	    <phpdepend file="${project.basedir}/${source}/">
-	        <logger type="jdepend-xml" outfile="${project.basedir}/build/logs/jdepend.xml" />
-	        <logger type="jdepend-chart" outfile="${project.basedir}/build/pdepend/dependencies.svg" />
-	        <logger type="overview-pyramid" outfile="${project.basedir}/build/pdepend/overview-pyramid.svg" />
+	        <logger type="jdepend-xml" outfile="${project.basedir}/${source}/build/logs/jdepend.xml" />
+	        <logger type="jdepend-chart" outfile="${project.basedir}/${source}/build/pdepend/dependencies.svg" />
+	        <logger type="overview-pyramid" outfile="${project.basedir}/${source}/build/pdepend/overview-pyramid.svg" />
 	    </phpdepend>
 	</target>
 
@@ -51,7 +51,7 @@
 
 	<target name="phpmd">
 	    <phpmd file="${project.basedir}/${source}/">
-	        <formatter type="xml" outfile="${project.basedir}/build/phpmd.xml" />
+	        <formatter type="xml" outfile="${project.basedir}/${source}/build/phpmd.xml" />
 	    </phpmd>
 	</target>
 
@@ -59,14 +59,14 @@
 
 	<target name="phpcpd">
 	    <phpcpd file="${project.basedir}/${source}/">
-	        <formatter type="pmd" outfile="${project.basedir}/build/logs/pmd-cpd.xml"/>
+	        <formatter type="pmd" outfile="${project.basedir}/${source}/build/logs/pmd-cpd.xml"/>
 	    </phpcpd>
 	</target>
 
 
 
 	<target name="phploc">
-	    <exec logoutput="true" dir="${project.basedir}" command="phploc --log-csv '${project.basedir}/build/logs/phploc.csv' '${project.basedir}/${source}/'" escape="false" />
+	    <exec logoutput="true" dir="${project.basedir}" command="phploc --log-csv '${project.basedir}/${source}/build/logs/phploc.csv' '${project.basedir}/${source}/'" escape="false" />
 	</target>
 
 
@@ -93,7 +93,7 @@
 	<target name="phpcs-ci" description="Find coding standard violations using PHP_CodeSniffer creating a log file for the continuous integration server">
 	    <exec executable="phpcs" output="/dev/null">
 	      <arg value="--report=checkstyle" />
-	      <arg value="--report-file=${project.basedir}/build/logs/checkstyle.xml" />
+	      <arg value="--report-file=${project.basedir}/${source}/build/logs/checkstyle.xml" />
 	      <arg value="--standard=Symfony2" />
 	      <arg path="${project.basedir}/${source}/" />
 	    </exec>
@@ -105,7 +105,7 @@
 
 	<target name="phpdoc">
 	    <phpdoc title="API Documentation"
-	            destdir="${project.basedir}/build/api"
+	            destdir="${project.basedir}/${source}/build/api"
 	            sourcecode="false"
 	            output="HTML:Smarty:PHP">
 	        <fileset dir="${project.basedir}/${source}/">
@@ -126,7 +126,7 @@
 
 
 	<target name="phpcb">
-	    <exec logoutput="true" command="phpcb --log '${project.basedir}/build/logs' --source '${project.basedir}/${source}/' --output '${project.basedir}/build/code-browser'" escape="false" />
+	    <exec logoutput="true" command="phpcb --log '${project.basedir}/${source}/build/logs' --source '${project.basedir}/${source}/' --output '${project.basedir}/${source}/build/code-browser'" escape="false" />
 	</target>
 
 
