@@ -314,10 +314,13 @@ class ZeQuery
                     foreach ($b as $c => $d) {
                         if ($c == 'args') {
                             foreach ($d as $e => $f) {
-                                $trace .= '<tr><td><b>' . strval($a) . '#</b></td><td align="right"><u>args:</u></td> <td><u>' . $e . '</u>:</td><td><i>' . $f . '</i></td></tr>';
+                                $trace .= '<tr><td><b>' . strval($a) .
+                                    '#</b></td><td align="right"><u>args:</u></td> <td><u>' . $e .
+                                    '</u>:</td><td><i>' . $f . '</i></td></tr>';
                             }
                         } else {
-                            $trace .= '<tr><td><b>' . strval($a) . '#</b></td><td align="right"><u>' . $c . '</u>:</td><td></td><td><i>' . $d . '</i></td>';
+                            $trace .= '<tr><td><b>' . strval($a) . '#</b></td><td align="right"><u>' . $c .
+                                '</u>:</td><td></td><td><i>' . $d . '</i></td>';
                         }
                     }
                 }
@@ -328,7 +331,7 @@ class ZeQuery
                 echo $err->getMessage() . '</i></td></tr><tr><td align="right"><b><u>Code:</u></b></td>' ;
                 echo '<td><i>' . strval($err->getCode()) . '</i></td></tr>' ;
                 echo '<tr><td align="right"><b><u>File:</u></b></td><td><i>' . $err->getFile() . '</i></td></tr>' ;
-                echo '<tr><td align="right"><b><u>Line:</u></b></td><td><i>' . strval($err->getLine()) ;
+                echo '<tr><td align="right"><b><u>Line:</u></b></td><td><i>' . strval($err->getLine());
                 echo '</i></td></tr><tr><td align="right"><b><u>Trace:</u></b></td>' ;
                 echo '<td><br /><br />' . $trace . '</td></tr></table></fieldset>';
                 return false;

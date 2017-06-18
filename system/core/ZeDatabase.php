@@ -10,7 +10,7 @@ class ZeDatabase
      * @static
      */
     private static $_instance = null;
-    private $connexions = array() ;
+    private $_connexions = array();
     public $debug = false;
 
     public function __construct()
@@ -27,11 +27,12 @@ class ZeDatabase
         return self::$_instance;
     }
 
-    public function open($dbConfig = "default") {
-        global $db ;
+    public function open($dbConfig = "default")
+    {
+        global $db;
 
         if (isset($connexions[$dbConfig])) {
-            return $connexions[$dbConfig] ;
+            return $connexions[$dbConfig];
         } else {
             if (isset($db[$dbConfig])) {
 
@@ -39,10 +40,10 @@ class ZeDatabase
                 $dsn = $db[$dbConfig]["dbdriver"] . ':dbname=' . $db[$dbConfig]["database"] . ';host=' . $db[$dbConfig]["hostname"];
 
                 if (isset($db[$dbConfig]["db_debug"])) {
-                    $this->debug =  $db[$dbConfig]["db_debug"] ;
+                    $this->debug = $db[$dbConfig]["db_debug"];
                 }
                 if (isset($db[$dbConfig]["char_set"])) {
-                    $dsn .= ";charset=" . $db[$dbConfig]["char_set"] ;
+                    $dsn .= ";charset=" . $db[$dbConfig]["char_set"];
                 }
 
                 $user = $db[$dbConfig]["username"];
@@ -50,7 +51,7 @@ class ZeDatabase
 
                 try {
                     $connexions[$dbConfig] = new PDO($dsn, $user, $password);
-                    return $connexions[$dbConfig] ;
+                    return $connexions[$dbConfig];
                 } catch (PDOException $e) {
                     throw new Exception('Not connected : ' . $e->getMessage());
                 }
@@ -59,7 +60,6 @@ class ZeDatabase
             }
         }
 
-        return null ;
+        return null;
     }
 }
-

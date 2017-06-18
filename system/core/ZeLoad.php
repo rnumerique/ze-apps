@@ -7,9 +7,9 @@ class ZeLoad
     private $_loadedModel = array();
     private $_ctrl = null;
     public $ctrl = null;
-    private $modelLoaded = array();
-    private $libraryLoaded = array();
-    private $helperLoaded = array();
+    private $_modelLoaded = array();
+    private $_libraryLoaded = array();
+    private $_helperLoaded = array();
 
     public function setCtrl($ctrl)
     {
@@ -114,8 +114,8 @@ class ZeLoad
                 }
 
                 if ($cheminFichier) {
-                    if (!in_array($cheminFichier, $this->modelLoaded)) {
-                        $this->modelLoaded[] = $cheminFichier;
+                    if (!in_array($cheminFichier, $this->_modelLoaded)) {
+                        $this->_modelLoaded[] = $cheminFichier;
                         include_once $cheminFichier;
                     }
                     $className::$_load = $this;
@@ -141,8 +141,8 @@ class ZeLoad
 
 
                     if ($cheminFichier) {
-                        if (!in_array($cheminFichier, $this->modelLoaded)) {
-                            $this->modelLoaded[] = $cheminFichier;
+                        if (!in_array($cheminFichier, $this->_modelLoaded)) {
+                            $this->_modelLoaded[] = $cheminFichier;
                             include_once $cheminFichier;
                         }
                         $className::$_load = $this;
@@ -167,8 +167,8 @@ class ZeLoad
                 }
 
                 if ($cheminFichier) {
-                    if (!in_array($cheminFichier, $this->modelLoaded)) {
-                        $this->modelLoaded[] = $cheminFichier;
+                    if (!in_array($cheminFichier, $this->_modelLoaded)) {
+                        $this->_modelLoaded[] = $cheminFichier;
                         include_once $cheminFichier;
                     }
                     $className::$_load = $this;
@@ -208,8 +208,8 @@ class ZeLoad
                 }
 
                 if ($cheminFichier) {
-                    if (!in_array($cheminFichier, $this->libraryLoaded)) {
-                        $this->libraryLoaded[] = $cheminFichier;
+                    if (!in_array($cheminFichier, $this->_libraryLoaded)) {
+                        $this->_libraryLoaded[] = $cheminFichier;
                         include_once $cheminFichier;
                     }
                     $this->_ctrl->$shortName = new $className();
@@ -232,8 +232,8 @@ class ZeLoad
                     }
 
                     if ($cheminFichier) {
-                        if (!in_array($cheminFichier, $this->libraryLoaded)) {
-                            $this->libraryLoaded[] = $cheminFichier;
+                        if (!in_array($cheminFichier, $this->_libraryLoaded)) {
+                            $this->_libraryLoaded[] = $cheminFichier;
                             include_once $cheminFichier;
                         }
                         $this->_ctrl->$shortName = new $className();
@@ -257,8 +257,8 @@ class ZeLoad
                 }
 
                 if ($cheminFichier) {
-                    if (!in_array($cheminFichier, $this->libraryLoaded)) {
-                        $this->libraryLoaded[] = $cheminFichier;
+                    if (!in_array($cheminFichier, $this->_libraryLoaded)) {
+                        $this->_libraryLoaded[] = $cheminFichier;
                         include_once $cheminFichier;
                     }
                     $this->_ctrl->$shortName = new $className();
@@ -293,8 +293,8 @@ class ZeLoad
                 }
             }
             if ($cheminFichier) {
-                if (!in_array($cheminFichier, $this->helperLoaded)) {
-                    $this->helperLoaded[] = $cheminFichier;
+                if (!in_array($cheminFichier, $this->_helperLoaded)) {
+                    $this->_helperLoaded[] = $cheminFichier;
                     include_once $cheminFichier;
                 }
                 return;
@@ -316,8 +316,8 @@ class ZeLoad
                 }
 
                 if ($cheminFichier) {
-                    if (!in_array($cheminFichier, $this->helperLoaded)) {
-                        $this->helperLoaded[] = $cheminFichier;
+                    if (!in_array($cheminFichier, $this->_helperLoaded)) {
+                        $this->_helperLoaded[] = $cheminFichier;
                         include_once $cheminFichier;
                     }
                     return;
@@ -340,8 +340,8 @@ class ZeLoad
             }
 
             if ($cheminFichier) {
-                if (!in_array($cheminFichier, $this->helperLoaded)) {
-                    $this->helperLoaded[] = $cheminFichier;
+                if (!in_array($cheminFichier, $this->_helperLoaded)) {
+                    $this->_helperLoaded[] = $cheminFichier;
                     include_once $cheminFichier;
                 }
                 return;
