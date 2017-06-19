@@ -1,5 +1,9 @@
 <?php
-define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development');
+define(
+    'ENVIRONMENT',
+    isset($_SERVER['CI_ENV']) ?
+        $_SERVER['CI_ENV'] : 'development'
+);
 
 switch (ENVIRONMENT) {
     case 'development':
@@ -25,7 +29,7 @@ switch (ENVIRONMENT) {
 
 
 // System Folder
-$system_path = 'system';
+$systemPath = 'system';
 
 
 // Set the current directory correctly for CLI requests
@@ -33,21 +37,22 @@ if (defined('STDIN')) {
     chdir(dirname(__FILE__));
 }
 
-if (($_temp = realpath($system_path)) !== FALSE) {
-    $system_path = $_temp . DIRECTORY_SEPARATOR;
+if (($systemRealPath = realpath($systemPath)) !== FALSE) {
+    $systemPath = $systemRealPath . DIRECTORY_SEPARATOR;
 } else {
     // Ensure there's a trailing slash
-    $system_path = strtr(
-            rtrim($system_path, '/\\'),
-            '/\\',
-            DIRECTORY_SEPARATOR . DIRECTORY_SEPARATOR
-        ) . DIRECTORY_SEPARATOR;
+    $systemPath = strtr(
+        rtrim($systemPath, '/\\'),
+        '/\\',
+        DIRECTORY_SEPARATOR . DIRECTORY_SEPARATOR
+    ) . DIRECTORY_SEPARATOR;
 }
 
 // Is the system path correct?
-if (!is_dir($system_path)) {
+if (!is_dir($systemPath)) {
     header('HTTP/1.1 503 Service Unavailable.', TRUE, 503);
-    echo 'Your system folder path does not appear to be set correctly. Please open the following file and correct this: ' . pathinfo(__FILE__, PATHINFO_BASENAME);
+    echo 'Your system folder path does not appear to be set correctly. 
+    Please open the following file and correct this: ' . pathinfo(__FILE__, PATHINFO_BASENAME);
     exit(3); // EXIT_CONFIG
 }
 
@@ -56,7 +61,7 @@ if (!is_dir($system_path)) {
 define('SELF', pathinfo(__FILE__, PATHINFO_BASENAME));
 
 // Path to the system folder
-define('BASEPATH', str_replace('\\', '/', $system_path));
+define('BASEPATH', str_replace('\\', '/', $systemPath));
 
 // Path to the front controller (this file)
 define('FCPATH', dirname(__FILE__) . '/');
@@ -75,36 +80,34 @@ require_once FCPATH . 'autoload.php';
 $routeur = new ZeRouteur();
 
 // charge le controller
-    if ($routeur->module == 'ng'){
-        // All /ng/* urls are angular urls, so we load the app and let angular deal with it
-        $controllerPath = BASEPATH . 'controllers/App.php';
-        $routeur->controller = 'App';
-        $routeur->function = 'index';
-    }
-    elseif ($routeur->module == 'zeapps') {
-        // App core controllers
-        $controllerPath = BASEPATH . 'controllers/' . ucfirst($routeur->controller) . '.php';
-    }
-    else {
-        $controllerPath = MODULEPATH . $routeur->module . '/controllers/' . ucfirst($routeur->controller) . '.php';
-    }
+if ($routeur->module == 'ng') {
+    // All /ng/* urls are angular urls, so we load the app and let angular deal with it
+    $controllerPath = BASEPATH . 'controllers/App.php';
+    $routeur->controller = 'App';
+    $routeur->function = 'index';
+} elseif ($routeur->module == 'zeapps') {
+    // App core controllers
+    $controllerPath = BASEPATH . 'controllers/' . ucfirst($routeur->controller) . '.php';
+} else {
+    $controllerPath = MODULEPATH . $routeur->module . '/controllers/' . ucfirst($routeur->controller) . '.php';
+}
 
 // verifie que le controller existe
-    if (is_file($controllerPath)) {
-        require_once $controllerPath;
+if (is_file($controllerPath)) {
+    require_once $controllerPath;
 
-        $ctrlName = ucfirst($routeur->controller);
-        $controller = new $ctrlName();
+    $ctrlName = ucfirst($routeur->controller);
+    $controller = new $ctrlName();
 
-        if (method_exists($ctrlName, $routeur->function)) {
-            call_user_func_array(array($controller, $routeur->function), $routeur->params);
-        } else {
-            header('HTTP/1.1 404 Not Found', TRUE, 404);
-            echo 'Page Not Found. Unknow function';
-            exit(1); // EXIT_ERROR
-        }
+    if (method_exists($ctrlName, $routeur->function)) {
+        call_user_func_array(array($controller, $routeur->function), $routeur->params);
     } else {
         header('HTTP/1.1 404 Not Found', TRUE, 404);
-        echo 'Page Not Found. Unknow controller';
+        echo 'Page Not Found. Unknow function';
         exit(1); // EXIT_ERROR
     }
+} else {
+    header('HTTP/1.1 404 Not Found', TRUE, 404);
+    echo 'Page Not Found. Unknow controller';
+    exit(1); // EXIT_ERROR
+}

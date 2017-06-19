@@ -31,8 +31,8 @@ class ZeCtrl
 
         // load autload
         if (is_file($this->_modulePath . "/config/autoload.php")) {
-            $autoload = array() ;
-            require_once $this->_modulePath . "/config/autoload.php" ;
+            $autoload = array();
+            require_once $this->_modulePath . "/config/autoload.php";
 
             if (isset($autoload['model']) && is_array($autoload['model'])) {
                 foreach ($autoload['model'] as $key => $value) {
@@ -61,7 +61,7 @@ class ZeCtrl
                 }
             }
         }
-  }
+    }
 
     private function load()
     {

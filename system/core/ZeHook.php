@@ -12,8 +12,8 @@ class ZeHook
 
     public function __construct()
     {
-        $class_info = new ReflectionClass($this);
-        $this->_controllerPath = $class_info->getFileName();
+        $classInfo = new ReflectionClass($this);
+        $this->_controllerPath = $classInfo->getFileName();
         $this->_modulePath = dirname(dirname($this->_controllerPath));
 
         // load object : load

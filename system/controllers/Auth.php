@@ -1,11 +1,12 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Auth extends ZeCtrl {
+class Auth extends ZeCtrl
+{
 
 
-
-    public function index() {
+    public function index()
+    {
         $this->load->model("Zeapps_users", "user");
 
         // verifie si la session est active
@@ -14,23 +15,24 @@ class Auth extends ZeCtrl {
             if ($user && count($user) == 1) {
                 header("location:/zeapps/app");
             } else {
-                $this->loadForm() ;
+                $this->loadForm();
             }
         } else {
-            $this->loadForm() ;
+            $this->loadForm();
         }
     }
 
-    private function loadForm() {
-        $data = array() ;
-        $data["form"] = true ;
-        $data["error"] = false ;
+    private function loadForm()
+    {
+        $data = array();
+        $data["form"] = true;
+        $data["error"] = false;
 
         if ($this->input->post('email') && $this->input->post('email') != "" && $this->input->post('password') && $this->input->post('password') != "") {
-            $token = $this->user->getToken($this->input->post('email'), $this->input->post('password')) ;
+            $token = $this->user->getToken($this->input->post('email'), $this->input->post('password'));
 
             if ($token === false) {
-                $data["error"] = true ;
+                $data["error"] = true;
             } else {
 
                 $this->session->set('token', $token);
@@ -44,7 +46,8 @@ class Auth extends ZeCtrl {
     }
 
 
-    public function logout() {
+    public function logout()
+    {
         $this->load->model("Zeapps_token", "token");
 
         if ($this->session->get('token')) {
