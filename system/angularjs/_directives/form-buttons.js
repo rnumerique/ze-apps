@@ -3,13 +3,12 @@ app.directive("formButtons", function($uibModal, $location){
 		restrict: "E",
 		require: "^form",
 		template:   "<div class='form-buttons'>" +
-																								"<div class='text-center'>" +
-																												"<button type='button' class='btn btn-sm btn-default' ng-click='cancel();zeapps_form_ctrl.$setPristine()'>Annuler</button>" +
-																												"<button type='button' class='btn btn-success' ng-disabled='zeapps_form_ctrl.$invalid' ng-click='success();zeapps_form_ctrl.$setPristine()'>Valider</button>" +
-																								"</div>" +
-																				"</div>",
+						"<div class='text-center'>" +
+							"<button type='button' class='btn btn-sm btn-default' ng-click='cancel();zeapps_form_ctrl.$setPristine()'>Annuler</button>" +
+							"<button type='button' class='btn btn-success' ng-disabled='zeapps_form_ctrl.$invalid' ng-click='success();zeapps_form_ctrl.$setPristine()'>Valider</button>" +
+						"</div>" +
+					"</div>",
 		link: function(scope, element, attrs, formCtrl){
-
 			element.parents("form").addClass("hasFormButtons");
 
 			scope.zeapps_form_ctrl = formCtrl;
