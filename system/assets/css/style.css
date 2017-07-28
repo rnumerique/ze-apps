@@ -535,3 +535,7 @@ toasts .alert-dismissible .close{
     margin-top: 25px;
     margin-bottom: 25px;
 }
+
+.main_filters_wrap{
+    margin-bottom: 15px;
+}
