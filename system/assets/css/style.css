@@ -517,10 +517,17 @@ toasts .alert-dismissible .close{
     width: 100%;
 }
 
+.nav>li>a{
+    padding: 2px 10px;
+}
 
 .nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover{
-    background: #76bbde;
+    background: #373737;
     color: #fff;
+}
+
+.nav.nav-tabs{
+    margin-bottom: 15px;
 }
 
 
