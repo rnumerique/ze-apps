@@ -1,27 +1,27 @@
-app.controller('ComZeAppsConfigCtrl', ['$scope', '$route', '$routeParams', '$location', '$rootScope', 'zeHttp',
-    function ($scope, $route, $routeParams, $location, $rootScope, zhttp) {
+app.controller("ComZeAppsConfigCtrl", ["$scope", "$route", "$routeParams", "$location", "$rootScope", "zeHttp",
+	function ($scope, $route, $routeParams, $location, $rootScope, zhttp) {
 
-        $scope.$parent.loadMenu("com_ze_apps_config", "com_ze_apps_config");
+		$scope.$parent.loadMenu("com_ze_apps_config", "com_ze_apps_config");
 
-        $scope.emptyCache = emptyCache;
-        $scope.success = success;
+		$scope.emptyCache = emptyCache;
+		$scope.success = success;
 
-        function emptyCache(){
-            zhttp.get('/zeapps/config/emptyCache/').then(function(response){
-                if(response.data && response.data != "false"){
-                    document.location.reload(true);
-                }
-            });
-        }
+		function emptyCache(){
+			zhttp.get("/zeapps/config/emptyCache/").then(function(response){
+				if(response.data && response.data != "false"){
+					document.location.reload(true);
+				}
+			});
+		}
 
-        function success(){
-            var data = {};
+		function success(){
+			var data = {};
 
-            data['id'] = 'zeapps_debug';
-            data['value'] = $rootScope.debug ? 1 : 0;
+			data["id"] = "zeapps_debug";
+			data["value"] = $rootScope.debug ? 1 : 0;
 
-            var formatted_data = angular.toJson(data);
-            zhttp.config.save(formatted_data);
-        }
+			var formatted_data = angular.toJson(data);
+			zhttp.config.save(formatted_data);
+		}
 
-    }]);
+	}]);
