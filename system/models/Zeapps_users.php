@@ -5,6 +5,21 @@ class Zeapps_users extends ZeModel
 {
     private $typeHash = 'sha256';
 
+    public function insert($data = array()){
+        if($data['password']){
+            $data['password'] = hash($this->typeHash, $data['password']);
+        }
+
+        return parent::insert($data);
+    }
+
+    public function update($data = array(), $where = array()){
+        if($data['password']){
+            $data['password'] = hash($this->typeHash, $data['password']);
+        }
+
+        return parent::update($data, $where);
+    }
 
     public function getUserByToken($tokenUser)
     {

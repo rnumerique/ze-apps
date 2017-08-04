@@ -3,15 +3,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 <div class="row">
     <div class="col-md-12 main_filters_wrap">
-        <div class="pull-right form-inline">
-            <span ng-show="canReset()">
-                <button type="button" class="btn btn-xs btn-warning" ng-click="clearFilter()">
-                    <i class="fa fa-fw fa-refresh"></i>
-                </button>
+        <div class="pull-right form-inline" ng-class="canReset() ? 'bg-warning' : ''">
+            <span ng-show="canReset()" ng-click="clearFilter()">
+                <i class="fa fa-fw fa-times text-warning"></i>
             </span>
             <span ng-repeat="item in options.main">
                 <span ng-if="item.format == 'input'">
                     <input type="{{item.type}}" class="form-control input-sm" ng-model="model[item.field]" placeholder="{{item.label}}">
+                </span>
+                <span ng-if="item.format == 'checkbox'">
+                    <label class="small">
+                        {{item.label}}
+                        <input type="checkbox" class="form-control input-sm" ng-model="model[item.field]">
+                    </label>
                 </span>
                 <span ng-if="item.format == 'select'">
                     <label class="small">{{item.label}}</label>
@@ -37,6 +41,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <label>{{item.label}}</label>
                         <input type="{{item.type}}" class="form-control" ng-model="model[item.field]">
                     </div>
+                    <span ng-if="item.format == 'checkbox'">
+                        <label class="small">
+                            <input type="checkbox" class="form-control input-sm" ng-model="model[item.field]">
+                            {{item.label}}
+                        </label>
+                    </span>
                     <div class="form-group" ng-if="item.format == 'select'">
                         <label>{{item.label}}</label>
                         <select ng-model="model[item.field]" class="form-control">

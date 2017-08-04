@@ -7,4 +7,9 @@ class Directives extends ZeCtrl
     {
         $this->load->view('directives/zefilter');
     }
+
+    public function zepostits()
+    {
+        $this->load->view('directives/zepostits');
+    }
 }

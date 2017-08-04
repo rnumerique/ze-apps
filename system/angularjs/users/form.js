@@ -48,8 +48,10 @@ app.controller("ComZeAppsUsersFormCtrl", ["$scope", "$route", "$routeParams", "$
 			$data.lastname = $scope.form.lastname ;
 			$data.email = $scope.form.email ;
 
-			$data.groups_list = $scope.form.groups.join();
-			$data.right_list = $scope.form.rights.join() ;
+			if($scope.form.groups)
+				$data.groups_list = $scope.form.groups.join();
+			if($scope.form.rights)
+				$data.right_list = $scope.form.rights.join() ;
 
 			$http.post("/zeapps/user/save", $data).then(function () {
 				// pour que la page puisse être redirigé

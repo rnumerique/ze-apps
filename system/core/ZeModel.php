@@ -113,7 +113,7 @@ class ZeModel
 
         $db = $this->database()->table($this->_tableName);
 
-        if ($this->_orderBy != []) {
+        if (is_array($this->_orderBy) && count($this->_orderBy) > 0) {
             $db->order_by($this->_orderBy);
         }
 

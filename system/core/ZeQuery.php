@@ -393,6 +393,11 @@ class ZeQuery
             }
             $this->_query = rtrim($this->_query, ', ') . ' ';
         }
+
+        if ($this->_limit != '') {
+            $this->_query .= " " . $this->_limit . " ";
+        }
+
     }
 
 

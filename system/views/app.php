@@ -14,6 +14,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <link rel="stylesheet" href="/assets/js/jquery-ui-1.11.4/jquery-ui.min.css">
     <link rel="stylesheet" href="/assets/js/jquery-ui-1.11.4/jquery-ui.structure.min.css">
     <link rel="stylesheet" href="/assets/js/jquery-ui-1.11.4/jquery-ui.theme.min.css">
+    <link rel="stylesheet" href="/assets/css/fullcalendar.min.css">
+    <link rel="stylesheet" href="/assets/css/fullcalendar.print.min.css" media="print">
 
     <!-- Optional theme -->
     <!--<link rel="stylesheet" href="/assets/bootstrap-3.3.7/css/bootstrap-theme.min.css">-->
@@ -22,7 +24,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <link rel="stylesheet" href="/assets/css/font-awesome.min.css">
 
 
-    <script src="/assets/js/jquery-1.12.0.min.js"></script>
+    <script src="/assets/js/jquery-3.2.1.min.js"></script>
     <script src="/assets/bootstrap-3.3.7/js/bootstrap.min.js"></script>
     <script src="/assets/js/jquery-ui-1.11.4/jquery-ui.min.js"></script>
 
@@ -30,13 +32,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     <script src="/assets/js/chartjs/Chart.min.js"></script>
 
+    <script src="/assets/js/fullcalendar/fullcalendar.min.js"></script>
+    <script src="/assets/js/fullcalendar/locale-all.js"></script>
+
     <script src="/assets/js/angular-1.5.0/angular.min.js"></script>
     <script src="/assets/js/angular-1.5.0/angular-route.min.js"></script>
     <script src="/assets/js/angular-1.5.0/angular-animate.min.js"></script>
     <script src="/assets/js/angular-1.5.0/angular-sanitize.min.js"></script>
 
     <script src="/assets/js/angular-1.5.0/i18n/angular-locale_fr-fr.js"></script>
-
 
     <script src="/assets/js/angular-chartjs/angular-chart.min.js"></script>
 
@@ -69,9 +73,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <script src="/cache/js/global.js"></script>
 
     <link rel="stylesheet" href="/cache/css/global.css">
-
-
-    <script src="/assets/js/jquery-1.12.0.min.js"></script>
 </head>
 <body ng-controller="MainCtrl as main">
 
