@@ -48,10 +48,10 @@ class Modules extends ZeCtrl
                                 explode('.', $data['version'], 3),
                                 explode('.', $moduleOld->version, 3)
                             )) {
-                                $toUpdate[] = array("module_id" => $data['module_id'], "name" => $data['name']);
+                                $toUpdate[] = array("module_id" => $data['module_id'], "label" => $data['name']);
                             }
                         } else {
-                            $toInstall[] = array("module_id" => $data['module_id'], "name" => $data['name']);
+                            $toInstall[] = array("module_id" => $data['module_id'], "label" => $data['name']);
                         }
                     }
                 }

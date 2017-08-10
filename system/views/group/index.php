@@ -16,20 +16,25 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     <div class="row">
         <div class="col-md-12">
-            <table class="table table-striped table-condensed table-responsive" ng-show="groups.length">
+            <table class="table table-condensed table-striped table-group-rights">
                 <thead>
                 <tr>
-                    <th i8n="Nom"></th>
-                    <th></th>
+                    <th>Droit</th>
+                    <th ng-repeat="group in groups" class="text-center">
+                        {{ group.label }}
+                    </th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr ng-repeat="group in groups">
-                    <td><a href="/ng/com_zeapps/groups/view/{{group.id}}">{{group.name}}</a></td>
-                    <td class="text-right">
-                        <button type="button" class="btn btn-danger btn-xs" ng-click="delete(group.id)">
-                            <i class="fa fa-fw fa-trash"></i>
-                        </button>
+                <tr ng-repeat-start="module in modules" ng-if="module.rights.length" class="module-cell">
+                    <td colspan="{{groups.length + 1}}">
+                        {{ module.label }}
+                    </td>
+                </tr>
+                <tr ng-repeat-end ng-repeat="(right, label) in module.rights">
+                    <td>{{label}}</td>
+                    <td ng-repeat="group in groups" class="text-center">
+                        <input type="checkbox" ng-model="group.rights[module.module_id + right]">
                     </td>
                 </tr>
                 </tbody>

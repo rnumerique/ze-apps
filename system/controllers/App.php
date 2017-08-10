@@ -12,8 +12,7 @@ class App extends ZeCtrl
 
         // verifie si la session est active
         if ($this->session->get('token')) {
-            $user = $this->user->getUserByToken($this->session->get('token'));
-            if ($user) {
+            if ($this->user->getUserByToken($this->session->get('token'))) {
                 $this->update_token();
                 $this->appLoading();
             } else {

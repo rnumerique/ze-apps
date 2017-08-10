@@ -1,8 +1,8 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Group extends ZeCtrl
-{
+class Group extends ZeCtrl{
+
     public function index()
     {
         $data = array();
@@ -14,8 +14,31 @@ class Group extends ZeCtrl
     public function getAll()
     {
         $this->load->model("Zeapps_user_groups", "groups");
-        $groups = $this->groups->all();
-        echo json_encode($groups);
+        $this->load->model("Zeapps_modules", "modules");
+        $this->load->model("Zeapps_module_rights", "module_rights");
+
+        if(!$groups = $this->groups->all()){
+            $groups = [];
+        }
+
+        if($modules = $this->modules->all(array('active' => 1))) {
+            foreach($modules as $module){
+                if($right = $this->module_rights->get(array('id_module' => $module->id))) {
+                    $module->rights = json_decode($right->rights, true);
+                }
+                else {
+                    $module->rights = [];
+                }
+            }
+        }
+        else{
+            $modules = [];
+        }
+
+        echo json_encode(array(
+            'groups' => $groups,
+            'modules' => $modules
+        ));
     }
 
     public function form()

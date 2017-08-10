@@ -141,6 +141,7 @@ class User extends ZeCtrl
     public function getCurrentUser()
     {
         $this->load->model("Zeapps_users", "user");
+        //$this->load->model("Zeapps_user_rights", "rights");
 
 
         // verifie si la session est active
@@ -148,11 +149,13 @@ class User extends ZeCtrl
             $user = $this->user->getUserByToken($this->session->get('token'));
             if ($user && count($user) == 1) {
                 $data = [];
-                $data["id"] = $user[0]->id;
-                $data["firstname"] = $user[0]->firstname;
-                $data["lastname"] = $user[0]->lastname;
-                $data["email"] = $user[0]->email;
-                $data["lang"] = $user[0]->lang;
+                $data["id"] = $user->id;
+                $data["firstname"] = $user->firstname;
+                $data["lastname"] = $user->lastname;
+                $data["email"] = $user->email;
+                $data["lang"] = $user->lang;
+
+                //$data["rights"] = $this->rights->getRightsOf($user->id);
 
                 echo json_encode($data);
             }

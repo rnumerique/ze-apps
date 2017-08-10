@@ -8,10 +8,10 @@ app.controller("ComZeAppsGroupsCtrl", ["$scope", "$route", "$routeParams", "$loc
 		loadList() ;
 
 		function loadList() {
-			var options = {};
-			$http.post("/zeapps/group/getAll", options).then(function (response) {
+			$http.get("/zeapps/group/getAll").then(function (response) {
 				if (response.status == 200) {
-					$scope.groups = response.data ;
+					$scope.groups = response.data.groups ;
+					$scope.modules = response.data.modules ;
 				}
 			});
 		}

@@ -11,8 +11,7 @@ class Auth extends ZeCtrl
 
         // verifie si la session est active
         if ($token = $this->session->get('token')) {
-            $user = $this->user->getUserByToken($token);
-            if ($user && count($user) == 1) {
+            if ($this->user->getUserByToken($token)) {
                 header("location:/zeapps/app");
             } else {
                 $this->loadForm();

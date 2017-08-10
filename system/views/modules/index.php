@@ -20,7 +20,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </thead>
                 <tbody>
                 <tr ng-repeat="module in modules | orderBy:'version'">
-                    <td>{{ module.name }}</td>
+                    <td>{{ module.label }}</td>
                     <td class="text-right">{{ module.version }}</td>
                     <td class="text-right"><span class="fa pointer" ng-class="testIfActif(module)"
                                                  ng-click="toggleActivation(module)"></span></td>
@@ -39,7 +39,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <div class="checkbox" ng-repeat="module in modulesToUpdate">
                 <label>
                     <input type="checkbox" ng-model="modulesForm[module.module_id]">
-                    {{module.name}}
+                    {{module.label}}
                 </label>
             </div>
         </div>
@@ -48,7 +48,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <div class="checkbox" ng-repeat="module in modulesToInstall">
                 <label>
                     <input type="checkbox" ng-model="modulesForm[module.module_id]">
-                    {{module.name}}
+                    {{module.label}}
                 </label>
             </div>
         </div>

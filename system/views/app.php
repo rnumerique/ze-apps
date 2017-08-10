@@ -121,8 +121,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <div class="title" i8n="<?php echo $menuSpace["info"]["name"]; ?>"></div>
                         <ul class="nav">
                             <?php foreach ($menuSpace["item"] as $menuItem) { ?>
-                                <li><a href="<?php echo $menuItem["url"]; ?>"
-                                       i8n="<?php echo $menuItem["label"]; ?>"></a></li>
+                                <li><a href="<?php echo $menuItem["url"]; ?>" i8n="<?php echo $menuItem["label"]; ?>"></a></li>
                             <?php } ?>
                         </ul>
                     <?php } ?>
@@ -149,7 +148,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <span i8n="Config"></span>
             </a>
         </div>
-
 
     </div>
 </div>

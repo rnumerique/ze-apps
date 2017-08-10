@@ -46,7 +46,7 @@ class Zeapps_users extends ZeModel
             $token = $this->_pLoad->ctrl->token->findBy_token($tokenUser);
 
             if ($token && isset($token[0])) {
-                return $this->findBy_id($token[0]->id_user);
+                return parent::get($token[0]->id_user);
             } else {
                 return false;
             }

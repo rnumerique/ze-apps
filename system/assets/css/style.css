@@ -583,6 +583,20 @@ toasts .alert-dismissible .close{
 }
 
 
+.table-group-rights th:first-child,
+.table-group-rights td:not(.module-cell):first-child{
+    border-right: 1px solid #ddd;
+}
+
+.table-group-rights .module-cell{
+    background-color: #393939 !important;
+    color: #fff;
+}
+.table-group-rights .module-cell:not(:first-child){
+    border-top: 15px solid #fff;
+}
+
+
 
 .postits{
     margin: 15px 0;
