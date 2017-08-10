@@ -30,6 +30,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <input type="password" class="form-control" ng-model="form.password_field">
                 </div>
 
+                <div class="form-group">
+                    <label i8n="Taux horaire (€)"></label>
+                    <input type="number" class="form-control" ng-model="form.hourly_rate">
+                </div>
+
 
 
 

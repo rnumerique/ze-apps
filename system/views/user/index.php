@@ -7,20 +7,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
     <div class="row">
-        <div class="col-md-12">
-            <a href="/ng/com_zeapps/users/view" class="btn btn-primary" i8n="Nouvel utilisateur"></a>
+        <div class="col-md-12 text-right">
+            <a href="/ng/com_zeapps/users/view" class="btn btn-xs btn-success">
+                <i class="fa fa-fw fa-plus"></i> Utilisateur
+            </a>
         </div>
     </div>
 
     <div class="row">
         <div class="col-md-12">
-            <table class="table table-bordered table-striped table-condensed table-responsive" ng-show="users.length">
+            <table class="table table-striped table-condensed table-responsive" ng-show="users.length">
                 <thead>
                 <tr>
                     <th i8n="Prénom"></th>
                     <th i8n="Nom"></th>
                     <th i8n="Email"></th>
-                    <th>&nbsp;</th>
+                    <th></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -28,9 +30,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <td><a href="/ng/com_zeapps/users/view/{{user.id}}">{{user.firstname}}</a></td>
                     <td><a href="/ng/com_zeapps/users/view/{{user.id}}">{{user.lastname}}</a></td>
                     <td><a href="/ng/com_zeapps/users/view/{{user.id}}">{{user.email}}</a></td>
-                    <td>
-                        <button type="button" class="btn btn-danger btn-sm" ng-click="delete(user.id)"
-                                i8n="Supprimer"></button>
+                    <td class="text-right">
+                        <button type="button" class="btn btn-danger btn-xs" ng-click="delete(user.id)">
+                            <i class="fa fa-fw fa-trash"></i>
+                        </button>
                     </td>
                 </tr>
                 </tbody>

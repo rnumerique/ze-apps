@@ -42,7 +42,7 @@ app.factory("zeapps_modal", ["$uibModal", function($uibModal) {
 	// factory function body that constructs shinyNewServiceInstance
 	return myServiceInstance;
 
-	function loadModule(moduleName, functionName, option, next) {
+	function loadModule(moduleName, functionName, option, next, dismiss) {
 
 		var moduleTrouve = false ;
 		for (var i = 0 ; i < listModuleModalFunction.length ; i++) {
@@ -62,7 +62,10 @@ app.factory("zeapps_modal", ["$uibModal", function($uibModal) {
 
 				modalInstance.result.then(function (selectedItem) {
 					next(selectedItem);
-				}, function () {
+				}, function (selectedItem) {
+					if(dismiss) {
+                        dismiss(selectedItem);
+                    }
 				});
 
 				break;

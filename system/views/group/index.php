@@ -7,26 +7,29 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
     <div class="row">
-        <div class="col-md-12">
-            <a href="/ng/com_zeapps/groups/view" class="btn btn-primary" i8n="Nouveau groupe"></a>
+        <div class="col-md-12 text-right">
+            <a href="/ng/com_zeapps/groups/view" class="btn btn-xs btn-success">
+                <i class="fa fa-fw fa-plus"></i> Groupe
+            </a>
         </div>
     </div>
 
     <div class="row">
         <div class="col-md-12">
-            <table class="table table-bordered table-striped table-condensed table-responsive" ng-show="groups.length">
+            <table class="table table-striped table-condensed table-responsive" ng-show="groups.length">
                 <thead>
                 <tr>
                     <th i8n="Nom"></th>
-                    <th>&nbsp;</th>
+                    <th></th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr ng-repeat="group in groups">
                     <td><a href="/ng/com_zeapps/groups/view/{{group.id}}">{{group.name}}</a></td>
-                    <td>
-                        <button type="button" class="btn btn-danger btn-sm" ng-click="delete(group.id)"
-                                i8n="Supprimer"></button>
+                    <td class="text-right">
+                        <button type="button" class="btn btn-danger btn-xs" ng-click="delete(group.id)">
+                            <i class="fa fa-fw fa-trash"></i>
+                        </button>
                     </td>
                 </tr>
                 </tbody>

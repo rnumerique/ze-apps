@@ -44,10 +44,6 @@ app.controller("MainCtrl", ["$scope", "$route", "$routeParams", "$location", "$r
 			$rootScope.currentModule = $location.path().split("/")[2];
 		});
 
-		$timeout(function(){
-			$scope.daemon_hooks = zeHooks.get("zeappsDaemon_Hook");
-		}, 0);
-
 		$interval(function(){
 			loadNotifications();
 		}, 30000);
@@ -273,6 +269,7 @@ app.run(function(zeHttp, zeHooks, $rootScope){
 	zeHttp.hooks.get_all().then(function(response){
 		if(response.data && response.data != "false"){
 			zeHooks.set(response.data);
+            $rootScope.daemon_hooks = zeHooks.get("zeappsDaemon_Hook");
 		}
 	});
 	zeHttp.get("/zeapps/user/getCurrentUser").then(function (response) {

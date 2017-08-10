@@ -165,6 +165,53 @@ class ZeQuery
         return $this;
     }
 
+    public function where_or($arrData)
+    {
+        $temp_where = "(";
+        foreach ($arrData as $key => $value) {
+            if ($temp_where != "(") {
+                $temp_where .= " OR ";
+            }
+            $keyName = ":" . $key . count($this->_valueQuery);
+            $keyName = str_replace(" ", "_", $keyName);
+            $keyName = str_replace(">", "_", $keyName);
+            $keyName = str_replace("<", "_", $keyName);
+            $keyName = str_replace("=", "_", $keyName);
+            $keyName = str_replace(".", "_", $keyName);
+
+
+            if (!is_array($value) && $value !== null) {
+                $this->_valueQuery[$keyName] = $value;
+            }
+
+
+            if ($value === null) {
+                $temp_where .= $key . " IS NULL ";
+            } elseif (is_array($value)) {
+                $stringValue = "";
+                foreach ($value as $valueContent) {
+                    if ($stringValue != '') {
+                        $stringValue .= ", ";
+                    }
+                    $stringValue .= "'" . $valueContent . "'";
+                }
+                $temp_where .= $key . " IN (" . $stringValue . ") ";
+            } elseif (strpos($key, "<") || strpos($key, ">")) {
+                $temp_where .= $key . " " . $keyName;
+            } else {
+                $temp_where .= $key . " = " . $keyName;
+            }
+        }
+        $temp_where .= ")";
+        if ($this->_where != '') {
+            $this->_where .= " AND ";
+        }
+
+        $this->_where .= $temp_where;
+
+        return $this;
+    }
+
     public function where_not($arrData)
     {
         foreach ($arrData as $key => $value) {

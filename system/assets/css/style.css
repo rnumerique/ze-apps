@@ -10,6 +10,11 @@ a:hover {
     color: #000000;
 }
 
+.table select.input-sm{
+    height: 22px;
+    line-height: 22px;
+}
+
 .btn:focus {
     outline: none;
 }
@@ -22,12 +27,69 @@ a:hover {
     border-color: #393939;
 }
 
-.btn .hover-hint{
+ze-btn .btn{
+    position: relative;
+}
+
+ze-btn .hover-hint-wrap{
+    position: absolute;
     display: none;
 }
-.btn:hover .hover-hint,
-.btn:focus .hover-hint{
-    display: inline;
+ze-btn .hover-hint-wrap.hover-hint-left{
+    left: 100%;
+    margin-left: -1px;
+}
+ze-btn .hover-hint-wrap.hover-hint-right{
+    right: 100%;
+    margin-right: -1px;
+}
+ze-btn:hover .hover-hint-wrap,
+ze-btn:focus .hover-hint-wrap{
+    z-index: 999;
+    display: inline-block;
+}
+
+ze-btn .hover-hint-wrap .hover-hint{
+    padding: 3px 5px;
+    border: 1px solid;
+    border-radius: 3px;
+}
+
+ze-btn .hover-hint-wrap.hover-hint-left .hover-hint{
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-left: 0 !important;
+}
+ze-btn .hover-hint-wrap.hover-hint-right .hover-hint{
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-right: 0 !important;
+}
+
+ze-btn:hover .btn.btn-primary .hover-hint,
+ze-btn:focus .btn.btn-primary .hover-hint{
+    border-color: #204d74;
+    background-color: #286090;
+}
+ze-btn:hover .btn.btn-info .hover-hint,
+ze-btn:focus .btn.btn-info .hover-hint{
+    border-color: #269abc;
+    background-color: #31b0d5;
+}
+ze-btn:hover .btn.btn-success .hover-hint,
+ze-btn:focus .btn.btn-success .hover-hint{
+    border-color: #398439;
+    background-color: #449d44;
+}
+ze-btn:hover .btn.btn-warning .hover-hint,
+ze-btn:focus .btn.btn-warning .hover-hint{
+    border-color: #d58512;
+    background-color: #ec971f;
+}
+ze-btn:hover .btn.btn-danger .hover-hint,
+ze-btn:focus .btn.btn-danger .hover-hint{
+    border-color: #ac2925;
+    background-color: #c9302c;
 }
 
 input[type=checkbox], input[type=radio]{
@@ -528,7 +590,6 @@ toasts .alert-dismissible .close{
 }
 .postits td{
     min-height: 1px;
-    height: 1px;
 }
 .postit{
     margin: 15px 10px;
@@ -546,7 +607,6 @@ toasts .alert-dismissible .close{
 }
 .postit h5{
     color: #ccc;
-    position: absolute;
     bottom: 0;
     width: 100%;
 }

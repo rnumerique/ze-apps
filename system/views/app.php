@@ -133,17 +133,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <div class="footer-menu">
 
         <div class="pull-left">
-            <button type="button" class="btn btn-sm"><span class="fa fa-fw fa-shopping-cart"
-                                                           aria-hidden="true"></span> <span
-                        i8n="Extension store"></span>
+            <button type="button" class="btn btn-sm">
+                <span class="fa fa-fw fa-shopping-cart" aria-hidden="true" ze-auth="zeapps_admin"></span>
+                <span i8n="Extension store"></span>
             </button>
-            <button type="button" class="btn btn-sm"><span class="fa fa-fw fa-list-ul"
-                                                           aria-hidden="true"></span> <span i8n="Abonnement"></span>
+            <button type="button" class="btn btn-sm">
+                <span class="fa fa-fw fa-list-ul" aria-hidden="true" ze-auth="zeapps_admin"></span>
+                <span i8n="Abonnement"></span>
             </button>
         </div>
 
         <div class="pull-right">
-            <a href="/ng/com_zeapps/config" class="btn btn-sm"><span class="fa fa-fw fa-cogs" aria-hidden="true"></span>
+            <a href="/ng/com_zeapps/config" class="btn btn-sm" ze-auth="zeapps_admin">
+                <span class="fa fa-fw fa-cogs" aria-hidden="true"></span>
                 <span i8n="Config"></span>
             </a>
         </div>

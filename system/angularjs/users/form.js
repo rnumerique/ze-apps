@@ -16,6 +16,7 @@ app.controller("ComZeAppsUsersFormCtrl", ["$scope", "$route", "$routeParams", "$
 				if (response.status == 200) {
 					$scope.form = response.data;
 
+					$scope.form.hourly_rate = parseFloat($scope.form.hourly_rate);
 				}
 			});
 		}
@@ -47,6 +48,7 @@ app.controller("ComZeAppsUsersFormCtrl", ["$scope", "$route", "$routeParams", "$
 			$data.firstname = $scope.form.firstname ;
 			$data.lastname = $scope.form.lastname ;
 			$data.email = $scope.form.email ;
+			$data.hourly_rate = $scope.form.hourly_rate ;
 
 			if($scope.form.groups)
 				$data.groups_list = $scope.form.groups.join();
