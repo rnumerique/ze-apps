@@ -1,9 +1,7 @@
-app.controller("ComZeAppsUsersFormCtrl", ["$scope", "$route", "$routeParams", "$location", "$rootScope", "$http",
-	function ($scope, $route, $routeParams, $location, $rootScope, $http) {
+app.controller("ComZeAppsUsersFormCtrl", ["$scope", "$route", "$routeParams", "$location", "$rootScope", "zeHttp",
+	function ($scope, $route, $routeParams, $location, $rootScope, zhttp) {
 
 		$scope.$parent.loadMenu("com_ze_apps_config", "com_ze_apps_users");
-
-		var options = {};
 
 		$scope.form = [];
 
@@ -12,50 +10,44 @@ app.controller("ComZeAppsUsersFormCtrl", ["$scope", "$route", "$routeParams", "$
 
 		// charge la fiche
 		if ($routeParams.id && $routeParams.id != 0) {
-			$http.get("/zeapps/user/get/" + $routeParams.id).then(function (response) {
+			zhttp.app.user.get($routeParams.id).then(function (response) {
 				if (response.status == 200) {
-					$scope.form = response.data;
-
+					$scope.form = response.data.user;
 					$scope.form.hourly_rate = parseFloat($scope.form.hourly_rate);
+                    if($scope.form.rights) {
+                        $scope.form.rights_array = angular.fromJson($scope.form.rights);
+                    }
+                    else{
+                        $scope.form.rights_array = {};
+                    }
+
+                    $scope.groups = response.data.groups ;
+
+                    $scope.modules = response.data.modules ;
+                    angular.forEach($scope.modules, function(module){
+                        module.closed = false;
+                    })
 				}
 			});
 		}
+		else{
+            zhttp.app.user.get_context($routeParams.id).then(function (response) {
+                if (response.data && response.data != "false") {
+                    $scope.groups = response.data.groups ;
 
-		$http.post("/zeapps/group/getAll", options).then(function (response) {
-			if (response.status == 200) {
-				$scope.groups = response.data ;
-			}
-		});
-
-		// charge la liste des droits
-		$http.get("/zeapps/user/getRightList").then(function (response) {
-			if (response.status == 200) {
-				$scope.right_list = response.data ;
-			}
-		});
+                    $scope.modules = response.data.modules ;
+                    angular.forEach($scope.modules, function(module){
+                        module.closed = false;
+                    })
+                }
+            });
+		}
 
 		function enregistrer() {
-			var $data = {} ;
+			$scope.form.rights = angular.toJson($scope.form.rights_array);
 
-			if ($routeParams.id != 0) {
-				$data.id = $routeParams.id;
-			}
-
-			if ($scope.form.password_field && $scope.form.password_field.trim() != "") {
-				$data.password = $scope.form.password_field ;
-			}
-
-			$data.firstname = $scope.form.firstname ;
-			$data.lastname = $scope.form.lastname ;
-			$data.email = $scope.form.email ;
-			$data.hourly_rate = $scope.form.hourly_rate ;
-
-			if($scope.form.groups)
-				$data.groups_list = $scope.form.groups.join();
-			if($scope.form.rights)
-				$data.right_list = $scope.form.rights.join() ;
-
-			$http.post("/zeapps/user/save", $data).then(function () {
+			var formatted_data = angular.toJson($scope.form);
+			zhttp.app.user.post(formatted_data).then(function () {
 				// pour que la page puisse être redirigé
 				$location.path("/ng/com_zeapps/users");
 			});
