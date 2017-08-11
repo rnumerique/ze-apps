@@ -32,6 +32,8 @@ class ZeTrigger
     }
 
     public function execute($data = array()){
+        $return = [];
+
         foreach($this->modules as $module){
             $class = $module->module . '_' . $this->trigger;
             if(file_exists(MODULEPATH . $module->module . '/triggers/' . $class . '.php')){
@@ -40,9 +42,11 @@ class ZeTrigger
 
                 $trigger = new $class();
 
-                $trigger->execute($data);
+                $return[$module->module] = $trigger->execute($data);
             }
         }
+
+        return $return;
     }
 
     private function load()
