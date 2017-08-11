@@ -47,6 +47,25 @@ class App extends ZeCtrl
         }
     }
 
+    public function get_context(){
+        $this->trigger->set('get_context');
+
+        $ret = $this->trigger->execute();
+
+        $echo = [];
+        if(is_array($ret) && sizeof($ret) > 0){
+            foreach($ret as $result){
+                if(!is_array($result)){
+                    $result = array($result);
+                }
+
+                array_merge($echo, $result);
+            }
+        }
+
+        echo json_encode($echo);
+    }
+
 
     private function appLoading()
     {
@@ -55,7 +74,7 @@ class App extends ZeCtrl
 
         $this->loadCache();
 
-        $data = $this->getContext();
+        $data = $this->getMenus();
 
         $this->load->view("app", $data);
     }
@@ -80,7 +99,7 @@ class App extends ZeCtrl
         return true;
     }
 
-    private function getContext()
+    private function getMenus()
     {
         $data = array();
 
