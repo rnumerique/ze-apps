@@ -1,5 +1,6 @@
 var app = angular.module("zeApp", ["ngSanitize","ngRoute","ui.bootstrap", "ui.sortable","checklist-model", "digitalfondue.dftabmenu", "ngFileUpload", "chart.js"]);
 
+var listModuleModalFunction = [] ;
 
 app.controller("MainCtrl", ["$scope", "$route", "$routeParams", "$location", "$rootScope", "$http", "$interval", "$timeout", "zeHooks",
 	function ($scope, $route, $routeParams, $location, $rootScope, $http, $interval, $timeout, zeHooks) {
@@ -266,7 +267,7 @@ app.config(["$provide",
 app.run(function(zeHttp, zeHooks, $rootScope){
 	moment.locale("fr");
 
-	zeHttp.hooks.get_all().then(function(response){
+	zeHttp.app.hooks.all().then(function(response){
 		if(response.data && response.data != "false"){
 			zeHooks.set(response.data);
             $rootScope.daemon_hooks = zeHooks.get("zeappsDaemon_Hook");

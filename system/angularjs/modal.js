@@ -29,10 +29,6 @@ app.controller("ZeAppsPopupModalDeBaseCtrl", function($scope, $uibModalInstance,
 }) ;
 
 
-
-
-var listModuleModalFunction = [] ;
-
 app.factory("zeapps_modal", ["$uibModal", function($uibModal) {
 
 	var myServiceInstance = {};
