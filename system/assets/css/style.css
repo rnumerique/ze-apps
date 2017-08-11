@@ -27,6 +27,11 @@ a:hover {
     border-color: #393939;
 }
 
+.bg-dark{
+    color: #fff;
+    background-color: #393939;
+}
+
 ze-btn .btn{
     position: relative;
 }
@@ -646,4 +651,18 @@ toasts .alert-dismissible .close{
 
 .main_filters_wrap{
     margin-bottom: 15px;
+}
+
+.user-form-rights{
+    -webkit-column-count: 3; /* Chrome, Safari, Opera */
+    -moz-column-count: 3; /* Firefox */
+    column-count: 3;
+    -webkit-column-gap: 15px; /* Chrome, Safari, Opera */
+    -moz-column-gap: 15px; /* Firefox */
+    column-gap: 15px;
+}
+.user-form-rights > div{
+    display: inline-block;
+    width: 100%;
+    margin-bottom: 10px;
 }
