@@ -31,9 +31,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <td><a href="/ng/com_zeapps/users/view/{{user.id}}">{{user.lastname}}</a></td>
                     <td><a href="/ng/com_zeapps/users/view/{{user.id}}">{{user.email}}</a></td>
                     <td class="text-right">
-                        <button type="button" class="btn btn-danger btn-xs" ng-click="delete(user.id)">
-                            <i class="fa fa-fw fa-trash"></i>
-                        </button>
+                        <ze-btn fa="trash" color="danger" hint="Supprimer" direction="right" ng-click="delete(user)" ze-confirmation></ze-btn>
                     </td>
                 </tr>
                 </tbody>
