@@ -6,69 +6,81 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <div id="content">
 
 
-    <div class="row">
-        <div class="col-md-12">
-            <form>
-
+    <form>
+        <div class="row">
+            <div class="col-md-6">
                 <div class="form-group">
                     <label i8n="Prénom"></label>
                     <input type="text" class="form-control" ng-model="form.firstname">
                 </div>
+            </div>
+
+            <div class="col-md-6">
 
                 <div class="form-group">
                     <label i8n="Nom"></label>
                     <input type="text" class="form-control" ng-model="form.lastname">
                 </div>
+            </div>
+        </div>
 
+        <div class="row">
+            <div class="col-md-6">
                 <div class="form-group">
                     <label i8n="Email"></label>
                     <input type="text" class="form-control" ng-model="form.email">
                 </div>
+            </div>
 
+            <div class="col-md-6">
                 <div class="form-group">
                     <label i8n="Mot de passe"></label>
                     <input type="password" class="form-control" ng-model="form.password_field">
                 </div>
+            </div>
+        </div>
 
+        <div class="row">
+            <div class="col-md-6">
                 <div class="form-group">
                     <label i8n="Taux horaire (€)"></label>
                     <input type="number" class="form-control" ng-model="form.hourly_rate">
                 </div>
+            </div>
+        </div>
 
-
-
-
-
+        <div class="row">
+            <div class="col-md-12">
                 <div class="form-group">
                     <label i8n="Groupes"></label>
 
                     <div ng-repeat="group in groups">
-                        <input type="checkbox" checklist-model="form.groups" checklist-value="group.id"> {{group.name}}
+                        <input type="checkbox" ng-model="form.groups[group.id]"> {{group.label}}
                     </div>
                 </div>
+            </div>
+        </div>
 
-
+        <div class="row">
+            <div class="col-md-12">
                 <div class="form-group">
-                    <label i8n="Liste des droits"></label>
+                    <label>Droits supplémentaires</label>
+                    <div class="user-form-rights">
+                        <div ng-repeat="module in modules" ng-if="module.rights">
+                            <div ng-click="module.closed = !module.closed" class="bg-dark">
+                                <i class="fa fa-fw" ng-class="module.closed ? 'fa-plus' : 'fa-minus'"></i>
+                                Module : {{ module.label }}
+                            </div>
 
-                    <div ng-repeat="space in right_list">
-
-                        <h4 style="border-bottom: solid 1px #000000;">{{space.info.name}}</h4>
-
-                        <div ng-repeat="section in space.section">
-
-                            <h5>{{section.info}}</h5>
-
-
-                            <div ng-repeat="droit in section.item">
-                                <input type="checkbox" checklist-model="form.rights" checklist-value="droit.id">
-                                {{droit.label}}
+                            <div ng-repeat="(right, label) in module.rights" ng-hide="module.closed">
+                                <label>
+                                    <input type="checkbox" ng-true-value="1" ng-false-value="0" ng-model="form.rights_array[module.module_id + '_' + right]">
+                                    {{label}}
+                                </label>
                             </div>
                         </div>
                     </div>
                 </div>
-
-
 
 
                 <div class="text-center">
@@ -76,9 +88,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <button type="button" class="btn btn-warning btn-sm" ng-click="annuler()" i8n="Annuler"></button>
                 </div>
 
-            </form>
+            </div>
         </div>
-    </div>
-
+    </form>
 
 </div>
