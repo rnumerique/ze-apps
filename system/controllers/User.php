@@ -3,112 +3,106 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class User extends ZeCtrl
 {
-    public function index()
+    public function view()
     {
-        $data = array();
-
-        $this->load->view('user/index', $data);
+        $this->load->view('user/view');
     }
-
 
     public function modal_user()
     {
-        $data = array();
-
-        $this->load->view('user/modalUser', $data);
-    }
-
-
-    public function getRightList()
-    {
-        require_once BASEPATH . "config/right.php";
-
-
-        /********** charge tous les espaces **********/
-        $space = array();
-        $folderSpace = FCPATH . "space/";
-        // charge tous les fichiers de conf des menus
-        if ($folder = opendir($folderSpace)) {
-            while (false !== ($folderItem = readdir($folder))) {
-                $fileSpace = $folderSpace . $folderItem;
-                if (is_file($fileSpace) && $folderItem != '.' && $folderItem != '..') {
-                    require_once $fileSpace;
-                }
-            }
-        }
-        /********** END : charge tous les espaces **********/
-
-
-        $data = array();
-
-        foreach ($space as $spaceItem) {
-            $dataSpace = array();
-            $dataSpace["info"] = $spaceItem;
-            $dataSpace["section"] = array();
-
-
-            $sections = array();
-            foreach ($rightList as $rightItem) {
-                if ($rightItem["space"] == $spaceItem["id"]) {
-
-                    if (!in_array($rightItem["section"], $sections)) {
-                        $sections[] = $rightItem["section"];
-                    }
-                }
-            }
-
-
-            foreach ($sections as $section) {
-                $dataItem = array();
-                $dataItem["info"] = $section;
-                $dataItem["item"] = array();
-
-                foreach ($rightList as $rightItem) {
-                    if ($rightItem["space"] == $spaceItem["id"] && $section == $rightItem["section"]) {
-                        $dataItem["item"][] = $rightItem;
-                    }
-                }
-
-                if (count($dataItem["item"])) {
-                    $dataSpace["section"][] = $dataItem;
-                }
-            }
-
-            if (count($dataSpace["section"]) > 0) {
-                $data[] = $dataSpace;
-            }
-        }
-
-
-        echo json_encode($data);
-    }
-
-
-    public function getAll()
-    {
-        $this->load->model("Zeapps_users", "users");
-        $users = $this->users->all();
-        echo json_encode($users);
+        $this->load->view('user/modalUser');
     }
 
     public function form()
     {
-        $data = array();
-
-        $this->load->view('user/form', $data);
+        $this->load->view('user/form');
     }
-
 
     public function get($id)
     {
         $this->load->model("Zeapps_users", "users");
-        echo json_encode($this->users->get($id));
+        $this->load->model("Zeapps_user_groups", "user_groups");
+        $this->load->model("Zeapps_groups", "groups");
+        $this->load->model("Zeapps_modules", "modules");
+        $this->load->model("Zeapps_module_rights", "module_rights");
+
+        if($user = $this->users->get($id)){
+            $user->groups = [];
+            if($user_groups = $this->user_groups->all(array('id_user' => $user->id))){
+                foreach($user_groups as $user_group){
+                    $user->groups[$user_group->id_group] = true;
+                }
+            }
+        }
+
+        if(!$groups = $this->groups->all()){
+            $groups = [];
+        }
+
+        if($modules = $this->modules->all(array('active' => 1))) {
+            foreach($modules as $module){
+                if($right = $this->module_rights->get(array('id_module' => $module->id))) {
+                    $module->rights = json_decode($right->rights, true);
+                }
+                else {
+                    $module->rights = false;
+                }
+            }
+        }
+        else{
+            $modules = [];
+        }
+
+        echo json_encode(array(
+            'user' => $user,
+            'groups' => $groups,
+            'modules' => $modules
+        ));
     }
 
+    public function get_context()
+    {
+        $this->load->model("Zeapps_groups", "groups");
+        $this->load->model("Zeapps_modules", "modules");
+        $this->load->model("Zeapps_module_rights", "module_rights");
+
+        if(!$groups = $this->groups->all()){
+            $groups = [];
+        }
+
+        if($modules = $this->modules->all(array('active' => 1))) {
+            foreach($modules as $module){
+                if($right = $this->module_rights->get(array('id_module' => $module->id))) {
+                    $module->rights = json_decode($right->rights, true);
+                }
+                else {
+                    $module->rights = false;
+                }
+            }
+        }
+        else{
+            $modules = [];
+        }
+
+        echo json_encode(array(
+            'groups' => $groups,
+            'modules' => $modules
+        ));
+    }
+
+    public function all()
+    {
+        $this->load->model("Zeapps_users", "users");
+
+        $users = $this->users->all();
+
+        echo json_encode($users);
+    }
 
     public function save()
     {
         $this->load->model("Zeapps_users", "users");
+        $this->load->model("Zeapps_user_groups", "user_groups");
 
         // constitution du tableau
         $data = array();
@@ -121,22 +115,48 @@ class User extends ZeCtrl
 
         if (isset($data["id"]) && is_numeric($data["id"])) {
             $this->users->update($data, $data["id"]);
+            $id = $data['id'];
+
+            if($data['groups'] && is_array($data['groups'])){
+                foreach($data['groups'] as $id_group => $value){
+                    if($value){
+                        $this->user_groups->insert(array(
+                            'id_user' => $id,
+                            'id_group' => $id_group
+                        ));
+                    }
+                    else{
+                        $this->user_groups->delete(array(
+                            'id_user' => $id,
+                            'id_group' => $id_group
+                        ));
+                    }
+                }
+            }
         } else {
-            $this->users->insert($data);
+            $id = $this->users->insert($data);
+
+            if($data['groups'] && is_array($data['groups'])){
+                foreach($data['groups'] as $id_group => $value){
+                    if($value){
+                        $this->user_groups->insert(array(
+                            'id_user' => $id,
+                            'id_group' => $id_group
+                        ));
+                    }
+                }
+            }
         }
 
-        echo json_encode("OK");
+        echo $id;
     }
-
 
     public function delete($id)
     {
         $this->load->model("Zeapps_users", "users");
-        $this->users->delete($id);
 
-        echo json_encode("OK");
+        echo $this->users->delete($id);
     }
-
 
     public function getCurrentUser()
     {
