@@ -14,3 +14,4 @@
 # mpeltonen/sbt-idea plugin
 .idea_modules/
 assets/upload/
+.DS_Store
