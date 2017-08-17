@@ -133,10 +133,12 @@ class User extends ZeCtrl
             if($data['groups'] && is_array($data['groups'])){
                 foreach($data['groups'] as $id_group => $value){
                     if($value){
-                        $this->user_groups->insert(array(
-                            'id_user' => $id,
-                            'id_group' => $id_group
-                        ));
+                        if(!$this->user_groups->get(array('id_user' => $id,'id_group' => $id_group))) {
+                            $this->user_groups->insert(array(
+                                'id_user' => $id,
+                                'id_group' => $id_group
+                            ));
+                        }
                     }
                     else{
                         $this->user_groups->delete(array(
@@ -152,10 +154,12 @@ class User extends ZeCtrl
             if($data['groups'] && is_array($data['groups'])){
                 foreach($data['groups'] as $id_group => $value){
                     if($value){
-                        $this->user_groups->insert(array(
-                            'id_user' => $id,
-                            'id_group' => $id_group
-                        ));
+                        if(!$this->user_groups->get(array('id_user' => $id,'id_group' => $id_group))) {
+                            $this->user_groups->insert(array(
+                                'id_user' => $id,
+                                'id_group' => $id_group
+                            ));
+                        }
                     }
                 }
             }
