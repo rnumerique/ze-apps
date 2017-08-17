@@ -13,13 +13,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <link rel="stylesheet" href="/assets/bootstrap-3.3.7/css/bootstrap-theme.min.css">
 
     <!-- Latest compiled and minified JavaScript -->
-    <script src="/assets/js/jquery-1.12.0.min.js"></script>
+    <script src="/assets/js/jquery-3.2.1.min.js"></script>
     <script src="/assets/bootstrap-3.3.7/js/bootstrap.min.js"></script>
 
     <link rel="stylesheet" href="/assets/css/login.css">
 
     <script>
-        $(window).load(function () {
+        $(window).on('load', function () {
 
             var theWindow = $(window),
                 $bg = $("#bg"),
