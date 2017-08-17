@@ -36,6 +36,36 @@ a:hover {
     background-color: #393939;
 }
 
+.alert-primary{
+    color: #fff;
+    border-color: #204d74;
+    background-color: #286090;
+}
+.alert-info{
+    color: #fff;
+    border-color: #269abc;
+    background-color: #31b0d5;
+}
+.alert-success{
+    color: #fff;
+    border-color: #398439;
+    background-color: #449d44;
+}
+.alert-warning{
+    color: #fff;
+    border-color: #d58512;
+    background-color: #ec971f;
+}
+.alert-danger{
+    color: #fff;
+    border-color: #ac2925;
+    background-color: #c9302c;
+}
+.alert-dismissable .close,
+.alert-dismissible .close{
+    color: #fff;
+}
+
 ze-btn .btn{
     position: relative;
 }
