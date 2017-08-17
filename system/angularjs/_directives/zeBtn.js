@@ -7,7 +7,7 @@ app.directive("zeBtn", function($compile){
                 var color = attrs.color || "primary";
                 var fa = attrs.fa || "font-awesome";
                 var hint = attrs.hint || "";
-                var direction = attrs.direction || "left";
+                var direction = attrs.direction || "right";
 
 				var html = 	"<button type='button' class='btn btn-xs btn-"+color+"'>" +
                     			"<i class='fa fa-fw fa-"+fa+"'></i>" +
