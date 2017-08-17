@@ -131,6 +131,37 @@ class ZeModel
         return $db->where($where)->result();
     }
 
+    public function count($where = array())
+    {
+        $this->database()->clearSql();
+
+        $db = $this->database()->table($this->_tableName);
+
+        $db->select("COUNT(*) as total");
+
+        if (is_array($this->_orderBy) && count($this->_orderBy) > 0) {
+            $db->order_by($this->_orderBy);
+        }
+
+        if ($this->_limit != -1) {
+            $db->limit($this->_limit, $this->_limitOffset);
+        }
+
+        if ($this->_safeDelete) {
+            $where["deleted_at"] = null ;
+        }
+
+        // to forget "order by" & "limit" for next query
+        $this->clearSql();
+
+        if($res = $db->where($where)->result()){
+            return $res[0]->total;
+        }
+        else{
+            return false;
+        }
+    }
+
     public function get($where)
     {
         $this->database()->clearSql();
