@@ -99,6 +99,19 @@ class User extends ZeCtrl
         echo json_encode($users);
     }
 
+    public function modal($limit = 15, $offset = 0)
+    {
+        $this->load->model("Zeapps_users", "users");
+
+        $total = $this->users->count();
+
+        if(!$users = $this->users->limit($limit, $offset)->all()){
+            $users = [];
+        }
+
+        echo json_encode(array("data" => $users, "total" => $total));
+    }
+
     public function save()
     {
         $this->load->model("Zeapps_users", "users");
