@@ -13,27 +13,34 @@ app.controller("MainCtrl", ["$scope", "$route", "$routeParams", "$location", "$r
 
 		$scope.dropdown = false;
 		$scope.showLabel = false;
+
 		/********** Notification **********/
 		$scope.notifications = {};
 		$scope.showNotification = false;
+
 		/************ Search Bar ***************/
 		$scope.searchFill = "";
+
 		/********** Left Menu Toggle **********/
 		$scope.fullSizedMenu = true;
 
 		$scope.loadMenu = loadMenu;
 		/************ Search Bar ***************/
 		$scope.search = search;
+
 		/********** Notification **********/
 		$scope.toggleNotification = toggleNotification;
 		$scope.notificationsNotSeen = notificationsNotSeen;
 		$scope.hasUnreadNotifications = hasUnreadNotifications;
 		$scope.readNotification = readNotification;
 		$scope.readAllNotificationsFrom = readAllNotificationsFrom;
+
 		/********** Loading Effect Logo **********/
 		$scope.loading = loading;
+
 		/********** Left Menu Toggle **********/
 		$scope.toggleMenuSize = toggleMenuSize;
+
 		/********** Dropdown User menu *********/
 		$scope.toggleDropdown = toggleDropdown;
 
@@ -276,6 +283,7 @@ app.run(function(zeHttp, zeHooks, $rootScope){
 	zeHttp.get("/zeapps/user/getCurrentUser").then(function (response) {
 		if (response.status == 200) {
 			$rootScope.user = response.data;
+			console.log(response.data);
 		}
 	});
 });
