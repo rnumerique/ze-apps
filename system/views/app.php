@@ -162,19 +162,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </div>
 
                 <div class="pull-right">
-                    <span ng-click="toggleNotification()" class="pointer">
-                        <span class="fa fa-fw fa-bell" aria-hidden="true"></span>
-                        <span ng-show="notificationsNotSeen() != 0">
-                            <span class="label label-danger label-as-badge">{{ notificationsNotSeen() }}</span>
-                        </span>
-                    </span>
-
-                    <span ng-click="toggleDropdown()" class="pointer">
-                     {{user.firstname[0] +'. '+user.lastname}}
-                        <span class="fa fa-fw" ng-class="dropdown ? 'fa-caret-up' : 'fa-caret-down'"
-                              aria-hidden="true"></span>
-                    </span>
-
+                    <a href="/ng/com_zeapps/config" class="btn btn-sm" ze-auth="zeapps_admin">
+                        <span class="fa fa-fw fa-cogs" aria-hidden="true"></span>
+                        <span i8n="Config"></span>
+                    </a>
                 </div>
 
             </div>
