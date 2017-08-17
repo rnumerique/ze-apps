@@ -6,16 +6,16 @@ class Zeapps_users extends ZeModel
     private $typeHash = 'sha256';
 
     public function insert($data = array()){
-        if($data['password']){
-            $data['password'] = hash($this->typeHash, $data['password']);
+        if(isset($data['password_field'])){
+            $data['password'] = hash($this->typeHash, $data['password_field']);
         }
 
         return parent::insert($data);
     }
 
     public function update($data = array(), $where = array()){
-        if($data['password']){
-            $data['password'] = hash($this->typeHash, $data['password']);
+        if(isset($data['password_field'])){
+            $data['password'] = hash($this->typeHash, $data['password_field']);
         }
 
         return parent::update($data, $where);
@@ -72,8 +72,7 @@ class Zeapps_users extends ZeModel
         $where = array();
         $where["email"] = $email;
         $where["password"] = hash($this->typeHash, $password);
-        $users = $this->all($where);
-        if ($users && count($users) == 1) {
+        if ($user = $this->get($where)) {
 
             $token = "";
             while ($token == "") {
@@ -87,7 +86,7 @@ class Zeapps_users extends ZeModel
                     $token = "";
                 } else {
                     $token = new $this->_pLoad->ctrl->token();
-                    $token->id_user = $users[0]->id;
+                    $token->id_user = $user->id;
                     $token->token = $tokenGenerated;
                     $token->date_expire = gmdate("Y-m-d H:i:s", time() + $sessionLifetime * 60);
                     $token->insert($token);
