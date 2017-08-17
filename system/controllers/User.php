@@ -178,7 +178,7 @@ class User extends ZeCtrl
     public function getCurrentUser()
     {
         $this->load->model("Zeapps_users", "user");
-        //$this->load->model("Zeapps_user_rights", "rights");
+        $this->load->model("Zeapps_user_groups", "user_groups");
 
 
         // verifie si la session est active
@@ -192,7 +192,22 @@ class User extends ZeCtrl
                 $data["email"] = $user->email;
                 $data["lang"] = $user->lang;
 
-                //$data["rights"] = $this->rights->getRightsOf($user->id);
+                $data["rights"] = json_decode($user->rights, true);
+
+                if($groups = $this->user_groups->all(array('id_user' => $user->id))){
+                    foreach($groups as $group){
+                        if($group->rights !== "") {
+                            $rights = json_decode($group->rights);
+                            foreach ($rights as $key => $value) {
+                                if (!isset($data["rights"][$key])) {
+                                    $data["rights"][$key] = $value;
+                                } else {
+                                    $data["rights"][$key] = $data["rights"][$key] || $value ? 1 : 0;
+                                }
+                            }
+                        }
+                    }
+                }
 
                 echo json_encode($data);
             }
