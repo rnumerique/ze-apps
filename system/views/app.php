@@ -2,84 +2,93 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?><!DOCTYPE html>
 <html lang="en" ng-app="zeApp">
-<head>
-    <meta charset="utf-8">
-    <title>Zeapps</title>
+    <head>
+        <meta charset="utf-8">
+        <title>Zeapps</title>
+        <base href="/">
 
+<!-- ************************************************************* -->
+<!-- **************************** CSS **************************** -->
+<!-- ************************************************************* -->
+        <!-- Bootstrap -->
+        <link rel="stylesheet" href="/assets/bootstrap-3.3.7/css/bootstrap.min.css">
 
-    <base href="/">
+        <!-- jQuery UI -->
+        <link rel="stylesheet" href="/assets/js/jquery-ui-1.11.4/jquery-ui.min.css">
+        <link rel="stylesheet" href="/assets/js/jquery-ui-1.11.4/jquery-ui.structure.min.css">
+        <link rel="stylesheet" href="/assets/js/jquery-ui-1.11.4/jquery-ui.theme.min.css">
 
+        <!-- Full Calendar -->
+        <link rel="stylesheet" href="/assets/css/fullcalendar.min.css">
+        <link rel="stylesheet" href="/assets/css/fullcalendar.print.min.css" media="print">
 
-    <link rel="stylesheet" href="/assets/bootstrap-3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/assets/js/jquery-ui-1.11.4/jquery-ui.min.css">
-    <link rel="stylesheet" href="/assets/js/jquery-ui-1.11.4/jquery-ui.structure.min.css">
-    <link rel="stylesheet" href="/assets/js/jquery-ui-1.11.4/jquery-ui.theme.min.css">
-    <link rel="stylesheet" href="/assets/css/fullcalendar.min.css">
-    <link rel="stylesheet" href="/assets/css/fullcalendar.print.min.css" media="print">
+        <!-- Font-Awesome -->
+        <link rel="stylesheet" href="/assets/css/font-awesome.min.css">
 
-    <!-- Optional theme -->
-    <!--<link rel="stylesheet" href="/assets/bootstrap-3.3.7/css/bootstrap-theme.min.css">-->
+        <link rel="stylesheet" href="/assets/css/app.css">
+        <link rel="stylesheet" href="/cache/css/global.css">
 
-    <!-- Font-Awesome -->
-    <link rel="stylesheet" href="/assets/css/font-awesome.min.css">
+<!-- ************************************************************* -->
+<!-- ***************************** JS **************************** -->
+<!-- ************************************************************* -->
+        <!-- jQuery -->
+        <script src="/assets/js/jquery-3.2.1.min.js"></script>
 
+        <!-- Bootstrap -->
+        <script src="/assets/bootstrap-3.3.7/js/bootstrap.min.js"></script>
 
-    <script src="/assets/js/jquery-3.2.1.min.js"></script>
-    <script src="/assets/bootstrap-3.3.7/js/bootstrap.min.js"></script>
-    <script src="/assets/js/jquery-ui-1.11.4/jquery-ui.min.js"></script>
+        <!-- jQuery UI -->
+        <script src="/assets/js/jquery-ui-1.11.4/jquery-ui.min.js"></script>
 
-    <script src="/assets/js/momentjs/moment.min.js"></script>
+        <!-- Moment -->
+        <script src="/assets/js/momentjs/moment.min.js"></script>
 
-    <script src="/assets/js/chartjs/Chart.min.js"></script>
+        <!-- ChartJS -->
+        <script src="/assets/js/chartjs/Chart.min.js"></script>
 
-    <script src="/assets/js/fullcalendar/fullcalendar.min.js"></script>
-    <script src="/assets/js/fullcalendar/locale-all.js"></script>
+        <!-- Full Calendar -->
+        <script src="/assets/js/fullcalendar/fullcalendar.min.js"></script>
+        <script src="/assets/js/fullcalendar/locale-all.js"></script>
 
-    <script src="/assets/js/angular-1.5.0/angular.min.js"></script>
-    <script src="/assets/js/angular-1.5.0/angular-route.min.js"></script>
-    <script src="/assets/js/angular-1.5.0/angular-animate.min.js"></script>
-    <script src="/assets/js/angular-1.5.0/angular-sanitize.min.js"></script>
+        <!-- AngularJS -->
+        <script src="/assets/js/angular-1.5.0/angular.min.js"></script>
+        <script src="/assets/js/angular-1.5.0/angular-route.min.js"></script>
+        <script src="/assets/js/angular-1.5.0/angular-animate.min.js"></script>
+        <script src="/assets/js/angular-1.5.0/angular-sanitize.min.js"></script>
+        <script src="/assets/js/angular-1.5.0/i18n/angular-locale_fr-fr.js"></script>
 
-    <script src="/assets/js/angular-1.5.0/i18n/angular-locale_fr-fr.js"></script>
+        <!-- angularjs directive for ChartJS -->
+        <script src="/assets/js/angular-chartjs/angular-chart.min.js"></script>
 
-    <script src="/assets/js/angular-chartjs/angular-chart.min.js"></script>
+        <!-- angularjs Upload Files -->
+        <script src="/assets/js/angular-upload/ng-file-upload.min.js"></script>
+        <script src="/assets/js/angular-upload/ng-file-upload-shim.min.js"></script>
 
-    <!-- angularjs Upload Files -->
-    <script src="/assets/js/angular-upload/ng-file-upload.min.js"></script>
-    <script src="/assets/js/angular-upload/ng-file-upload-shim.min.js"></script>
+        <!-- angularjs UI -->
+        <script src="/assets/js/ui-bootstrap-tpls-1.1.2.min.js"></script>
+        <script src="/assets/js/ui-sortable-0.13.4/sortable.min.js"></script>
 
-    <!-- angularjs UI -->
-    <script src="/assets/js/ui-bootstrap-tpls-1.1.2.min.js"></script>
-    <script src="/assets/js/ui-sortable-0.13.4/sortable.min.js"></script>
+        <!-- df-tab-menu -->
+        <script src="/assets/js/df-tab-menu/df-tab-menu.min.js"></script>
 
-    <!-- Angular upload file-->
-    <script src="/assets/js/angular_uploadFile/ng-file-upload.min.js"></script>
-    <script src="/assets/js/angular_uploadFile/ng-file-upload-shim.min.js"></script>
+        <script src="/assets/js/checklist-model.js"></script>
 
+        <!-- CACHED FILES -->
+        <script src="/cache/js/main.js"></script>
+        <script src="/cache/js/global.js"></script>
+    </head>
+    <body ng-controller="MainCtrl as main" ng-cloak>
 
-    <!-- df-tab-menu -->
-    <script src="/assets/js/df-tab-menu/df-tab-menu.min.js"></script>
+        <!-- HOOK zeappsDaemon_Hook -->
+        <span ng-repeat="hook in daemon_hooks | orderBy:'sort'" ng-include="hook.template"></span>
 
+        <div id="menu-hover-shadow"></div>
 
-    <script src="/assets/js/checklist-model.js"></script>
-
-
-    <link rel="stylesheet" href="/assets/css/app.css">
-
-
-    <!-- CACHED FILES -->
-    <script src="/cache/js/main.js"></script>
-
-    <script src="/cache/js/global.js"></script>
-
-    <link rel="stylesheet" href="/cache/css/global.css">
-</head>
-<body ng-controller="MainCtrl as main">
-
-<!-- HOOK zeappsDaemon_Hook -->
-<span ng-repeat="hook in daemon_hooks | orderBy:'sort'" ng-include="hook.template"></span>
-
-<div id="menu-hover-shadow">
+        <div id="menu-hover">
+            <div class="essential">
+                <div class="title" i8n="L'essentiel"></div>
+                <div class="url-menu">
+                    <ul class="nav">
 
 </div>
 <div id="menu-hover">
