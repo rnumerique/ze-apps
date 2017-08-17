@@ -40,11 +40,11 @@ ze-btn .hover-hint-wrap{
     position: absolute;
     display: none;
 }
-ze-btn .hover-hint-wrap.hover-hint-left{
+ze-btn .hover-hint-wrap.hover-hint-right{
     left: 100%;
     margin-left: -1px;
 }
-ze-btn .hover-hint-wrap.hover-hint-right{
+ze-btn .hover-hint-wrap.hover-hint-left{
     right: 100%;
     margin-right: -1px;
 }
@@ -60,12 +60,12 @@ ze-btn .hover-hint-wrap .hover-hint{
     border-radius: 3px;
 }
 
-ze-btn .hover-hint-wrap.hover-hint-left .hover-hint{
+ze-btn .hover-hint-wrap.hover-hint-right .hover-hint{
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
     border-left: 0 !important;
 }
-ze-btn .hover-hint-wrap.hover-hint-right .hover-hint{
+ze-btn .hover-hint-wrap.hover-hint-left .hover-hint{
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
     border-right: 0 !important;
