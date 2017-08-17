@@ -12,4 +12,9 @@ class Directives extends ZeCtrl
     {
         $this->load->view('directives/zepostits');
     }
+
+    public function search_modal()
+    {
+        $this->load->view('directives/search_modal');
+    }
 }
