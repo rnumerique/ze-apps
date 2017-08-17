@@ -66,6 +66,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <div class="form-group">
                     <label>Droits supplémentaires</label>
                     <div class="user-form-rights">
+                        <div>
+                            <div ng-click="application_closed = !application_closed" class="bg-dark">
+                                <i class="fa fa-fw" ng-class="module.closed ? 'fa-plus' : 'fa-minus'"></i>
+                                Application
+                            </div>
+
+                            <div ng-hide="application_closed">
+                                <label>
+                                    <input type="checkbox" ng-true-value="1" ng-false-value="0" ng-model="form.rights_array['zeapps_admin']">
+                                    Administration
+                                </label>
+                            </div>
+                        </div>
                         <div ng-repeat="module in modules" ng-if="module.rights">
                             <div ng-click="module.closed = !module.closed" class="bg-dark">
                                 <i class="fa fa-fw" ng-class="module.closed ? 'fa-plus' : 'fa-minus'"></i>

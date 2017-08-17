@@ -28,6 +28,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </tr>
                 </thead>
                 <tbody>
+                <tr class="module-cell">
+                    <td colspan="{{groups.length + 1}}">
+                        Application
+                    </td>
+                </tr>
+                <tr>
+                    <td>Administration</td>
+                    <td ng-repeat="group in groups" class="text-center">
+                        <input type="checkbox" ng-true-value="1" ng-false-value="0" ng-model="group.rights_array['zeapps_admin']" ng-change="save(group)">
+                    </td>
+                </tr>
                 <tr ng-repeat-start="module in modules" ng-if="module.rights" class="module-cell">
                     <td colspan="{{groups.length + 1}}" ng-click="module.closed = !module.closed">
                         <i class="fa fa-fw" ng-class="module.closed ? 'fa-plus' : 'fa-minus'"></i>
