@@ -3,8 +3,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Auth extends ZeCtrl
 {
-
-
     public function index()
     {
         $this->load->model("Zeapps_users", "user");
@@ -33,7 +31,6 @@ class Auth extends ZeCtrl
             if ($token === false) {
                 $data["error"] = true;
             } else {
-
                 $this->session->set('token', $token);
 
                 header("location:/zeapps/app");
@@ -43,7 +40,6 @@ class Auth extends ZeCtrl
 
         $this->load->view('login', $data);
     }
-
 
     public function logout()
     {
