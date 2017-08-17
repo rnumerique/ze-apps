@@ -16,6 +16,7 @@ app.config(["$provide",
 					get : get_user,
 					get_context : getContext_user,
 					all : getAll_user,
+					modal : modal_user,
 					post : post_user,
 					del : delete_user
 				}
@@ -52,6 +53,9 @@ app.config(["$provide",
 			}
 			function getAll_user(){
                 return zeHttp.get("/zeapps/user/all");
+			}
+			function modal_user(){
+                return zeHttp.get("/zeapps/user/modal");
 			}
 			function post_user(data){
                 return zeHttp.post("/zeapps/user/save", data);
