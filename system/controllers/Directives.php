@@ -17,4 +17,9 @@ class Directives extends ZeCtrl
     {
         $this->load->view('directives/search_modal');
     }
+
+    public function form_modal()
+    {
+        $this->load->view('directives/form_modal');
+    }
 }
