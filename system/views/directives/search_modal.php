@@ -2,14 +2,15 @@
     <h3 class="modal-title">{{ title }}</h3>
 </div>
 
-<div class="text-center" ng-show="total > pageSize">
-    <ul uib-pagination total-items="total" ng-model="page" items-per-page="pageSize" class="pagination-sm" boundary-links="true" ng-change="update()"
-        previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></ul>
-</div>
-
 <div class="modal-body">
     <div class="row">
         <div class="col-md-12">
+            <div class="text-center" ng-show="total > pageSize">
+                <ul uib-pagination total-items="total" ng-model="page" items-per-page="pageSize" ng-change="update()"
+                    class="pagination-sm" boundary-links="true" max-size="9"
+                    previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></ul>
+            </div>
+
             <table class="table table-hover table-condensed table-responsive" ng-show="items.length">
                 <thead>
                 <tr>
@@ -26,13 +27,14 @@
                 </tr>
                 </tbody>
             </table>
+
+            <div class="text-center" ng-show="total > pageSize">
+                <ul uib-pagination total-items="total" ng-model="page" items-per-page="pageSize" ng-change="update()"
+                    class="pagination-sm" boundary-links="true" max-size="9"
+                    previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></ul>
+            </div>
         </div>
     </div>
-</div>
-
-<div class="text-center" ng-show="total > pageSize">
-    <ul uib-pagination total-items="total" ng-model="page" items-per-page="pageSize" class="pagination-sm" boundary-links="true" ng-change="update()"
-        previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></ul>
 </div>
 
 <div class="modal-footer">
