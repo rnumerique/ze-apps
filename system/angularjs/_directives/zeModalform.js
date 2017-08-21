@@ -23,6 +23,7 @@ app.directive("zeModalform", function($compile, zeapps_modal){
 				};
 
                 zeapps_modal.loadModule("com_zeapps_core", "form_modal", options, function(objReturn) {
+                    console.log(objReturn);
                     $scope.zeModalform()(objReturn);
                 });
 			}

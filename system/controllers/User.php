@@ -103,9 +103,16 @@ class User extends ZeCtrl
     {
         $this->load->model("Zeapps_users", "users");
 
-        $total = $this->users->count();
+        $filters = array() ;
 
-        if(!$users = $this->users->limit($limit, $offset)->all()){
+        if (strcasecmp($_SERVER['REQUEST_METHOD'], 'post') === 0 && stripos($_SERVER['CONTENT_TYPE'], 'application/json') !== FALSE) {
+            // POST is actually in json format, do an internal translation
+            $filters = json_decode(file_get_contents('php://input'), true);
+        }
+
+        $total = $this->users->count($filters);
+
+        if(!$users = $this->users->limit($limit, $offset)->all($filters)){
             $users = [];
         }
 

@@ -128,6 +128,12 @@ class ZeQuery
     public function where($arrData)
     {
         foreach ($arrData as $key => $value) {
+            if (stripos($key, "LIKE")) {
+                $k = trim(str_ireplace('LIKE', '', $key));
+                $this->where_like(array($k=>$value));
+                continue;
+            }
+
             if ($this->_where != '') {
                 $this->_where .= " AND ";
             }
@@ -259,12 +265,12 @@ class ZeQuery
 
 
             if (!is_array($value) && $value !== null) {
-                $this->_valueQuery[$keyName] = $value;
+                $this->_valueQuery[$keyName] = "%".$value."%";
             }
 
 
             if ($value !== null) {
-                $this->_where .= $key . " LIKE " . $keyName ;
+                $this->_where .= $key . " LIKE " . $keyName;
             }
             else{
                 $this->_where .= '1';
@@ -303,7 +309,10 @@ class ZeQuery
 
     public function limit($limit, $offset = 0)
     {
-        $this->_limit = " LIMIT " . $limit . " OFFSET " . $offset;
+        if(intval($limit) > 0)
+            $this->_limit = " LIMIT " . $limit . " OFFSET " . $offset;
+        else
+            $this->_limit = " LIMIT 18446744073709551615 OFFSET " . $offset; // 18446744073709551615 is the maximum number of rows in mysql.
 
         return $this;
     }

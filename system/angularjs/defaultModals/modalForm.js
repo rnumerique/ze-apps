@@ -10,16 +10,15 @@ listModuleModalFunction.push({
 
 app.controller("ZeAppsCoreModalFormCtrl", function($scope, $uibModalInstance, option) {
 
-    $scope.title = option.title || "Sélection" ;
-    $scope.edit = option.edit;
+    $scope.title = option.title || "Création" ;
+    $scope.form = option.edit || {};
     $scope.template = option.template;
-
-    $scope.form = {};
 
     $scope.save = save;
     $scope.cancel = cancel;
 
     function save() {
+        console.log($scope.form);
         $uibModalInstance.close($scope.form);
     }
 

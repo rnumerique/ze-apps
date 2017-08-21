@@ -3,9 +3,7 @@
 </div>
 
 <div class="modal-body">
-    <div ng-include="template">
-
-    </div>
+    <div ng-include="template"></div>
 </div>
 
 <div class="modal-footer">

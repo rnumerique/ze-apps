@@ -11,19 +11,35 @@ listModuleModalFunction.push({
 app.controller("ZeAppsCoreModalSearchCtrl", function($scope, $uibModalInstance, option) {
 
     $scope.title = option.title || "Sélection" ;
+    $scope.filters = {
+        main: []
+    };
+    $scope.template = option.template || "";
+    $scope.filter_model = {};
     $scope.page = 1;
     $scope.pageSize = 15;
     $scope.fields = option.fields;
 
     $scope.select = select;
     $scope.cancel = cancel;
-    $scope.update = loadItems;
+    $scope.loadList = loadList;
 
-    loadItems() ;
+    loadList() ;
 
-    function loadItems() {
+    angular.forEach($scope.fields, function(field){
+        $scope.filters.main.push({
+            format: 'input',
+            field: field.key + ' LIKE',
+            type: 'text',
+            label: field.label
+        })
+    });
+
+    function loadList() {
     	var offset = ($scope.page - 1) * $scope.pageSize;
-        option.http($scope.pageSize, offset).then(function (response) {
+        var formatted_filters = angular.toJson($scope.filter_model);
+
+        option.http.modal($scope.pageSize, offset, formatted_filters).then(function (response) {
             if (response.data && response.data != "false") {
             	$scope.items = response.data.data;
             	$scope.total = response.data.total;

@@ -7,6 +7,7 @@ app.directive("zeModalsearch", function($compile, zeapps_modal){
 			http: '=',
             fields: '=',
 			model: '=',
+			templateNew: '=',
 			title: '@'
 		},
 		template: 	"<div class=\"input-group\">" +
@@ -30,11 +31,23 @@ app.directive("zeModalsearch", function($compile, zeapps_modal){
 		    	var options = {
 		    		http: $scope.http,
 					fields: $scope.fields,
-                    title: $scope.title
+                    title: $scope.title,
+					template: $scope.templateNew
 				};
 
                 zeapps_modal.loadModule("com_zeapps_core", "search_modal", options, function(objReturn) {
-                    $scope.zeModalsearch()(objReturn);
+                	if(objReturn.id !== undefined) {
+                        $scope.zeModalsearch()(objReturn);
+                    }
+                    else{
+                		var formatted_data = angular.toJson(objReturn);
+                		$scope.http.save(formatted_data).then(function(response){
+                			if(response.data && response.data != "false"){
+                				objReturn.id = response.data;
+                                $scope.zeModalsearch()(objReturn);
+							}
+						})
+					}
                 });
 			}
         }

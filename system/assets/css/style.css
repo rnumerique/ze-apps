@@ -14,6 +14,10 @@ a:hover {
     color: #000000;
 }
 
+.pagination{
+    margin: 10px 0;
+}
+
 .table select.input-sm{
     height: 22px;
     line-height: 22px;
@@ -460,6 +464,7 @@ toasts .alert-dismissible .close{
     min-height: 40px;
     background-color: #e0e0e0;
     padding: 8px 15px;
+    font-weight: bold;
 }
 
 #content {

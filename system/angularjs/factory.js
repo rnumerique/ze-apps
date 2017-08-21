@@ -57,8 +57,8 @@ app.config(["$provide",
 			function getAll_user(){
                 return zeHttp.get("/zeapps/user/all");
 			}
-			function modal_user(limit, offset){
-                return zeHttp.get("/zeapps/user/modal/" + limit + "/" + offset);
+			function modal_user(limit, offset, filters){
+                return zeHttp.post("/zeapps/user/modal/" + limit + "/" + offset, filters);
 			}
 			function post_user(data){
                 return zeHttp.post("/zeapps/user/save", data);
@@ -68,8 +68,8 @@ app.config(["$provide",
 			}
 
             // USER
-            function modal_countries(limit, offset){
-                return zeHttp.get("/zeapps/country/modal/" + limit + "/" + offset);
+            function modal_countries(limit, offset, filters){
+                return zeHttp.post("/zeapps/country/modal/" + limit + "/" + offset, filters);
             }
 
 			// CONFIG

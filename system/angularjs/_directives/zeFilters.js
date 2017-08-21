@@ -1,9 +1,10 @@
-app.directive("zeFilters", function(){
+app.directive("zeFilters", function($timeout){
 	return {
 		restrict: "E",
 		scope: {
+			filters: "=",
 			model: "=",
-			options: "="
+			update_view: "&update"
 		},
 		replace: true,
 		templateUrl: "/zeapps/directives/zefilter",
@@ -11,19 +12,22 @@ app.directive("zeFilters", function(){
 			$scope.shownFilter = false;
 
 			$scope.clearFilter = clearFilter;
-			$scope.canReset = canReset;
+			$scope.isEmpty = isEmpty;
 
 			function clearFilter(){
 				$scope.model = {};
+				$timeout(function(){ // to queue the function call so we are sure the controller scope has been correctly updated
+                    $scope.update_view()();
+				}, 0);
 			}
 
-			function canReset(){
-				var isEmpty = true;
-				Object.keys($scope.model).map(function(key){
-					if($scope.model[key] != '')
-						isEmpty = false;
-				});
-				return !isEmpty;
+			function isEmpty(){
+				for(var prop in $scope.model) {
+					if($scope.model.hasOwnProperty(prop))
+						return false;
+				}
+
+                return JSON.stringify($scope.model) === JSON.stringify({});
 			}
 		}
 	};

@@ -7,9 +7,16 @@ class Country extends ZeCtrl
     {
         $this->load->model("Zeapps_country", "country");
 
-        $total = $this->country->count();
+        $filters = array() ;
 
-        if(!$countries = $this->country->all(array(), $limit, $offset)){
+        if (strcasecmp($_SERVER['REQUEST_METHOD'], 'post') === 0 && stripos($_SERVER['CONTENT_TYPE'], 'application/json') !== FALSE) {
+            // POST is actually in json format, do an internal translation
+            $filters = json_decode(file_get_contents('php://input'), true);
+        }
+
+        $total = $this->country->count($filters);
+
+        if(!$countries = $this->country->all($filters, $limit, $offset)){
             $countries = [];
         }
 
