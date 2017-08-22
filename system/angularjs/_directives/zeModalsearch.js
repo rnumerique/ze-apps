@@ -7,6 +7,7 @@ app.directive("zeModalsearch", function($compile, zeapps_modal){
 			http: '=',
             fields: '=',
 			model: '=',
+			filters: '=',
 			templateNew: '=',
 			title: '@'
 		},
@@ -32,6 +33,7 @@ app.directive("zeModalsearch", function($compile, zeapps_modal){
 		    		http: $scope.http,
 					fields: $scope.fields,
                     title: $scope.title,
+					filters: $scope.filters,
 					template: $scope.templateNew
 				};
 

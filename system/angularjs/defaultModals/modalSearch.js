@@ -32,11 +32,18 @@ app.controller("ZeAppsCoreModalSearchCtrl", function($scope, $uibModalInstance, 
             field: field.key + ' LIKE',
             type: 'text',
             label: field.label
-        })
+        });
     });
 
     function loadList() {
     	var offset = ($scope.page - 1) * $scope.pageSize;
+
+    	if(option.filters) {
+            angular.forEach(option.filters, function (value, key) {
+                $scope.filter_model[key] = value;
+            });
+        }
+
         var formatted_filters = angular.toJson($scope.filter_model);
 
         option.http.modal($scope.pageSize, offset, formatted_filters).then(function (response) {
