@@ -22,6 +22,9 @@ app.config(["$provide",
 				},
 				countries : {
 					modal : modal_countries
+				},
+				states : {
+					modal : modal_states
 				}
             };
 
@@ -67,9 +70,14 @@ app.config(["$provide",
                 return zeHttp.delete("/zeapps/user/delete/" + id);
 			}
 
-            // USER
+            // COUNTRIES
             function modal_countries(limit, offset, filters){
                 return zeHttp.post("/zeapps/country/modal/" + limit + "/" + offset, filters);
+            }
+
+            // STATES
+            function modal_states(limit, offset, filters){
+                return zeHttp.post("/zeapps/state/modal/" + limit + "/" + offset, filters);
             }
 
 			// CONFIG
