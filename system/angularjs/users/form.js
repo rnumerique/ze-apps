@@ -3,7 +3,7 @@ app.controller("ComZeAppsUsersFormCtrl", ["$scope", "$route", "$routeParams", "$
 
 		$scope.$parent.loadMenu("com_ze_apps_config", "com_ze_apps_users");
 
-		$scope.form = [];
+		$scope.form = {};
 
 		$scope.enregistrer = enregistrer;
 		$scope.annuler = annuler;
