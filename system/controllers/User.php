@@ -137,7 +137,7 @@ class User extends ZeCtrl
             $this->users->update($data, $data["id"]);
             $id = $data['id'];
 
-            if($data['groups'] && is_array($data['groups'])){
+            if(isset($data['groups']) && is_array($data['groups'])){
                 foreach($data['groups'] as $id_group => $value){
                     if($value){
                         if(!$this->user_groups->get(array('id_user' => $id,'id_group' => $id_group))) {
@@ -158,7 +158,7 @@ class User extends ZeCtrl
         } else {
             $id = $this->users->insert($data);
 
-            if($data['groups'] && is_array($data['groups'])){
+            if(isset($data['groups']) && is_array($data['groups'])){
                 foreach($data['groups'] as $id_group => $value){
                     if($value){
                         if(!$this->user_groups->get(array('id_user' => $id,'id_group' => $id_group))) {
