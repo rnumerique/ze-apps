@@ -189,6 +189,9 @@ toasts .alert-dismissible .close{
 .no-wrap{
     white-space: nowrap;
 }
+.text-wrap{
+    white-space: pre-wrap;
+}
 
 #menu-hover {
     z-index: 1000;
