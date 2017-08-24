@@ -51,11 +51,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <script src="/assets/js/fullcalendar/locale-all.js"></script>
 
         <!-- AngularJS -->
-        <script src="/assets/js/angular-1.5.0/angular.min.js"></script>
-        <script src="/assets/js/angular-1.5.0/angular-route.min.js"></script>
-        <script src="/assets/js/angular-1.5.0/angular-animate.min.js"></script>
-        <script src="/assets/js/angular-1.5.0/angular-sanitize.min.js"></script>
-        <script src="/assets/js/angular-1.5.0/i18n/angular-locale_fr-fr.js"></script>
+        <script src="/assets/js/angular-1.6.5/angular.min.js"></script>
+        <script src="/assets/js/angular-1.6.5/angular-route.min.js"></script>
+        <script src="/assets/js/angular-1.6.5/angular-animate.min.js"></script>
+        <script src="/assets/js/angular-1.6.5/angular-touch.min.js"></script>
+        <script src="/assets/js/angular-1.6.5/angular-sanitize.min.js"></script>
+        <script src="/assets/js/angular-1.6.5/i18n/angular-locale_fr-fr.js"></script>
 
         <!-- angularjs directive for ChartJS -->
         <script src="/assets/js/angular-chartjs/angular-chart.min.js"></script>
@@ -67,11 +68,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <!-- angularjs UI -->
         <script src="/assets/js/ui-bootstrap-tpls-1.1.2.min.js"></script>
         <script src="/assets/js/ui-sortable-0.13.4/sortable.min.js"></script>
-
-        <!-- df-tab-menu -->
-        <script src="/assets/js/df-tab-menu/df-tab-menu.min.js"></script>
-
-        <script src="/assets/js/checklist-model.js"></script>
 
         <!-- CACHED FILES -->
         <script src="/cache/js/main.js"></script>

@@ -2,6 +2,17 @@ app.directive("zeBtn", function($compile){
 	return {
         priority: 2,
 		restrict: "E",
+        template: function(elm, attrs){
+            var html = elm.html();
+
+            if(attrs.class)
+                attrs.class += " ze-btn";
+            else
+                attrs.class = "ze-btn";
+
+            return "<span "+attrs.text+">" + html + "</span>";
+        },
+        replace: true,
 		link: {
         	pre: function($scope, elm, attrs){
                 var color = attrs.color || "primary";

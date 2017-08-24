@@ -8,14 +8,20 @@ app.directive("zeAuth", function($rootScope){
 		link: function(scope, elm){
             elm.hide();
 
-			scope.$watch("zeAuth", function(value){
+			var watch1 = scope.$watch("zeAuth", function(value){
                 if(value) {
-                    evaluateRight(value, elm);
+                    if(evaluateRight(value, elm)){
+                        watch1();
+                        watch2();
+                    }
                 }
 			}, true);
-            $rootScope.$watch("user", function(value){
+            var watch2 = $rootScope.$watch("user", function(value){
                 if(value) {
-                    evaluateRight(scope.zeAuth, elm);
+                    if(evaluateRight(scope.zeAuth, elm)){
+                        watch1();
+                        watch2();
+                    }
                 }
             }, true);
 		}
@@ -25,11 +31,15 @@ app.directive("zeAuth", function($rootScope){
         if($rootScope.user && $rootScope.user.rights){
             if($rootScope.user.rights[right] !== 1) {
                 elm.remove();
+                return true;
             }
             else{
                 elm.show();
+                elm.removeAttr("ze-auth");
+                return true;
             }
         }
+        return false;
 	}
 
 });

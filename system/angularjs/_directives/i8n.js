@@ -7,9 +7,11 @@ app.directive("i8n", function($rootScope){
 		},
 		link: function(scope, elm){
 			elm.html(getTranslationOf(scope.i8n));
-			$rootScope.$watch("user.lang", function(value, oldValue){
+			var watcher = $rootScope.$watch("user.lang", function(value, oldValue){
 				if(value != undefined && value != oldValue) {
 					elm.html(getTranslationOf(scope.i8n));
+					elm.removeAttr("i8n");
+					watcher();
 				}
 			});
 		}

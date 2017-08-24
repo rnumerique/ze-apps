@@ -40,13 +40,13 @@ app.directive("calendar", function($location){
 
             $elm.fullCalendar(options);
 
-			$scope.$watch("model", function(model, oldModel){
+			$scope.$watch("model.events", function(model, oldModel){
 				if(model && model != oldModel){
                     $elm.fullCalendar('removeEvents');
                     $elm.fullCalendar('addEventSource', $scope.model.events);
                     $elm.fullCalendar('rerenderEvents');
 				}
-			}, true)
+			})
 		}
 	};
 });

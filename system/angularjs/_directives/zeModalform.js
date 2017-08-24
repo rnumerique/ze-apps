@@ -16,14 +16,26 @@ app.directive("zeModalform", function($compile, zeapps_modal){
 		    $scope.openModal = openModal;
 
 		    function openModal(){
+		        var copy = {};
+
+		        if($scope.edit) {
+                    angular.forEach($scope.edit, function (value, key) {
+                        copy[key] = value;
+                    });
+                }
+
 		    	var options = {
                     template: $scope.template,
-                    edit: $scope.edit,
+                    edit: copy,
                     title: $scope.title
 				};
 
                 zeapps_modal.loadModule("com_zeapps_core", "form_modal", options, function(objReturn) {
-                    console.log(objReturn);
+                    if($scope.edit) {
+                        angular.forEach(objReturn, function (value, key) {
+                            $scope.edit[key] = value;
+                        });
+                    }
                     $scope.zeModalform()(objReturn);
                 });
 			}

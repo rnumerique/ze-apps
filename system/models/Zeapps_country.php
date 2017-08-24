@@ -11,6 +11,7 @@ class Zeapps_country extends ZeModel
                 'zeapps_country.id = zeapps_country_lang.id_country',
                 'left'
             )
+            ->where($where)
             ->order_by('zeapps_country_lang.name', 'ASC')
             ->table('zeapps_country')
             ->result();

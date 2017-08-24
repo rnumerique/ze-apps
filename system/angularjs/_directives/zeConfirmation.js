@@ -39,10 +39,11 @@ app.directive("zeConfirmation", function($uibModal){
                         if (selectedItem.action === "success") {
                             $scope.$eval(clickAction)
                         }
-                    },
-                    null
+                    }
                 );
             });
+
+            elm.removeAttr("ze-confirmation");
         }
 	};
 });

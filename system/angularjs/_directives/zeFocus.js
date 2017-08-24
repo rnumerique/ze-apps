@@ -8,7 +8,7 @@ app.directive("zeFocus", function($timeout){
                         elm[0].focus();
                     });
                 }
-            }, true);
+            });
         }
 	};
 });

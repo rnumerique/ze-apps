@@ -1,4 +1,4 @@
-var app = angular.module("zeApp", ["ngSanitize","ngRoute","ui.bootstrap", "ui.sortable","checklist-model", "digitalfondue.dftabmenu", "ngFileUpload", "chart.js"]);
+var app = angular.module("zeApp", ["ngRoute","ui.bootstrap", "ui.sortable","ngFileUpload", "chart.js"]);
 
 var listModuleModalFunction = [] ;
 
@@ -167,109 +167,104 @@ app.controller("MainCtrl", ["$scope", "$route", "$routeParams", "$location", "$r
 	}]);
 
 // creation des routes
-app.config(["$routeProvider", "$locationProvider",
-	function ($routeProvider, $locationProvider) {
-		$locationProvider.html5Mode(true);
-	}
-]);
+app.config(function ($routeProvider, $locationProvider, $compileProvider, $provide) {
+	$locationProvider.html5Mode(true);
+    $compileProvider.commentDirectivesEnabled(false);
+    $compileProvider.cssClassDirectivesEnabled(false);
+    //$compileProvider.debugInfoEnabled(false);
 
+    $provide.decorator("$http", function ($delegate, $q, $log, $rootScope, $templateCache) {
+        var $http = $delegate;
 
-app.config(["$provide",
-	function ($provide) {
+        //Copy every shortcut method
+        angular.forEach(["get", "put", "post", "delete", "head", "jsonp"], function iterator(method) {
+            _http[method] = function(url, data, config) {
+                if(typeof data !== "string")
+                    data = angular.toJson(data);
+                return _http(angular.extend(config || {}, {
+                    method: method,
+                    url: url,
+                    data: data
+                }));
+            };
+        });
 
-		$provide.decorator("$http", function ($delegate, $q, $log, $rootScope, $templateCache) {
-			var $http = $delegate;
-
-			//Copy every shortcut method
-			angular.forEach(["get", "put", "post", "delete", "head", "jsonp"], function iterator(method) {
-				_http[method] = function(url, data, config) {
-					if(typeof data !== "string")
-						data = angular.toJson(data);
-					return _http(angular.extend(config || {}, {
-						method: method,
-						url: url,
-						data: data
-					}));
-				};
-			});
-
-			return _http;
+        return _http;
 
 
 
-			//Extend the $http with the console output when in debug mode
-			function _http(config) {
-				var defer = $q.defer();
-				var promise;
+        //Extend the $http with the console output when in debug mode
+        function _http(config) {
+            var defer = $q.defer();
+            var promise;
 
-				config = config || {};
+            config = config || {};
 
-				if(config.url.indexOf("uib/template") > -1) {
-					defer.resolve({data : $templateCache.get(config.url)});
-					promise = defer.promise;
-				}
-				else {
+            if(config.url.indexOf("uib/template") > -1) {
+                defer.resolve({data : $templateCache.get(config.url)});
+                promise = defer.promise;
+            }
+            else {
 
-					config.notify = defer.notify;
+                config.notify = defer.notify;
 
-					$http(config).then(
-						function (response) {
-							if ($rootScope.debug) {
-								var data = angular.fromJson(config.data);
-								// Answers with a cache property in the config data are template calls
-								// We choose to ignore those for console clarity
-								if(!data || data.cache == undefined) {
-									$log.info("URL : " + config.url);
-									if (config.data) {
-										$log.warn("DATA SENT : ");
-										$log.warn(config.data);
-									}
-									$log.debug(response.data);
-								}
-							}
-							defer.resolve(response);
-						},
-						function (response) {
-							if ($rootScope.debug) {
-								var data = angular.fromJson(config.data);
-								// Answers with a cache property in the config data are template calls
-								// We choose to ignore those for console clarity
-								if(!data || data.cache == undefined) {
-									$log.error("URL : " + config.url);
-									if (config.data) {
-										$log.warn("DATA SENT : ");
-										$log.warn(config.data);
-									}
-									$log.debug(response.data);
-								}
-							}
-							defer.reject(response);
-						},
-						defer.notify
-					);
-					promise = defer.promise;
-				}
+                $http(config).then(
+                    function (response) {
+                        if ($rootScope.debug) {
+                            var data = angular.fromJson(config.data);
+                            // Answers with a cache property in the config data are template calls
+                            // We choose to ignore those for console clarity
+                            if(!data || data.cache == undefined) {
+                                $log.info("URL : " + config.url);
+                                if (config.data) {
+                                    $log.warn("DATA SENT : ");
+                                    $log.warn(config.data);
+                                }
+                                $log.debug(response.data);
+                            }
+                        }
+                        defer.resolve(response);
+                    },
+                    function (response) {
+                        if ($rootScope.debug) {
+                            var data = angular.fromJson(config.data);
+                            // Answers with a cache property in the config data are template calls
+                            // We choose to ignore those for console clarity
+                            if(!data || data.cache == undefined) {
+                                $log.error("URL : " + config.url);
+                                if (config.data) {
+                                    $log.warn("DATA SENT : ");
+                                    $log.warn(config.data);
+                                }
+                                $log.debug(response.data);
+                            }
+                        }
+                        defer.reject(response);
+                    },
+                    defer.notify
+                );
+                promise = defer.promise;
+            }
 
-				//recreate the success/error methods
-				promise.success = function(fn) {
-					promise.then(function(response) {
-						fn(response.data, response.status, response.headers, config);
-					});
-					return promise;
-				};
+            //recreate the success/error methods
+            promise.success = function(fn) {
+                promise.then(function(response) {
+                    fn(response.data, response.status, response.headers, config);
+                });
+                return promise;
+            };
 
-				promise.error = function(fn) {
-					promise.then(null, function(response) {
-						fn(response.data, response.status, response.headers, config);
-					});
-					return promise;
-				};
+            promise.error = function(fn) {
+                promise.then(null, function(response) {
+                    fn(response.data, response.status, response.headers, config);
+                });
+                return promise;
+            };
 
-				return promise;
-			}
-		});
-
-	}]);
+            return promise;
+        }
+    });
+});
 
 app.run(function(zeHttp, zeHooks, $rootScope){
 	moment.locale("fr");

@@ -18,7 +18,6 @@ app.controller("ZeAppsCoreModalFormCtrl", function($scope, $uibModalInstance, op
     $scope.cancel = cancel;
 
     function save() {
-        console.log($scope.form);
         $uibModalInstance.close($scope.form);
     }
 
