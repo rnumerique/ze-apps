@@ -5,7 +5,6 @@ var listModuleModalFunction = [] ;
 app.controller("MainCtrl", ["$scope", "$route", "$routeParams", "$location", "$rootScope", "$http", "$interval", "$timeout", "zeHooks",
 	function ($scope, $route, $routeParams, $location, $rootScope, $http, $interval, $timeout, zeHooks) {
 
-		$rootScope.toasts = [];
 		$rootScope.debug = false;
 		$rootScope.defaultLang = "fr-fr";
 
