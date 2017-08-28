@@ -1,9 +1,10 @@
-app.controller("ComZeAppsUsersFormCtrl", ["$scope", "$route", "$routeParams", "$location", "$rootScope", "zeHttp",
-	function ($scope, $route, $routeParams, $location, $rootScope, zhttp) {
+app.controller("ComZeAppsUsersFormCtrl", ["$scope", "$route", "$routeParams", "$location", "$rootScope", "zeHttp", "zeHooks",
+	function ($scope, $route, $routeParams, $location, $rootScope, zhttp, zeHooks) {
 
 		$scope.$parent.loadMenu("com_ze_apps_config", "com_ze_apps_users");
 
 		$scope.form = {};
+        $scope.hooks = zeHooks.get("zeappsCore_UserFormHook");
 
 		$scope.enregistrer = enregistrer;
 		$scope.annuler = annuler;

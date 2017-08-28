@@ -49,6 +49,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </div>
         </div>
 
+        <div ng-repeat="hook in hooks">
+            <div ng-include="hook.template"></div>
+        </div>
+
         <div class="row">
             <div class="col-md-12">
                 <div class="form-group">
