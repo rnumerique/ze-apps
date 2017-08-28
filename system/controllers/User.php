@@ -192,31 +192,26 @@ class User extends ZeCtrl
         if ($this->session->get('token')) {
             $user = $this->user->getUserByToken($this->session->get('token'));
             if ($user && count($user) == 1) {
-                $data = [];
-                $data["id"] = $user->id;
-                $data["firstname"] = $user->firstname;
-                $data["lastname"] = $user->lastname;
-                $data["email"] = $user->email;
-                $data["lang"] = $user->lang;
+                $user->password = null;
 
-                $data["rights"] = json_decode($user->rights, true);
+                $user->rights = json_decode($user->rights, true);
 
                 if($groups = $this->user_groups->all(array('id_user' => $user->id))){
                     foreach($groups as $group){
                         if($group->rights !== "") {
                             $rights = json_decode($group->rights);
                             foreach ($rights as $key => $value) {
-                                if (!isset($data["rights"][$key])) {
-                                    $data["rights"][$key] = $value;
+                                if (!isset($user->rights[$key])) {
+                                    $user->rights[$key] = $value;
                                 } else {
-                                    $data["rights"][$key] = $data["rights"][$key] || $value ? 1 : 0;
+                                    $user->rights[$key] = $user->rights[$key] || $value ? 1 : 0;
                                 }
                             }
                         }
                     }
                 }
 
-                echo json_encode($data);
+                echo json_encode($user);
             }
         }
     }
