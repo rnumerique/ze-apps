@@ -9,7 +9,7 @@
             <form>
 
                 <div class="form-group">
-                    <label i8n="Nom"></label>
+                    <label>Nom</label>
                     <input type="text" class="form-control" ng-model="form.label">
                 </div>
 
@@ -19,6 +19,6 @@
 </div>
 
 <div class="modal-footer">
-    <button class="btn btn-danger" type="button" ng-click="cancel()" i8n="Annuler"></button>
-    <button class="btn btn-success" type="button" ng-click="save()" i8n="Valider"></button>
+    <button class="btn btn-danger" type="button" ng-click="cancel()">Annuler</button>
+    <button class="btn btn-success" type="button" ng-click="save()">Valider</button>
 </div>

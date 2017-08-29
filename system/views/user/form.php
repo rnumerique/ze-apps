@@ -2,7 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 
-<div id="breadcrumb">Ze-apps > <span i8n="Utilisateurs"></span></div>
+<div id="breadcrumb">Ze-apps > Utilisateurs</div>
 <div id="content">
 
 
@@ -10,7 +10,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label i8n="Prénom"></label>
+                    <label>Prénom</label>
                     <input type="text" class="form-control" ng-model="form.firstname">
                 </div>
             </div>
@@ -18,7 +18,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <div class="col-md-6">
 
                 <div class="form-group">
-                    <label i8n="Nom"></label>
+                    <label>Nom</label>
                     <input type="text" class="form-control" ng-model="form.lastname">
                 </div>
             </div>
@@ -27,14 +27,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label i8n="Email"></label>
+                    <label>Email</label>
                     <input type="text" class="form-control" ng-model="form.email">
                 </div>
             </div>
 
             <div class="col-md-6">
                 <div class="form-group">
-                    <label i8n="Mot de passe"></label>
+                    <label>Mot de passe</label>
                     <input type="password" class="form-control" ng-model="form.password_field">
                 </div>
             </div>
@@ -43,7 +43,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label i8n="Taux horaire (€)"></label>
+                    <label>Taux horaire (€)</label>
                     <input type="number" class="form-control" ng-model="form.hourly_rate">
                 </div>
             </div>
@@ -56,7 +56,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <div class="row">
             <div class="col-md-12">
                 <div class="form-group">
-                    <label i8n="Groupes"></label>
+                    <label>Groupes</label>
 
                     <div ng-repeat="group in groups">
                         <input type="checkbox" ng-model="form.groups[group.id]"> {{group.label}}
@@ -101,8 +101,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
                 <div class="text-center">
-                    <button type="button" class="btn btn-success" ng-click="enregistrer()" i8n="Enregistrer"></button>
-                    <button type="button" class="btn btn-warning btn-sm" ng-click="annuler()" i8n="Annuler"></button>
+                    <button type="button" class="btn btn-success" ng-click="enregistrer()">Enregistrer</button>
+                    <button type="button" class="btn btn-warning btn-sm" ng-click="annuler()">v</button>
                 </div>
 
             </div>

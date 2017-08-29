@@ -2,7 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 
-<div id="breadcrumb">Ze-apps > <span i8n="Utilisateurs"></span></div>
+<div id="breadcrumb">Ze-apps > Utilisateurs</div>
 <div id="content">
 
 
@@ -19,9 +19,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <table class="table table-striped table-condensed table-responsive" ng-show="users.length">
                 <thead>
                 <tr>
-                    <th i8n="Prénom"></th>
-                    <th i8n="Nom"></th>
-                    <th i8n="Email"></th>
+                    <th>Prénom</th>
+                    <th>Nom</th>
+                    <th>Email</th>
                     <th></th>
                 </tr>
                 </thead>

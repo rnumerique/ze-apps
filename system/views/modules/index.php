@@ -2,20 +2,20 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 
-<div id="breadcrumb">Ze-apps > <span i8n="Modules"></span></div>
+<div id="breadcrumb">Ze-apps > Modules</div>
 <div id="content">
 
     <div class="row">
         <div class="col-md-12">
-            <h3 i8n="Modules installés"></h3>
+            <h3>Modules installés</h3>
         </div>
         <div class="col-md-12">
             <table class="table table-striped">
                 <thead>
                 <tr>
-                    <th i8n="nom"></th>
-                    <th class="text-right" i8n="version"></th>
-                    <th class="text-right" i8n="actif"></th>
+                    <th>nom</th>
+                    <th class="text-right">version</th>
+                    <th class="text-right">actif</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -32,10 +32,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     <div class="row" ng-show="modulesToUpdate.length > 0 || modulesToInstall.length > 0">
         <div class="col-md-12">
-            <h3 i8n="Modules disponibles a l'installation"></h3>
+            <h3>Modules disponibles a l'installation</h3>
         </div>
         <div class="col-md-6" ng-show="modulesToUpdate.length > 0">
-            <h4 i8n="Mises a jour"></h4>
+            <h4>Mises a jour</h4>
             <div class="checkbox" ng-repeat="module in modulesToUpdate">
                 <label>
                     <input type="checkbox" ng-model="modulesForm[module.module_id]">
@@ -44,7 +44,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </div>
         </div>
         <div class="col-md-6" ng-show="modulesToInstall.length > 0">
-            <h4 i8n="Nouveaux modules"></h4>
+            <h4>Nouveaux modules</h4>
             <div class="checkbox" ng-repeat="module in modulesToInstall">
                 <label>
                     <input type="checkbox" ng-model="modulesForm[module.module_id]">
@@ -53,8 +53,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </div>
         </div>
         <div class="col-md-12 text-center">
-            <button class="btn btn-primary" ng-click="installModules()"
-                    i8n="Installer les modules selectionnés"></button>
+            <button class="btn btn-primary" ng-click="installModules()">Installer les modules selectionnés</button>
         </div>
     </div>
 

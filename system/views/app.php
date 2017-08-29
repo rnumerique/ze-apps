@@ -82,14 +82,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
         <div id="menu-hover">
             <div class="essential">
-                <div class="title" i8n="L'essentiel"></div>
+                <div class="title">L'essentiel</div>
                 <div class="url-menu">
                     <ul class="nav">
 
                         <?php foreach ($menuEssential as $menuItem) { ?>
                         <li>
                             <a href="<?php echo $menuItem["url"]; ?>">
-                                <span i8n="<?php echo $menuItem["label"]; ?>"></span>
+                                <?php echo $menuItem["label"]; ?>
                             </a>
                         </li>
                         <?php } ?>
@@ -112,7 +112,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <ul class="nav">
                                     <?php foreach ($menuSpace["item"] as $menuItem) { ?>
                                     <li>
-                                        <a href="<?php echo $menuItem["url"]; ?>" i8n="<?php echo $menuItem["label"]; ?>"></a>
+                                        <a href="<?php echo $menuItem["url"]; ?>"><?php echo $menuItem["label"]; ?></a>
                                     </li>
                                     <?php } ?>
                                 </ul>
@@ -128,11 +128,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             foreach ($menuTopCol2 as $menuSpace) {
                                 if(sizeof($menuSpace["item"]) > 0){
                                 ?>
-                                <div class="title" i8n="<?php echo $menuSpace["info"]["name"]; ?>"></div>
+                                <div class="title"><?php echo $menuSpace["info"]["name"]; ?></div>
                                 <ul class="nav">
                                     <?php foreach ($menuSpace["item"] as $menuItem) { ?>
                                     <li>
-                                        <a href="<?php echo $menuItem["url"]; ?>" i8n="<?php echo $menuItem["label"]; ?>"></a>
+                                        <a href="<?php echo $menuItem["url"]; ?>"><?php echo $menuItem["label"]; ?></a>
                                     </li>
                                     <?php } ?>
                                 </ul>
@@ -149,18 +149,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <div class="pull-left">
                     <button type="button" class="btn btn-sm">
                         <span class="fa fa-fw fa-shopping-cart" aria-hidden="true" ze-auth="zeapps_admin"></span>
-                        <span i8n="Extension store"></span>
+                        Extension store
                     </button>
                     <button type="button" class="btn btn-sm">
                         <span class="fa fa-fw fa-list-ul" aria-hidden="true" ze-auth="zeapps_admin"></span>
-                        <span i8n="Abonnement"></span>
+                        Abonnement
                     </button>
                 </div>
 
                 <div class="pull-right">
                     <a href="/ng/com_zeapps/config" class="btn btn-sm" ze-auth="zeapps_admin">
                         <span class="fa fa-fw fa-cogs" aria-hidden="true"></span>
-                        <span i8n="Config"></span>
+                        Config
                     </a>
                 </div>
 
@@ -174,7 +174,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <div class="content">
                     <div class="menu pointer">
                         <span class="vertical-middle">
-                            <span i8n="menu"></span>
+                            menu
                             <span class="fa fa-caret-down" aria-hidden="true"></span>
                         </span>
                     </div>
@@ -198,8 +198,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
                         <ul ng-show="dropdown" class="userMenu">
-                            <li><a href="/ng/com_zeapps/profile/view" i8n="Profil"></a></li>
-                            <li><a href="/ng/com_zeapps/logout" i8n="Logout"></a></li>
+                            <li><a href="/ng/com_zeapps/profile/view">Profil</a></li>
+                            <li><a href="/ng/com_zeapps/logout">Logout</a></li>
                         </ul>
                     </div>
                 </div>
@@ -212,7 +212,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div ng-show="menu == '<?php echo $menuSpace["info"]["id"]; ?>'?true:false" class="app-sale">
                         <div class="title-app" ng-click="toggleMenuSize()">
                             <span class="fa fa-fw fa-<?php echo isset($menuSpace["info"]["fa-icon"]) ? $menuSpace["info"]["fa-icon"] : 'font-awesome'; ?>"></span>
-                            <span class="menu_title" i8n="<?php echo $menuSpace["info"]["name"]; ?>"></span>
+                            <span class="menu_title"><?php echo $menuSpace["info"]["name"]; ?></span>
                         </div>
                         <div>
                             <ul class="nav">
@@ -220,7 +220,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <li ng-class="menu_active == '<?php echo $menuItem["id"]; ?>' ? 'active' :''">
                                     <a href="<?php echo $menuItem["url"]; ?>">
                                         <span class="fa fa-fw fa-<?php echo isset($menuItem["fa-icon"]) ? $menuItem["fa-icon"] : 'font-awesome'; ?>" aria-hidden="true"></span>
-                                        <span class="menu_item" i8n="<?php echo $menuItem["label"]; ?>"></span>
+                                        <span class="menu_item"><?php echo $menuItem["label"]; ?></span>
                                     </a>
                                 </li>
                                 <?php } ?>

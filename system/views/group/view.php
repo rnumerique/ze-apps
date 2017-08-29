@@ -2,7 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 
-<div id="breadcrumb">Ze-apps > <span i8n="Groupes"></span></div>
+<div id="breadcrumb">Ze-apps > Groupes</div>
 <div id="content">
 
 
