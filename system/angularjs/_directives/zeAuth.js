@@ -31,13 +31,12 @@ app.directive("zeAuth", function($rootScope){
         if($rootScope.user && $rootScope.user.rights){
             if($rootScope.user.rights[right] !== 1) {
                 elm.remove();
-                return true;
             }
             else{
                 elm.show();
                 elm.removeAttr("ze-auth");
-                return true;
             }
+            return true;
         }
         return false;
 	}
