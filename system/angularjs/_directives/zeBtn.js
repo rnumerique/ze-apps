@@ -30,13 +30,12 @@ app.directive("zeBtn", function($compile){
                     else{
                         html += hint + " <i class='fa fa-fw fa-"+fa+"'></i>";
                     }
+                    html += "</button>";
                 }
                 else{
-				    html += "<i class='fa fa-fw fa-"+fa+"'></i>" +
-                            "<span class='hover-hint-wrap hover-hint-"+direction+"'><span class='hover-hint'>"+hint+"</span></span>";
+				    html += "<i class='fa fa-fw fa-"+fa+"'></i></button>" +
+                            "<span class='hover-hint-wrap hover-hint-"+direction+" hover-hint-"+color+"'><span class='hover-hint'>"+hint+"</span></span>";
                 }
-
-                html += "</button>";
 
                 $compile(html)($scope, function(cloned){
                     elm.html(cloned);
