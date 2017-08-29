@@ -186,6 +186,7 @@ class User extends ZeCtrl
     {
         $this->load->model("Zeapps_users", "user");
         $this->load->model("Zeapps_user_groups", "user_groups");
+        $this->load->model("Zeapps_internationalization", "i18n");
 
 
         // verifie si la session est active
@@ -193,6 +194,13 @@ class User extends ZeCtrl
             $user = $this->user->getUserByToken($this->session->get('token'));
             if ($user && count($user) == 1) {
                 $user->password = null;
+
+                $user->i18n = [];
+                if($rows = $this->i18n->all(array('id_lang' => $user->lang))){
+                    foreach($rows as $row){
+                        $i18n[$row->src] = $row->translation;
+                    }
+                }
 
                 $user->rights = json_decode($user->rights, true);
 
