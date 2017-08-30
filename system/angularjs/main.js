@@ -2,8 +2,8 @@ var app = angular.module("zeApp", ["ngRoute","ui.bootstrap", "ui.sortable","ngFi
 
 var listModuleModalFunction = [] ;
 
-app.controller("MainCtrl", ["$scope", "$route", "$routeParams", "$location", "$rootScope", "$http", "$interval", "$timeout", "zeHooks",
-	function ($scope, $route, $routeParams, $location, $rootScope, $http, $interval, $timeout, zeHooks) {
+app.controller("MainCtrl", ["$scope", "$route", "$routeParams", "$location", "$rootScope", "$http", "$interval",
+	function ($scope, $route, $routeParams, $location, $rootScope, $http, $interval) {
 
 		$rootScope.debug = false;
 		$rootScope.defaultLang = "fr-fr";
@@ -276,7 +276,6 @@ app.run(function(zeHttp, zeHooks, $rootScope){
 	zeHttp.get("/zeapps/user/getCurrentUser").then(function (response) {
 		if (response.status == 200) {
 			$rootScope.user = response.data;
-			console.log(response.data);
 		}
 	});
 });
