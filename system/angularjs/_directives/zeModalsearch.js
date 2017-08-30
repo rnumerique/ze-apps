@@ -25,7 +25,12 @@ app.directive("zeModalsearch", function($compile, zeapps_modal){
 		    $scope.clear = clear;
 
 		    function clear(){
-                $scope.zeModalsearch()(false);
+                if($scope.zeModalsearch() instanceof Function) {
+                    $scope.zeModalsearch()(false);
+                }
+                else {
+                    $scope.model = undefined;
+                }
 			}
 
 		    function openModal(){
@@ -38,15 +43,25 @@ app.directive("zeModalsearch", function($compile, zeapps_modal){
 				};
 
                 zeapps_modal.loadModule("com_zeapps_core", "search_modal", options, function(objReturn) {
-                	if(objReturn.id !== undefined) {
-                        $scope.zeModalsearch()(objReturn);
-                    }
-                    else{
-                		var formatted_data = angular.toJson(objReturn);
-                		$scope.http.save(formatted_data).then(function(response){
-                			if(response.data && response.data != "false"){
-                				objReturn.id = response.data;
-                                $scope.zeModalsearch()(objReturn);
+					if(objReturn.id !== undefined) {
+						if($scope.zeModalsearch() instanceof Function) {
+							$scope.zeModalsearch()(objReturn);
+						}
+						else {
+							$scope.model = objReturn[$scope.zeModalsearch()];
+						}
+					}
+					else{
+						var formatted_data = angular.toJson(objReturn);
+						$scope.http.save(formatted_data).then(function(response){
+							if(response.data && response.data != "false"){
+								objReturn.id = response.data;
+								if($scope.zeModalsearch instanceof Function) {
+									$scope.zeModalsearch()(objReturn);
+								}
+								else {
+									$scope.model = objReturn[$scope.zeModalsearch];
+								}
 							}
 						})
 					}
