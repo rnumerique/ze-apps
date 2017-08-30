@@ -583,9 +583,10 @@ toasts .alert-dismissible .close{
 
     background-color: #213037;
     color:#FEFEFE;
+}
 
-    /*-webkit-transition: margin-right 800ms;
-    transition: margin-right 800ms;*/
+.notifications a{
+    color:#FEFEFE;
 }
 
 .notifications.show{

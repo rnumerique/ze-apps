@@ -237,14 +237,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         {{moduleName}}
                     </span>
                     <ul>
-                        <li ng-repeat="notification in module.notifications | limitTo:'3'" class="notification">
+                        <li ng-repeat="notification in module.notifications | limitTo:'15'" class="notification">
                             <span class="fa fa-times pointer pull-right" aria-hidden="true" ng-click="readNotification(notification)"></span>
-                            {{ notification.message }}
+                            <a href="{{ notification.url }}" ng-if="notification.url">
+                                {{ notification.message }}
+                            </a>
+                            <span ng-if="!notification.url">
+                                {{ notification.message }}
+                            </span>
+                        </li>
+                        <li ng-if="module.notifications.length > 15">
+                            ...
                         </li>
                     </ul>
                 </li>
                 <li ng-hide="hasUnreadNotifications()" class="no-notifications">
-                    Aucunes notifications non lues<br>
+                    Aucune notification<br>
                 </li>
             </ul>
 
