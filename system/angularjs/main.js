@@ -59,12 +59,6 @@ app.controller("MainCtrl", ["$scope", "$route", "$routeParams", "$location", "$r
 			$http.get("/zeapps/app/update_token");
 		}, 300000);
 
-		$http.get("/zeapps/config/get/zeapps_debug").then(function(response){
-			if(response.data && response.data != false){
-				$rootScope.debug = !!parseInt(response.data.value);
-			}
-		});
-
 
 
 		function loading(){
@@ -268,6 +262,11 @@ app.config(function ($routeProvider, $locationProvider, $compileProvider, $provi
 app.run(function(zeHttp, zeHooks, $rootScope){
 	moment.locale("fr");
 
+    zeHttp.get("/zeapps/config/get/zeapps_debug").then(function(response){
+        if(response.data && response.data != false){
+            $rootScope.debug = !!parseInt(response.data.value);
+        }
+    });
 	zeHttp.app.hooks.all().then(function(response){
 		if(response.data && response.data != "false"){
 			zeHooks.set(response.data);
