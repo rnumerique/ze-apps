@@ -21,6 +21,7 @@ app.config(["$provide",
 					del : delete_user
 				},
 				countries : {
+					all : getAll_countries,
 					modal : modal_countries
 				},
 				states : {
@@ -71,6 +72,9 @@ app.config(["$provide",
 			}
 
             // COUNTRIES
+            function getAll_countries(){
+                return zeHttp.get("/zeapps/country/get_all/");
+            }
             function modal_countries(limit, offset, filters){
                 return zeHttp.post("/zeapps/country/modal/" + limit + "/" + offset, filters);
             }
