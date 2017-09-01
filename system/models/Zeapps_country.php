@@ -2,7 +2,7 @@
 
 class Zeapps_country extends ZeModel
 {
-    public function all($where = array(), $limit = 15, $offset = 0)
+    public function all($where = array(), $limit = 2147483647, $offset = 0)
     {
         return $this->database()->select('*')
             ->limit($limit, $offset)
