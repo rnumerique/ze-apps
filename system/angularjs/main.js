@@ -259,7 +259,7 @@ app.config(function ($routeProvider, $locationProvider, $compileProvider, $provi
     });
 });
 
-app.run(function(zeHttp, zeHooks, $rootScope){
+app.run(function(zeHttp, zeHooks, $rootScope, $timeout){
 	moment.locale("fr");
 
     zeHttp.get("/zeapps/config/get/zeapps_debug").then(function(response){
@@ -276,11 +276,7 @@ app.run(function(zeHttp, zeHooks, $rootScope){
 	zeHttp.get("/zeapps/user/getCurrentUser").then(function (response) {
 		if (response.status == 200) {
 			$rootScope.user = response.data;
+			$timeout(function(){$rootScope.contextLoaded = true;}, 250);
 		}
 	});
 });
-
-
-// defini les caracteres separateur pour remplacer les / dans les url
-var charSepUrlSlash = "999sep999sep999" ;
-var charSepUrlSlashRegExp = /999sep999sep999/g ;

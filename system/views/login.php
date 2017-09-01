@@ -9,9 +9,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="/assets/bootstrap-3.3.7/css/bootstrap.min.css">
 
-    <!-- Optional theme -->
-    <link rel="stylesheet" href="/assets/bootstrap-3.3.7/css/bootstrap-theme.min.css">
-
     <!-- Latest compiled and minified JavaScript -->
     <script src="/assets/js/jquery-3.2.1.min.js"></script>
     <script src="/assets/bootstrap-3.3.7/js/bootstrap.min.js"></script>
