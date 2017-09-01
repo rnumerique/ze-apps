@@ -11,8 +11,20 @@ app.directive("zeFilters", function($timeout){
 		link: function($scope){
 			$scope.shownFilter = false;
 
+			$scope.update = update;
 			$scope.clearFilter = clearFilter;
 			$scope.isEmpty = isEmpty;
+
+			function update(){
+				angular.forEach($scope.model, function(line, key){
+					if(line === ""){
+						$scope.model[key] = undefined;
+					}
+				});
+                $timeout(function(){ // to queue the function call so we are sure the controller scope has been correctly updated
+                    $scope.update_view()();
+                }, 0);
+			}
 
 			function clearFilter(){
 				$scope.model = {};
@@ -23,7 +35,7 @@ app.directive("zeFilters", function($timeout){
 
 			function isEmpty(){
 				for(var prop in $scope.model) {
-					if($scope.model.hasOwnProperty(prop))
+					if($scope.model.hasOwnProperty(prop) && $scope.model[prop] !== undefined)
 						return false;
 				}
 
