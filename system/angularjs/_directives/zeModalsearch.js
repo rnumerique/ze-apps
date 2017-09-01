@@ -56,11 +56,12 @@ app.directive("zeModalsearch", function($compile, zeapps_modal){
 						$scope.http.save(formatted_data).then(function(response){
 							if(response.data && response.data != "false"){
 								objReturn.id = response.data;
-								if($scope.zeModalsearch instanceof Function) {
+
+								if($scope.zeModalsearch() instanceof Function) {
 									$scope.zeModalsearch()(objReturn);
 								}
 								else {
-									$scope.model = objReturn[$scope.zeModalsearch];
+									$scope.model = objReturn[$scope.zeModalsearch()];
 								}
 							}
 						})
