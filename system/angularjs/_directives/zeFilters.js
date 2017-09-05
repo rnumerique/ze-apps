@@ -17,7 +17,7 @@ app.directive("zeFilters", function($timeout){
 
 			function update(){
 				angular.forEach($scope.model, function(line, key){
-					if(line === ""){
+					if(line === "" || line === null){
 						$scope.model[key] = undefined;
 					}
 				});
