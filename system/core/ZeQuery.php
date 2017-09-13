@@ -142,6 +142,7 @@ class ZeQuery
             $keyName = str_replace(">", "_", $keyName);
             $keyName = str_replace("<", "_", $keyName);
             $keyName = str_replace("=", "_", $keyName);
+            $keyName = str_replace("!", "_", $keyName);
             $keyName = str_replace(".", "_", $keyName);
 
 
@@ -161,7 +162,7 @@ class ZeQuery
                     $stringValue .= "'" . $valueContent . "'";
                 }
                 $this->_where .= $key . " IN (" . $stringValue . ") ";
-            } elseif (strpos($key, "<") || strpos($key, ">")) {
+            } elseif (strpos($key, "<") || strpos($key, ">") || strpos($key, "!")) {
                 $this->_where .= $key . " " . $keyName;
             } else {
                 $this->_where .= $key . " = " . $keyName;
