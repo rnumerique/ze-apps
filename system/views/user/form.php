@@ -102,7 +102,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
                 <div class="text-center">
                     <button type="button" class="btn btn-success" ng-click="enregistrer()">Enregistrer</button>
-                    <button type="button" class="btn btn-warning btn-sm" ng-click="annuler()">v</button>
+                    <button type="button" class="btn btn-warning btn-sm" ng-click="annuler()">Annuler</button>
                 </div>
 
             </div>
