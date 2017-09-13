@@ -141,7 +141,7 @@ class ZeModel
 
         $db = $this->database()->table($this->_tableName);
 
-        $db->select("COUNT(*) as total");
+        $db->select("COUNT(".$this->_primaryKey.") as total");
 
         if (is_array($this->_orderBy) && count($this->_orderBy) > 0) {
             $db->order_by($this->_orderBy);
