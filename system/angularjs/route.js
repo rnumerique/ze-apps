@@ -51,6 +51,12 @@ app.config(["$routeProvider",
 				controller: "ComZeAppsModulesCtrl"
 			})
 
+			// IMPORT DB
+			.when("/ng/com_zeapps/import_db", {
+                templateUrl:"/zeapps/import_DB/view",
+                controller: "ComZeAppsImportDBCtrl"
+			})
+
 			// LOGOUT
 			.when("/ng/com_zeapps/logout", {
 				controller: "ComZeAppsLogoutCtrl",
