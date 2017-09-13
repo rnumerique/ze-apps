@@ -107,6 +107,10 @@ class ZeModel
         return $this->_db ;
     }
 
+    public function query($query = ""){
+        return $this->database()->query($query);
+    }
+
     public function all($where = array())
     {
         $this->database()->clearSql();
