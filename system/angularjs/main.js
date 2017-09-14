@@ -276,7 +276,7 @@ app.run(function(zeHttp, zeHooks, $rootScope, $timeout){
 	zeHttp.get("/zeapps/user/getCurrentUser").then(function (response) {
 		if (response.status == 200) {
 			$rootScope.user = response.data;
-			$timeout(function(){$rootScope.contextLoaded = true;}, 250);
+            $rootScope.contextLoaded = true;
 		}
 	});
 });
