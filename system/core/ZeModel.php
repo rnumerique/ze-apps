@@ -15,6 +15,7 @@ class ZeModel
     private $_safeDelete = false ;
 
     private $_orderBy = [] ;
+    private $_groupBy = "" ;
     private $_limit = -1 ;
     private $_limitOffset = 0 ;
 
@@ -78,6 +79,17 @@ class ZeModel
         return $this ;
     }
 
+    public function group_by($fields)
+    {
+        if (is_array($fields)) {
+            $this->_groupBy = implode(',', $fields);
+        } else { // FIELDS IS A STRING (faster way to write it if you want to pass a single value)
+            $this->_groupBy = $fields;
+        }
+
+        return $this ;
+    }
+
     public function limit($limit, $offset = 0)
     {
         $this->_limit = $limit ;
@@ -107,8 +119,10 @@ class ZeModel
         return $this->_db ;
     }
 
-    public function query($query = ""){
-        return $this->database()->query($query);
+    public function query($query = "")
+    {
+        $this->database()->query($query);
+        return$this->database()->result();
     }
 
     public function all($where = array())
@@ -119,6 +133,10 @@ class ZeModel
 
         if (is_array($this->_orderBy) && count($this->_orderBy) > 0) {
             $db->order_by($this->_orderBy);
+        }
+
+        if ($this->_groupBy !== "") {
+            $db->group_by($this->_groupBy);
         }
 
         if ($this->_limit != -1) {
@@ -141,10 +159,15 @@ class ZeModel
 
         $db = $this->database()->table($this->_tableName);
 
-        $db->select("COUNT(".$this->_primaryKey.") as total");
+        $key = $this->_primaryKey ?: "*";
+        $db->select("COUNT(".$key.") as total");
 
         if (is_array($this->_orderBy) && count($this->_orderBy) > 0) {
             $db->order_by($this->_orderBy);
+        }
+
+        if ($this->_groupBy !== "") {
+            $db->group_by($this->_groupBy);
         }
 
         if ($this->_limit != -1) {
@@ -375,6 +398,10 @@ class ZeModel
 
             if ($this->_orderBy != []) {
                 $db->order_by($this->_orderBy);
+            }
+
+            if ($this->_groupBy !== "") {
+                $db->group_by($this->_groupBy);
             }
 
             if ($this->_limit != -1) {
