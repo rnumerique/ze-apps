@@ -169,12 +169,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <div id="main">
                 <div id="left-menu" ng-class="fullSizedMenu ? '' : 'shrinked'">
                     <?php foreach ($menuLeft as $menuSpace) { ?>
-                        <div ng-show="menu == '<?php echo $menuSpace["info"]["id"]; ?>'?true:false" class="app-sale">
+                        <div id="full-menu" ng-show="menu == '<?php echo $menuSpace["info"]["id"]; ?>'?true:false" class="app-sale">
                             <div class="title-app" ng-click="toggleMenuSize()">
                                 <span class="fa fa-fw fa-<?php echo isset($menuSpace["info"]["fa-icon"]) ? $menuSpace["info"]["fa-icon"] : 'font-awesome'; ?>"></span>
                                 <span class="menu_title"><?php echo $menuSpace["info"]["name"]; ?></span>
                             </div>
-                            <div>
+                            <div id="menu-nav">
                                 <ul class="nav">
                                     <?php foreach ($menuSpace["item"] as $menuItem) { ?>
                                         <li ng-class="menu_active == '<?php echo $menuItem["id"]; ?>' ? 'active' :''">

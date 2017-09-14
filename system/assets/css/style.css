@@ -468,6 +468,28 @@ toasts .alert-dismissible .close{
     display: none;
 }
 
+#left-menu #full-menu{
+    height: 100%;
+}
+#left-menu #full-menu #menu-nav{
+    height: calc(100% - 100px);
+    overflow-y: auto;
+}
+#left-menu #full-menu #menu-nav::-webkit-scrollbar-track
+{
+    background-color: #213037;
+}
+
+#left-menu #full-menu #menu-nav::-webkit-scrollbar
+{
+    width: 7px;
+    background-color: #213037;
+}
+
+#left-menu #full-menu #menu-nav::-webkit-scrollbar-thumb
+{
+    background-color: #666666;
+}
 
 
 #left-menu .nav>li>a{
