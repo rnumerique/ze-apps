@@ -55,6 +55,7 @@ class ZeModel
     private function clearSql()
     {
         $this->_orderBy = [] ;
+        $this->_groupBy = "" ;
         $this->_limit = -1 ;
         $this->_limitOffset = 0 ;
     }
@@ -115,6 +116,8 @@ class ZeModel
             $this->_db = new ZeQuery();
             $this->_db->setDb();
         }
+
+        $this->_db->clearSql();
 
         return $this->_db ;
     }
@@ -250,6 +253,7 @@ class ZeModel
     {
         $this->database()->clearSql();
 
+
         $pdoStat = $this->database()->table($this->_tableName);
 
         $fieldToUpdate = $this->_fields ;
@@ -300,7 +304,6 @@ class ZeModel
             }
         }
 
-
         // insert le contenu
         return $pdoStat->create();
     }
@@ -345,7 +348,6 @@ class ZeModel
                 $updatedAtFind = true ;
                 $this->$field = date("Y-m-d H:i:s");
             }
-
             $pdoStat->updateNewField($field, $this->$field);
         }
 
@@ -359,6 +361,8 @@ class ZeModel
         }
 
         $where = $this->_formatWhere($where);
+
+
 
         $pdoStat->where($where);
 
@@ -468,6 +472,7 @@ class ZeModel
                 throw new Exception('No primary key defined in table : ' . $this->_tableName);
             }
         }
+
         return $where;
     }
 }
