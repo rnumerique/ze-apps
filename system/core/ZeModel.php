@@ -124,8 +124,7 @@ class ZeModel
 
     public function query($query = "")
     {
-        $this->database()->query($query);
-        return$this->database()->result();
+        return$this->database()->query($query)->result();
     }
 
     public function all($where = array())

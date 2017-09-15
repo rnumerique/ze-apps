@@ -325,7 +325,7 @@ class ZeQuery
 
         $sth = $this->_dbPDO->prepare($this->_query);
 
-        return $this->_cast($sth) ?: false;
+        return $this->_cast($sth) ? $this : false;
     }
 
 
