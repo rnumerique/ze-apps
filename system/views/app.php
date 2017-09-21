@@ -1,10 +1,10 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?><!DOCTYPE html>
-<html lang="en" ng-app="zeApp">
+<html lang="en" ng-app="zeApp" ng-controller="MainCtrl as main" ng-cloak>
     <head>
         <meta charset="utf-8">
-        <title>Zeapps</title>
+        <title ng-bind="notificationsNotSeen() ? '['+notificationsNotSeen()+'] Zeapps' : 'Zeapps'">Zeapps</title>
         <base href="/">
 
 <!-- ************************************************************* -->
@@ -30,7 +30,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
     </head>
-    <body ng-controller="MainCtrl as main" ng-cloak>
+    <body>
         <div id="ze-loader" ng-hide="$root.contextLoaded" class="text-center">
             <span id="logo"><img src="/assets/images/logo.png" class="loading"/></span>
         </div>
