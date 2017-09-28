@@ -5,6 +5,58 @@ class Zeapps_users extends ZeModel
 {
     private $typeHash = 'sha256';
 
+    public function get($where = array()){
+        if($user = parent::get($where)){
+            $this->_pLoad->model("Zeapps_user_groups", "user_groups");
+
+            $user->rights = json_decode($user->rights, true);
+
+            if($groups = $this->_pLoad->ctrl->user_groups->all(array('id_user' => $user->id))){
+                foreach($groups as $group){
+                    if($group->rights !== "") {
+                        $rights = json_decode($group->rights);
+                        foreach ($rights as $key => $value) {
+                            if (!isset($user->rights[$key])) {
+                                $user->rights[$key] = $value;
+                            } else {
+                                $user->rights[$key] = $user->rights[$key] || $value ? 1 : 0;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return $user;
+    }
+
+    public function all($where = array()){
+        if($users = parent::all($where)){
+            $this->_pLoad->model("Zeapps_user_groups", "user_groups");
+
+            foreach($users as $user) {
+                $user->rights = json_decode($user->rights, true);
+
+                if ($groups = $this->_pLoad->ctrl->user_groups->all(array('id_user' => $user->id))) {
+                    foreach ($groups as $group) {
+                        if ($group->rights !== "") {
+                            $rights = json_decode($group->rights);
+                            foreach ($rights as $key => $value) {
+                                if (!isset($user->rights[$key])) {
+                                    $user->rights[$key] = $value;
+                                } else {
+                                    $user->rights[$key] = $user->rights[$key] || $value ? 1 : 0;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return $users;
+    }
+
     public function insert($data = array()){
         if(isset($data['password_field'])){
             $data['password'] = hash($this->typeHash, $data['password_field']);
@@ -46,7 +98,7 @@ class Zeapps_users extends ZeModel
             $token = $this->_pLoad->ctrl->token->findBy_token($tokenUser);
 
             if ($token && isset($token[0])) {
-                return parent::get($token[0]->id_user);
+                return $this->get($token[0]->id_user);
             } else {
                 return false;
             }

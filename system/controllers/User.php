@@ -202,23 +202,6 @@ class User extends ZeCtrl
                     }
                 }
 
-                $user->rights = json_decode($user->rights, true);
-
-                if($groups = $this->user_groups->all(array('id_user' => $user->id))){
-                    foreach($groups as $group){
-                        if($group->rights !== "") {
-                            $rights = json_decode($group->rights);
-                            foreach ($rights as $key => $value) {
-                                if (!isset($user->rights[$key])) {
-                                    $user->rights[$key] = $value;
-                                } else {
-                                    $user->rights[$key] = $user->rights[$key] || $value ? 1 : 0;
-                                }
-                            }
-                        }
-                    }
-                }
-
                 echo json_encode($user);
             }
         }
