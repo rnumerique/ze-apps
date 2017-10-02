@@ -1,7 +1,7 @@
-app.controller("ComZeAppsUsersFormCtrl", ["$scope", "$route", "$routeParams", "$location", "$rootScope", "zeHttp", "zeHooks",
-	function ($scope, $route, $routeParams, $location, $rootScope, zhttp, zeHooks) {
+app.controller("ComZeAppsUsersFormCtrl", ["$scope", "$route", "$routeParams", "$location", "$rootScope", "zeHttp", "zeHooks", "menu",
+	function ($scope, $route, $routeParams, $location, $rootScope, zhttp, zeHooks, menu) {
 
-		$scope.$parent.loadMenu("com_ze_apps_config", "com_ze_apps_users");
+        menu("com_ze_apps_config", "com_ze_apps_users");
 
 		$scope.form = {};
         $scope.hooks = zeHooks.get("zeappsCore_UserFormHook");

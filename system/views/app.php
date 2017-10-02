@@ -133,10 +133,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <div id="search">
                     <div class="content">
                         <div class="menu pointer">
-                        <span class="vertical-middle">
-                            menu
-                            <span class="fa fa-caret-down" aria-hidden="true"></span>
-                        </span>
+                            <span class="vertical-middle">
+                                menu
+                                <span class="fa fa-caret-down" aria-hidden="true"></span>
+                            </span>
                         </div>
                         <div class="formSearch"><input type="text" ng-model="searchFill"/></div>
                         <div class="right-menu">
@@ -168,6 +168,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
             <div id="main">
                 <div id="left-menu" ng-class="fullSizedMenu ? '' : 'shrinked'">
+                    <div id="full-menu" ng-show="menu == 'essentiel'?true:false" class="app-sale">
+                        <div class="title-app" ng-click="toggleMenuSize()">
+                            <span class="menu_title">L'essentiel</span>
+                        </div>
+                        <div id="menu-nav">
+                            <ul class="nav">
+
+                                <?php foreach ($menuEssential as $menuItem) { ?>
+                                    <li>
+                                        <a href="<?php echo $menuItem["url"]; ?>">
+                                            <?php echo $menuItem["label"]; ?>
+                                        </a>
+                                    </li>
+                                <?php } ?>
+
+                            </ul>
+                        </div>
+                    </div>
                     <?php foreach ($menuLeft as $menuSpace) { ?>
                         <div id="full-menu" ng-show="menu == '<?php echo $menuSpace["info"]["id"]; ?>'?true:false" class="app-sale">
                             <div class="title-app" ng-click="toggleMenuSize()">
@@ -217,7 +235,54 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </ul>
 
                 <div id="content-area" ng-class="{showingNotifs:showNotification, shrinkedMenu:!fullSizedMenu}">
-                    <div class="view-animate" ng-view=""></div>
+                    <div class="view-animate" ng-view>
+                        <div id="content" class="home">
+                            <div class="row">
+                                <?php if (count($menuTopCol1) > 0) { ?>
+                                    <div class="col-sm-6">
+                                        <?php
+                                        foreach ($menuTopCol1 as $menuSpace) {
+                                            if(sizeof($menuSpace["item"]) > 0){
+                                                ?>
+                                                <div class="title">
+                                                    <?php echo $menuSpace["info"]["name"]; ?>
+                                                </div>
+                                                <ul class="nav">
+                                                    <?php foreach ($menuSpace["item"] as $menuItem) { ?>
+                                                        <li>
+                                                            <a href="<?php echo $menuItem["url"]; ?>"><?php echo $menuItem["label"]; ?></a>
+                                                        </li>
+                                                    <?php } ?>
+                                                </ul>
+                                                <?php
+                                            }
+                                        }
+                                        ?>
+                                    </div>
+                                <?php } ?>
+                                <?php if (count($menuTopCol2) > 0) { ?>
+                                    <div class="col-sm-6">
+                                        <?php
+                                        foreach ($menuTopCol2 as $menuSpace) {
+                                            if(sizeof($menuSpace["item"]) > 0){
+                                                ?>
+                                                <div class="title"><?php echo $menuSpace["info"]["name"]; ?></div>
+                                                <ul class="nav">
+                                                    <?php foreach ($menuSpace["item"] as $menuItem) { ?>
+                                                        <li>
+                                                            <a href="<?php echo $menuItem["url"]; ?>"><?php echo $menuItem["label"]; ?></a>
+                                                        </li>
+                                                    <?php } ?>
+                                                </ul>
+                                                <?php
+                                            }
+                                        }
+                                        ?>
+                                    </div>
+                                <?php } ?>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <toasts></toasts>

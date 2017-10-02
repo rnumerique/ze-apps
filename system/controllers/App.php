@@ -22,6 +22,17 @@ class App extends ZeCtrl
         }
     }
 
+    public function home(){
+        $this->load->model("Zeapps_modules", "module");
+        $this->_modules = $this->module->all(array('active' => '1'));
+
+        $this->loadCache();
+
+        $data = $this->getMenus();
+
+        $this->load->view("home", $data);
+    }
+
     public function update_token()
     {
         global $globalConfig;

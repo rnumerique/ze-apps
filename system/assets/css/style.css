@@ -379,6 +379,9 @@ toasts .alert-dismissible .close{
 *[ng-click]{
     cursor: pointer;
 }
+.pointer{
+    cursor : pointer;
+}
 
 #ze-header #search .content .formSearch input {
     position: relative;
@@ -456,13 +459,13 @@ toasts .alert-dismissible .close{
     line-height: 40px;
 }
 .menu_title{
-    display: auto;
+    display: initial;
 }
 .shrinked .menu_title{
     display: none;
 }
 .menu_item{
-    display: auto;
+    display: initial;
 }
 .shrinked .menu_item{
     display: none;
@@ -763,4 +766,13 @@ toasts .alert-dismissible .close{
     display: inline-block;
     width: 100%;
     margin-bottom: 10px;
+}
+
+.home .title{
+    font-size: 1.5em;
+    border-bottom: 1px solid #000;
+    margin-bottom: 10px;
+}
+.home .nav{
+    margin-bottom: 25px;
 }

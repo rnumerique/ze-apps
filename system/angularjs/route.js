@@ -3,10 +3,13 @@ app.config(["$routeProvider",
 		$routeProvider
 			// DEFAULT
 			.when("/", {
-				redirectTo: "/ng/com_zeapps_faq/faq/"
+				redirectTo: "/ng/com_zeapps/"
 			})
 			.when("/ng/", {
-				redirectTo: "/ng/com_zeapps/config"
+				redirectTo: "/ng/com_zeapps/"
+			})
+			.when("/ng/com_zeapps/", {
+				templateUrl: "/zeapps/app/home"
 			})
 
             // CONFIG
@@ -65,7 +68,7 @@ app.config(["$routeProvider",
 
 			// 404
 			.otherwise({
-				redirectTo : "/ng/com_zeapps_faq/faq/"
+				redirectTo : "/ng/com_zeapps/"
 			})
 		;
 	}]);

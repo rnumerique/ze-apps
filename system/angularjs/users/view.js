@@ -1,7 +1,7 @@
-app.controller("ComZeAppsUsersCtrl", ["$scope", "$route", "$routeParams", "$location", "$rootScope", "zeHttp", "$uibModal",
-	function ($scope, $route, $routeParams, $location, $rootScope, zhttp, $uibModal) {
+app.controller("ComZeAppsUsersCtrl", ["$scope", "$route", "$routeParams", "$location", "$rootScope", "zeHttp", "menu",
+	function ($scope, $route, $routeParams, $location, $rootScope, zhttp, menu) {
 
-		$scope.$parent.loadMenu("com_ze_apps_config", "com_ze_apps_users");
+        menu("com_ze_apps_config", "com_ze_apps_users");
 
 		$scope.delete = del;
 

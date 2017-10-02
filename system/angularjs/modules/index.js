@@ -1,7 +1,7 @@
-app.controller("ComZeAppsModulesCtrl", ["$scope", "$route", "$routeParams", "$location", "$rootScope", "$http", "$uibModal", "zeHttp",
-	function ($scope, $route, $routeParams, $location, $rootScope, $http, $uibModal, zeHttp) {
+app.controller("ComZeAppsModulesCtrl", ["$scope", "$route", "$routeParams", "$location", "$rootScope", "$http", "$uibModal", "zeHttp", "menu",
+	function ($scope, $route, $routeParams, $location, $rootScope, $http, $uibModal, zeHttp, menu) {
 
-		$scope.$parent.loadMenu("com_ze_apps_config", "com_ze_apps_modules");
+        menu("com_ze_apps_config", "com_ze_apps_modules");
 
 		$scope.modules = [];
 		$scope.modulesToInstall = [];

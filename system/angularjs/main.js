@@ -2,8 +2,10 @@ var app = angular.module("zeApp", ["ngRoute","ui.bootstrap", "ui.sortable","ngFi
 
 var listModuleModalFunction = [] ;
 
-app.controller("MainCtrl", ["$scope", "$route", "$routeParams", "$location", "$rootScope", "$http", "$interval",
-	function ($scope, $route, $routeParams, $location, $rootScope, $http, $interval) {
+app.controller("MainCtrl", ["$scope", "$route", "$routeParams", "$location", "$rootScope", "$http", "$interval", "menu",
+	function ($scope, $route, $routeParams, $location, $rootScope, $http, $interval, menu) {
+
+		menu('essentiel', '');
 
 		$rootScope.debug = false;
 		$rootScope.defaultLang = "fr-fr";
@@ -23,7 +25,6 @@ app.controller("MainCtrl", ["$scope", "$route", "$routeParams", "$location", "$r
 		/********** Left Menu Toggle **********/
 		$scope.fullSizedMenu = true;
 
-		$scope.loadMenu = loadMenu;
 		/************ Search Bar ***************/
 		$scope.search = search;
 
@@ -149,14 +150,6 @@ app.controller("MainCtrl", ["$scope", "$route", "$routeParams", "$location", "$r
 		function logout() {
 			window.document.location.href = "/logout";
 		}
-
-		function loadMenu(argMenu, argItemActive) {
-			$scope["menu"] = argMenu ;
-			$scope["menu_active"] = argItemActive ;
-
-			$("#left-menu .nav a").blur();
-		}
-
 	}]);
 
 // creation des routes
@@ -164,7 +157,7 @@ app.config(function ($routeProvider, $locationProvider, $compileProvider, $provi
 	$locationProvider.html5Mode(true);
     $compileProvider.commentDirectivesEnabled(false);
     $compileProvider.cssClassDirectivesEnabled(false);
-    //$compileProvider.debugInfoEnabled(false);
+    $compileProvider.debugInfoEnabled(false);
 
     $provide.decorator("$http", function ($delegate, $q, $log, $rootScope, $templateCache) {
         var $http = $delegate;

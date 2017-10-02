@@ -1,7 +1,7 @@
-app.controller("ComZeAppsConfigCtrl", ["$scope", "$route", "$routeParams", "$location", "$rootScope", "zeHttp",
-	function ($scope, $route, $routeParams, $location, $rootScope, zhttp) {
+app.controller("ComZeAppsConfigCtrl", ["$scope", "$route", "$routeParams", "$location", "$rootScope", "zeHttp", "menu",
+	function ($scope, $route, $routeParams, $location, $rootScope, zhttp, menu) {
 
-		$scope.$parent.loadMenu("com_ze_apps_config", "com_ze_apps_config");
+        menu("com_ze_apps_config", "com_ze_apps_config");
 
 		$scope.emptyCache = emptyCache;
 		$scope.success = success;

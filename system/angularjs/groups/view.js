@@ -1,7 +1,7 @@
-app.controller("ComZeAppsGroupsCtrl", ["$scope", "$route", "$routeParams", "$location", "$rootScope", "zeHttp", "zeapps_modal",
-	function ($scope, $route, $routeParams, $location, $rootScope, zhttp, zeapps_modal) {
+app.controller("ComZeAppsGroupsCtrl", ["$scope", "$route", "$routeParams", "$location", "$rootScope", "zeHttp", "zeapps_modal", "menu",
+	function ($scope, $route, $routeParams, $location, $rootScope, zhttp, zeapps_modal, menu) {
 
-		$scope.$parent.loadMenu("com_ze_apps_config", "com_ze_apps_groups");
+        menu("com_ze_apps_config", "com_ze_apps_groups");
 
 		$scope.create = create;
 		$scope.edit = edit;
