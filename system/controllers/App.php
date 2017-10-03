@@ -196,7 +196,7 @@ class App extends ZeCtrl
         $mainjs .= "*************/\n";
 
         if (is_file(BASEPATH . "angularjs/main.js")) { // We start with the root of our AngularJS application
-            $mainjs .= file_get_contents(BASEPATH . "angularjs/main.js");
+            $mainjs .= minifyJS(file_get_contents(BASEPATH . "angularjs/main.js"));
             $mainjs .= "\n";
         }
 
@@ -205,7 +205,7 @@ class App extends ZeCtrl
         if ($folder = opendir($folderApp)) {
             $folderAngularJs = $folderApp . "/angularjs";
 
-            $mainjs .= $this->getContentFolder($folderAngularJs, 'js');
+            $mainjs .= minifyJS($this->getContentFolder($folderAngularJs, 'js'));
         }
 
 
@@ -215,11 +215,13 @@ class App extends ZeCtrl
                 if (is_dir($folderModule)) {
                     $folderAngularJs = $folderModule . "/angularjs";
 
-                    $mainjs .= $this->getContentFolder($folderAngularJs, 'js');
+                    $mainjs .= minifyJS($this->getContentFolder($folderAngularJs, 'js'));
 
                 }
             }
         }
+
+        $mainjs = minifyJs($mainjs);
 
         // ecriture du fichier javascript
         recursive_mkdir(FCPATH . "cache/js/");
