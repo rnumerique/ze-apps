@@ -8,7 +8,7 @@ listModuleModalFunction.push({
     resolve:{}
 });
 
-app.controller("ZeAppsCoreModalFormCtrl", function($scope, $uibModalInstance, option) {
+app.controller("ZeAppsCoreModalFormCtrl", ["$scope", "$uibModalInstance", "option", function($scope, $uibModalInstance, option) {
 
     $scope.title = option.title || "Création" ;
     $scope.form = option.edit || {};
@@ -25,4 +25,4 @@ app.controller("ZeAppsCoreModalFormCtrl", function($scope, $uibModalInstance, op
         $uibModalInstance.dismiss("cancel");
     }
 
-}) ;
+}]) ;

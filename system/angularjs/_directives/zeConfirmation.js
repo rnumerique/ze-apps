@@ -1,4 +1,4 @@
-app.directive("zeConfirmation", function($uibModal){
+app.directive("zeConfirmation", ["$uibModal", function($uibModal){
 	return {
 	    priority: 1,
         terminal: true,
@@ -46,4 +46,4 @@ app.directive("zeConfirmation", function($uibModal){
             elm.removeAttr("ze-confirmation");
         }
 	};
-});
+}]);

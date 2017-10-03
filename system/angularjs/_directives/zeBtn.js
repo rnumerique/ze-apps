@@ -1,4 +1,4 @@
-app.directive("zeBtn", function($compile){
+app.directive("zeBtn", ["$compile", function($compile){
 	return {
         priority: 2,
 		restrict: "E",
@@ -15,11 +15,11 @@ app.directive("zeBtn", function($compile){
         replace: true,
 		link: {
         	pre: function($scope, elm, attrs){
-                var color = attrs.color || "primary";
-                var fa = attrs.fa || "font-awesome";
-                var hint = attrs.hint || "";
-                var direction = attrs.direction || "right";
-                var alwaysOn = attrs.alwaysOn || false;
+                var color = attrs.color || "primary";
+                var fa = attrs.fa || "font-awesome";
+                var hint = attrs.hint || "";
+                var direction = attrs.direction || "right";
+                var alwaysOn = attrs.alwaysOn || false;
 
 				var html = 	"<button type='button' class='btn btn-xs btn-"+color+"'>";
 
@@ -43,4 +43,4 @@ app.directive("zeBtn", function($compile){
             }
         }
 	};
-});
+}]);

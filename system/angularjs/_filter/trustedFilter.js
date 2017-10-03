@@ -1,5 +1,5 @@
-app.filter("trusted", function($sce){
+app.filter("trusted", ["$sce", function($sce){
 	return function(html){
 		return $sce.trustAsHtml(html + "");
 	};
-});
+}]);

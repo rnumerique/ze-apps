@@ -1,4 +1,4 @@
-app.directive("zeToast", function($timeout){
+app.directive("zeToast", ["$timeout", function($timeout){
     return {
         restrict: "E",
         replace: true,
@@ -34,4 +34,4 @@ app.directive("zeToast", function($timeout){
             }
         }
     };
-});
+}]);

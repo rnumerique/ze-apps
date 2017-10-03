@@ -1,4 +1,4 @@
-app.directive("formButtons", function($uibModal, $location){
+app.directive("formButtons", ["$uibModal", "$location", function($uibModal, $location){
 	return {
 		restrict: "E",
 		require: "^form",
@@ -66,4 +66,4 @@ app.directive("formButtons", function($uibModal, $location){
 
 		}
 	};
-});
+}]);

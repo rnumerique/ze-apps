@@ -1,4 +1,4 @@
-app.factory("zeCalendar", function($location){
+app.factory("zeCalendar", ["$location", function($location){
 	var $elm;
 	var options = {
         header: {
@@ -45,4 +45,4 @@ app.factory("zeCalendar", function($location){
         $elm.fullCalendar('addEventSource', events);
         $elm.fullCalendar('rerenderEvents');
 	}
-});
+}]);

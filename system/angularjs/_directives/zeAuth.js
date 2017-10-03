@@ -1,4 +1,4 @@
-app.directive("zeAuth", function($rootScope){
+app.directive("zeAuth", ["$rootScope", function($rootScope){
 
 	return {
 		restrict: "A",
@@ -41,4 +41,4 @@ app.directive("zeAuth", function($rootScope){
         return false;
 	}
 
-});
+}]);

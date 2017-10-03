@@ -1,4 +1,4 @@
-app.factory("zeHooks", function(){
+app.factory("zeHooks", [function(){
 
 	var hooks = [];
 
@@ -20,4 +20,4 @@ app.factory("zeHooks", function(){
 		return hooks[hook] || [];
 	}
 
-});
+}]);

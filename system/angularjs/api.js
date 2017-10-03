@@ -1,6 +1,6 @@
 app.config(["$provide",
 	function ($provide) {
-		$provide.decorator("zeHttp", function($delegate){
+		$provide.decorator("zeHttp", ["$delegate", function($delegate){
 			var zeHttp = $delegate;
 
 			zeHttp.app = {
@@ -88,5 +88,5 @@ app.config(["$provide",
 			function save_config(data){
 				return zeHttp.post("/zeapps/config/save", data);
 			}
-		});
+		}]);
 	}]);

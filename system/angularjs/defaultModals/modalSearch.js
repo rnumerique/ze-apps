@@ -8,7 +8,7 @@ listModuleModalFunction.push({
     resolve:{}
 });
 
-app.controller("ZeAppsCoreModalSearchCtrl", function($scope, $uibModalInstance, option) {
+app.controller("ZeAppsCoreModalSearchCtrl", ["$scope", "$uibModalInstance", "option", function($scope, $uibModalInstance, option) {
 
     $scope.title = option.title || "Sélection" ;
     $scope.filters = {
@@ -62,4 +62,4 @@ app.controller("ZeAppsCoreModalSearchCtrl", function($scope, $uibModalInstance, 
         $uibModalInstance.dismiss("cancel");
     }
 
-}) ;
+}]) ;

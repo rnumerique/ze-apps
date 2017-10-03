@@ -1,4 +1,4 @@
-app.directive("zeFilters", function($timeout){
+app.directive("zeFilters", ["$timeout", function($timeout){
 	return {
 		restrict: "E",
 		scope: {
@@ -43,4 +43,4 @@ app.directive("zeFilters", function($timeout){
 			}
 		}
 	};
-});
+}]);

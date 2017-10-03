@@ -1,4 +1,5 @@
-app.controller("ZeAppsPopupModalDeBaseCtrl", function($scope, $uibModalInstance, $http, titre, msg, action_danger, action_primary, action_success) {
+app.controller("ZeAppsPopupModalDeBaseCtrl", ["$scope", "$uibModalInstance", "$http", "titre", "msg", "action_danger", "action_primary", "action_success",
+	function($scope, $uibModalInstance, $http, titre, msg, action_danger, action_primary, action_success) {
 
 	$scope.titre = titre ;
 	$scope.msg = msg ;
@@ -26,7 +27,7 @@ app.controller("ZeAppsPopupModalDeBaseCtrl", function($scope, $uibModalInstance,
 	function action_success_click() {
 		$uibModalInstance.close({action:"success"});
 	}
-}) ;
+}]) ;
 
 
 app.factory("zeapps_modal", ["$uibModal", function($uibModal) {

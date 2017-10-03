@@ -1,4 +1,4 @@
-app.factory("zeHttp", function($rootScope, $http, $q){
+app.factory("zeHttp", ["$rootScope", "$http", "$q", function($rootScope, $http, $q){
 
 	var methods = ["get", "post", "put", "delete", "patch", "head"];
 	$rootScope.httpRequestCount = 0;
@@ -60,4 +60,4 @@ app.factory("zeHttp", function($rootScope, $http, $q){
 	function httpFunction(){
 		return _http;
 	}
-});
+}]);

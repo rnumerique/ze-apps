@@ -153,13 +153,15 @@ app.controller("MainCtrl", ["$scope", "$route", "$routeParams", "$location", "$r
 	}]);
 
 // creation des routes
-app.config(function ($routeProvider, $locationProvider, $compileProvider, $provide) {
+app.config(["$routeProvider", "$locationProvider", "$compileProvider", "$provide",
+	function ($routeProvider, $locationProvider, $compileProvider, $provide) {
 	$locationProvider.html5Mode(true);
     $compileProvider.commentDirectivesEnabled(false);
     $compileProvider.cssClassDirectivesEnabled(false);
     $compileProvider.debugInfoEnabled(false);
 
-    $provide.decorator("$http", function ($delegate, $q, $log, $rootScope, $templateCache) {
+    $provide.decorator("$http", ["$delegate", "$q", "$log", "$rootScope", "$templateCache",
+		function ($delegate, $q, $log, $rootScope, $templateCache) {
         var $http = $delegate;
 
         //Copy every shortcut method
@@ -249,10 +251,10 @@ app.config(function ($routeProvider, $locationProvider, $compileProvider, $provi
 
             return promise;
         }
-    });
-});
+    }]);
+}]);
 
-app.run(function(zeHttp, zeHooks, $rootScope, $timeout){
+app.run(["zeHttp", "zeHooks", "$rootScope", function(zeHttp, zeHooks, $rootScope){
 	moment.locale("fr");
 
     zeHttp.get("/zeapps/config/get/zeapps_debug").then(function(response){
@@ -272,4 +274,4 @@ app.run(function(zeHttp, zeHooks, $rootScope, $timeout){
             $rootScope.contextLoaded = true;
 		}
 	});
-});
+}]);

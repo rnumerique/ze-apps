@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?><!DOCTYPE html>
-<html lang="en" ng-app="zeApp" ng-controller="MainCtrl as main" ng-cloak>
+<html lang="en" ng-app="zeApp" ng-controller="MainCtrl as main" ng-cloak ng-strict-di>
     <head>
         <meta charset="utf-8">
         <title ng-bind="notificationsNotSeen() ? '['+notificationsNotSeen()+'] Zeapps' : 'Zeapps'">Zeapps</title>

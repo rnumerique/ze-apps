@@ -1,4 +1,4 @@
-app.service("toasts", function($rootScope, $compile){
+app.service("toasts", ["$rootScope", "$compile", function($rootScope, $compile){
 	return add;
 	
 	function add(level, msg){
@@ -8,4 +8,4 @@ app.service("toasts", function($rootScope, $compile){
             $('toasts').prepend(cloned);
         });
 	}
-});
+}]);

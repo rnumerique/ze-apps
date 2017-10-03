@@ -1,4 +1,4 @@
-app.directive("zeModalform", function($compile, zeapps_modal){
+app.directive("zeModalform", ["$compile", "zeapps_modal", function($compile, zeapps_modal){
 
 	return {
 		restrict: "A",
@@ -42,4 +42,4 @@ app.directive("zeModalform", function($compile, zeapps_modal){
         }
 	};
 
-});
+}]);

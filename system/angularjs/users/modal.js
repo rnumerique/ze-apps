@@ -13,7 +13,7 @@ listModuleModalFunction.push({
 });
 
 
-app.controller("ZeAppsCoreModalUserCtrl", function($scope, $uibModalInstance, zeHttp, titre, option) {
+app.controller("ZeAppsCoreModalUserCtrl", ["$scope", "$uibModalInstance", "zeHttp", "titre", "option", function($scope, $uibModalInstance, zeHttp, titre, option) {
 
 	$scope.titre = titre ;
 
@@ -56,4 +56,4 @@ app.controller("ZeAppsCoreModalUserCtrl", function($scope, $uibModalInstance, ze
 		$uibModalInstance.dismiss("cancel");
 	}
 
-}) ;
+}]) ;

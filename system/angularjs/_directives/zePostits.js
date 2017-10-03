@@ -1,4 +1,4 @@
-app.directive("zePostits", function(){
+app.directive("zePostits", [function(){
 	return {
 		restrict: "E",
 		scope: {
@@ -7,9 +7,9 @@ app.directive("zePostits", function(){
         replace: true,
         templateUrl: "/zeapps/directives/zepostits"
 	};
-})
+}])
 
-	.filter("postitFilter", function($filter){
+	.filter("postitFilter", ["$filter", function($filter){
 		return function(input, filter, args){
 			if(filter) {
                 if(Array.isArray(args)) {
@@ -26,4 +26,4 @@ app.directive("zePostits", function(){
 				return input;
 			}
 		}
-	});
+	}]);

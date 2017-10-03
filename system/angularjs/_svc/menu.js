@@ -1,4 +1,4 @@
-app.service("menu", function($rootScope){
+app.service("menu", ["$rootScope", function($rootScope){
 	return load;
 	
 	function load(menu, item){
@@ -7,4 +7,4 @@ app.service("menu", function($rootScope){
 
         $("#left-menu .nav a").blur();
 	}
-});
+}]);

@@ -13,7 +13,7 @@ listModuleModalFunction.push({
 });
 
 
-app.controller("ZeAppsGroupModalCtrl", function($scope, $uibModalInstance, zeHttp, titre, option) {
+app.controller("ZeAppsGroupModalCtrl", ["$scope", "$uibModalInstance", "zeHttp", "titre", "option", function($scope, $uibModalInstance, zeHttp, titre, option) {
 
 	$scope.titre = titre ;
 
@@ -36,4 +36,4 @@ app.controller("ZeAppsGroupModalCtrl", function($scope, $uibModalInstance, zeHtt
 		$uibModalInstance.close($scope.form);
 	}
 
-}) ;
+}]) ;

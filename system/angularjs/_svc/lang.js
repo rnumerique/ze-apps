@@ -1,4 +1,4 @@
-app.factory("lang", function(){
+app.factory("lang", [function(){
 
     var lang = [];
 
@@ -16,4 +16,4 @@ app.factory("lang", function(){
         return lang[hook] || hook;
     }
 
-});
+}]);
