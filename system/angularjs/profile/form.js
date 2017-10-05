@@ -1,5 +1,5 @@
-app.controller("ComZeAppsProfileFormCtrl", ["$scope", "$route", "$routeParams", "$location", "$rootScope", "$http",
-	function ($scope, $route, $routeParams, $location, $rootScope, $http) {
+app.controller("ComZeAppsProfileFormCtrl", ["$scope", "$routeParams", "$location", "zeHttp",
+	function ($scope, $routeParams, $location, zhttp) {
 
 		var options = {};
 
@@ -10,7 +10,7 @@ app.controller("ComZeAppsProfileFormCtrl", ["$scope", "$route", "$routeParams", 
 
 		// charge la fiche
 
-		$http.get("/zeapps/profile/get/" + $routeParams.id).then(function (response) {
+        zhttp.get("/zeapps/profile/get/" + $routeParams.id).then(function (response) {
 			if (response.status == 200) {
 				$scope.form = response.data;
 
@@ -30,14 +30,14 @@ app.controller("ComZeAppsProfileFormCtrl", ["$scope", "$route", "$routeParams", 
 			}
 		});
 
-		$http.post("/zeapps/group/getAll", options).then(function (response) {
+        zhttp.post("/zeapps/group/getAll", options).then(function (response) {
 			if (response.status == 200) {
 				$scope.groups = response.data ;
 			}
 		});
 
 		// charge la liste des droits
-		$http.get("/zeapps/user/getRightList").then(function (response) {
+        zhttp.get("/zeapps/user/getRightList").then(function (response) {
 			if (response.status == 200) {
 				$scope.right_list = response.data ;
 			}
@@ -59,7 +59,7 @@ app.controller("ComZeAppsProfileFormCtrl", ["$scope", "$route", "$routeParams", 
 			$data.groups_list = $scope.form.groups.join();
 			$data.right_list = $scope.form.rights.join() ;
 
-			$http.post("/zeapps/profile/update_user", $data).then(function () {
+            zhttp.post("/zeapps/profile/update_user", $data).then(function () {
 				// pour que la page puisse être redirigé
 				$location.path("/ng/com_zeapps/profile/view");
 			});

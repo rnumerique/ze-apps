@@ -1,5 +1,5 @@
-app.controller("ZeAppsPopupModalDeBaseCtrl", ["$scope", "$uibModalInstance", "$http", "titre", "msg", "action_danger", "action_primary", "action_success",
-	function($scope, $uibModalInstance, $http, titre, msg, action_danger, action_primary, action_success) {
+app.controller("ZeAppsPopupModalDeBaseCtrl", ["$scope", "$uibModalInstance", "titre", "msg", "action_danger", "action_primary", "action_success",
+	function($scope, $uibModalInstance, titre, msg, action_danger, action_primary, action_success) {
 
 	$scope.titre = titre ;
 	$scope.msg = msg ;

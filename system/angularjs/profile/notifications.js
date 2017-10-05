@@ -1,5 +1,5 @@
-app.controller("ComZeAppsProfileNotificationsCtrl", ["$scope", "$route", "$routeParams", "$location", "$rootScope", "$http", "$interval",
-	function ($scope, $route, $routeParams, $location, $rootScope, $http, $interval) {
+app.controller("ComZeAppsProfileNotificationsCtrl", ["$scope", "zeHttp", "$interval",
+	function ($scope, zhttp, $interval) {
 
 		$scope.notifications = {};
 
@@ -12,7 +12,7 @@ app.controller("ComZeAppsProfileNotificationsCtrl", ["$scope", "$route", "$route
 		}, 30000);
 
 		function loadNotifications(){
-			$http.get("/zeapps/notification/getAll").then(function (response) {
+            zhttp.get("/zeapps/notification/getAll").then(function (response) {
 				if (response.data && response.data != false) {
 					var notifications = {};
 					for(var i=0; i < response.data.length; i++){

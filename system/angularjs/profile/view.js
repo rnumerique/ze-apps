@@ -1,5 +1,5 @@
-app.controller("ComZeAppsProfileViewCtrl", ["$scope", "$route", "$routeParams", "$location", "$rootScope", "$http",
-	function ($scope, $route, $routeParams, $location, $rootScope, $http) {
+app.controller("ComZeAppsProfileViewCtrl", ["$scope", "$routeParams", "$location", "zeHttp",
+	function ($scope, $routeParams, $location, zhttp) {
 
 
 		// Edition d'un plan de charge
@@ -8,7 +8,7 @@ app.controller("ComZeAppsProfileViewCtrl", ["$scope", "$route", "$routeParams", 
 
 		// charge la fiche
 
-		$http.get("/zeapps/profile/get/" + $routeParams.id).then(function (response) {
+        zhttp.get("/zeapps/profile/get/" + $routeParams.id).then(function (response) {
 			if (response.status == 200) {
 				$scope.user = response.data;
 			}

@@ -13,7 +13,7 @@ listModuleModalFunction.push({
 });
 
 
-app.controller("ZeAppsCoreModalUserCtrl", ["$scope", "$uibModalInstance", "zeHttp", "titre", "option", function($scope, $uibModalInstance, zeHttp, titre, option) {
+app.controller("ZeAppsCoreModalUserCtrl", ["$scope", "$uibModalInstance", "zeHttp", "titre", "option", function($scope, $uibModalInstance, zhttp, titre, option) {
 
 	$scope.titre = titre ;
 
@@ -25,7 +25,7 @@ app.controller("ZeAppsCoreModalUserCtrl", ["$scope", "$uibModalInstance", "zeHtt
 	loadList() ;
 
 	function loadList() {
-        zeHttp.app.user.all().then(function (response) {
+        zhttp.app.user.all().then(function (response) {
 			if (response.status == 200) {
 				var users = response.data;
 				$scope.users = [];

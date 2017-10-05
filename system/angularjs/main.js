@@ -2,8 +2,8 @@ var app = angular.module("zeApp", ["ngRoute","ui.bootstrap", "ui.sortable","ngFi
 
 var listModuleModalFunction = [] ;
 
-app.controller("MainCtrl", ["$scope", "$route", "$routeParams", "$location", "$rootScope", "$http", "$interval", "menu",
-	function ($scope, $route, $routeParams, $location, $rootScope, $http, $interval, menu) {
+app.controller("MainCtrl", ["$scope", "$location", "$rootScope", "zeHttp", "$interval", "menu",
+	function ($scope, $location, $rootScope, zhttp, $interval, menu) {
 
 		menu('essentiel', '');
 
@@ -57,7 +57,7 @@ app.controller("MainCtrl", ["$scope", "$route", "$routeParams", "$location", "$r
 		}, 30000);
 
 		$interval(function(){
-			$http.get("/zeapps/app/update_token");
+            zhttp.get("/zeapps/app/update_token");
 		}, 300000);
 
 
@@ -81,13 +81,13 @@ app.controller("MainCtrl", ["$scope", "$route", "$routeParams", "$location", "$r
 						module.notifications[i].seen = 1;
 					}
 				});
-				$http.post("/zeapps/notification/seenNotification", angular.toJson($scope.notifications));
+                zhttp.post("/zeapps/notification/seenNotification", angular.toJson($scope.notifications));
 			}
 
 		}
 
 		function loadNotifications(){
-			$http.get("/zeapps/notification/getAllUnread").then(function (response) {
+            zhttp.get("/zeapps/notification/getAllUnread").then(function (response) {
 				if (response.data && response.data != false) {
 					var notifications = {};
 					for(var i=0; i < response.data.length; i++){
@@ -120,7 +120,7 @@ app.controller("MainCtrl", ["$scope", "$route", "$routeParams", "$location", "$r
 
 		function readNotification(notification){
 			notification.read_state = 1;
-			$http.post("/zeapps/notification/readNotification/"+notification.id).then(function(response){
+            zhttp.post("/zeapps/notification/readNotification/"+notification.id).then(function(response){
 				if(response.data && response.data != "false"){
 					$scope.notifications[notification.module].notifications.splice($scope.notifications[notification.module].notifications.indexOf(notification),1);
 					if(!$scope.notifications[notification.module].notifications.length)
@@ -131,7 +131,7 @@ app.controller("MainCtrl", ["$scope", "$route", "$routeParams", "$location", "$r
 		}
 
 		function readAllNotificationsFrom(moduleName){
-			$http.post("/zeapps/notification/readAllNotificationFrom/"+moduleName).then(function(response){
+            zhttp.post("/zeapps/notification/readAllNotificationFrom/"+moduleName).then(function(response){
 				if(response.data && response.data != "false"){
 					delete $scope.notifications[moduleName];
 				}
@@ -144,7 +144,7 @@ app.controller("MainCtrl", ["$scope", "$route", "$routeParams", "$location", "$r
 		}
 
 		function search(){
-			$http.post("/zeapps/search/generalSearch");
+            zhttp.post("/zeapps/search/generalSearch");
 		}
 
 		function logout() {
@@ -153,8 +153,8 @@ app.controller("MainCtrl", ["$scope", "$route", "$routeParams", "$location", "$r
 	}]);
 
 // creation des routes
-app.config(["$routeProvider", "$locationProvider", "$compileProvider", "$provide",
-	function ($routeProvider, $locationProvider, $compileProvider, $provide) {
+app.config(["$locationProvider", "$compileProvider", "$provide",
+	function ($locationProvider, $compileProvider, $provide) {
 	$locationProvider.html5Mode(true);
     $compileProvider.commentDirectivesEnabled(false);
     $compileProvider.cssClassDirectivesEnabled(false);
@@ -254,21 +254,21 @@ app.config(["$routeProvider", "$locationProvider", "$compileProvider", "$provide
     }]);
 }]);
 
-app.run(["zeHttp", "zeHooks", "$rootScope", function(zeHttp, zeHooks, $rootScope){
+app.run(["zeHttp", "zeHooks", "$rootScope", function(zhttp, zeHooks, $rootScope){
 	moment.locale("fr");
 
-    zeHttp.get("/zeapps/config/get/zeapps_debug").then(function(response){
+    zhttp.get("/zeapps/config/get/zeapps_debug").then(function(response){
         if(response.data && response.data != false){
             $rootScope.debug = !!parseInt(response.data.value);
         }
     });
-	zeHttp.app.hooks.all().then(function(response){
+    zhttp.app.hooks.all().then(function(response){
 		if(response.data && response.data != "false"){
 			zeHooks.set(response.data);
             $rootScope.daemon_hooks = zeHooks.get("zeappsDaemon_Hook");
 		}
 	});
-	zeHttp.get("/zeapps/user/getCurrentUser").then(function (response) {
+    zhttp.get("/zeapps/user/getCurrentUser").then(function (response) {
 		if (response.status == 200) {
 			$rootScope.user = response.data;
             $rootScope.contextLoaded = true;

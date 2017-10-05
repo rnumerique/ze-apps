@@ -1,5 +1,5 @@
-app.controller("ComZeAppsUsersFormCtrl", ["$scope", "$route", "$routeParams", "$location", "$rootScope", "zeHttp", "zeHooks", "menu",
-	function ($scope, $route, $routeParams, $location, $rootScope, zhttp, zeHooks, menu) {
+app.controller("ComZeAppsUsersFormCtrl", ["$scope", "$routeParams", "$location", "zeHttp", "zeHooks", "menu",
+	function ($scope, $routeParams, $location, zhttp, zeHooks, menu) {
 
         menu("com_ze_apps_config", "com_ze_apps_users");
 

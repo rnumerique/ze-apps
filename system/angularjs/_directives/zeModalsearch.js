@@ -1,4 +1,4 @@
-app.directive("zeModalsearch", ["$compile", "zeapps_modal", function($compile, zeapps_modal){
+app.directive("zeModalsearch", ["zeapps_modal", function(zeapps_modal){
 
 	return {
 		restrict: "A",

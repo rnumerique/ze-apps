@@ -1,5 +1,5 @@
-app.controller("ComZeAppsModulesCtrl", ["$scope", "$route", "$routeParams", "$location", "$rootScope", "$http", "$uibModal", "zeHttp", "menu",
-	function ($scope, $route, $routeParams, $location, $rootScope, $http, $uibModal, zeHttp, menu) {
+app.controller("ComZeAppsModulesCtrl", ["$scope", "zeHttp", "menu",
+	function ($scope, zhttp, menu) {
 
         menu("com_ze_apps_config", "com_ze_apps_modules");
 
@@ -12,13 +12,13 @@ app.controller("ComZeAppsModulesCtrl", ["$scope", "$route", "$routeParams", "$lo
 		$scope.toggleActivation = toggleActivation;
 		$scope.testIfActif = testIfActif;
 
-		zeHttp.get("/zeapps/modules/getAll").then(function(response){
+        zhttp.get("/zeapps/modules/getAll").then(function(response){
 			if(response.data && response.data!="false"){
 				$scope.modules = response.data;
 			}
 		});
 
-		zeHttp.get("/zeapps/modules/toInstall").then(function(response){
+        zhttp.get("/zeapps/modules/toInstall").then(function(response){
 			if(response.data && response.data!="false"){
 				var i;
 				$scope.modulesToInstall = response.data.toInstall;
@@ -43,7 +43,7 @@ app.controller("ComZeAppsModulesCtrl", ["$scope", "$route", "$routeParams", "$lo
 			});
 
 			var formatted_data = angular.toJson(data);
-			zeHttp.post("/zeapps/modules/installModules", formatted_data).then(function(response){
+            zhttp.post("/zeapps/modules/installModules", formatted_data).then(function(response){
 				if(response.data && response.data!="false"){
 					document.location.reload(true);
 				}
@@ -53,7 +53,7 @@ app.controller("ComZeAppsModulesCtrl", ["$scope", "$route", "$routeParams", "$lo
 
 		function toggleActivation(module){
 			var active = parseInt(module.active) ? "0" : "1";
-			$http.post("/zeapps/modules/toggleActivation/" + module.id + "/" + active).then(function(response){
+            zhttp.post("/zeapps/modules/toggleActivation/" + module.id + "/" + active).then(function(response){
 				if(response.data && response.data != "false"){
 					document.location.reload(true);
 				}
