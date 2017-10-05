@@ -73,6 +73,8 @@ class Modules extends ZeCtrl
 
         }
 
+        $res = true;
+
         if ($data) {
             $folderInstall = FCPATH . "install/";
             if ($folder = opendir($folderInstall)) {
@@ -81,7 +83,8 @@ class Modules extends ZeCtrl
                         $folderModule = $folderInstall . $data['modules'][$i];
                         if (is_dir($folderModule) && $data['modules'][$i] != '.' && $data['modules'][$i] != '..') {
 
-                            $this->installModule($data['modules'][$i], $folderInstall);
+                            $r = $this->installModule($data['modules'][$i], $folderInstall);
+                            $res = $res && $r;
 
                         }
                     }
@@ -89,7 +92,7 @@ class Modules extends ZeCtrl
                 clearCache();
             }
         }
-        echo json_encode('OK');
+        echo json_encode($res);
     }
 
     private function installModule($module = null, $folder = null)

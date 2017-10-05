@@ -34,21 +34,21 @@ class Config extends ZeCtrl
             if (isset($data[0]) && is_array($data[0])) { // Multidimensionnal array, we are saving multiple config settings at once
                 for ($i = 0; $i < sizeof($data); $i++) {
                     if ($this->configs->get(array('id' => $data[$i]['id']))) {
-                        $this->configs->update($data[$i], array('id' => $data[$i]['id']));
+                        $res = $this->configs->update($data[$i], array('id' => $data[$i]['id']));
                     } else {
-                        $this->configs->insert($data[$i]);
+                        $res = $this->configs->insert($data[$i]);
                     }
                 }
             } else {
                 if ($this->configs->get($data['id'])) {
-                    $this->configs->update($data, array('id' => $data['id']));
+                    $res = $this->configs->update($data, array('id' => $data['id']));
                 } else {
-                    $this->configs->insert($data);
+                    $res = $this->configs->insert($data);
                 }
             }
         }
 
-        echo json_encode('OK');
+        echo json_encode(!!$res);
     }
 
     public function emptyCache()

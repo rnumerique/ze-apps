@@ -56,12 +56,14 @@ class Notification extends ZeCtrl
         $this->load->model("Zeapps_notifications", "notifications");
         $this->load->model("Zeapps_users", "user");
 
+        $res = false;
+
         if ($user = $this->user->getUserByToken($this->session->get('token'))) {
             if ($id) {
-                $this->notifications->update(array("read_state" => 1), array("id" => $id, 'id_user' => $user->id));
+                $res = $this->notifications->update(array("read_state" => 1), array("id" => $id, 'id_user' => $user->id));
             }
         }
-        echo json_encode("OK");
+        echo json_encode(!!$res);
     }
 
     public function readAllNotificationFrom($module = null)
@@ -69,12 +71,14 @@ class Notification extends ZeCtrl
         $this->load->model("Zeapps_notifications", "notifications");
         $this->load->model("Zeapps_users", "user");
 
+        $res = false;
+
         if ($user = $this->user->getUserByToken($this->session->get('token'))) {
             if ($module) {
-                $this->notifications->update(array("read_state" => 1), array('module' => $module, 'id_user' => $user->id));
+                $res = $this->notifications->update(array("read_state" => 1), array('module' => $module, 'id_user' => $user->id));
             }
         }
-        echo json_encode("OK");
+        echo json_encode(!!$res);
     }
 
 }
