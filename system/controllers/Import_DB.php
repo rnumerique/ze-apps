@@ -7,7 +7,7 @@ class Import_DB extends ZeCtrl
     }
 
     private $old;
-    private $step = 5000;
+    private $step = 3000;
 
     private $users_i = [];
     private $account_families_i = [];
@@ -24,6 +24,274 @@ class Import_DB extends ZeCtrl
     private $warehouses_i = [];
     private $order_lines_i = [];
     private $publications_i = [];
+    private $invoices_i = [];
+    private $countries_i = [
+        "3" => "8",
+        "4" => "1",
+        "5" => "4",
+        "6" => "21",
+        "7" => "231",
+        "8" => "30",
+        "9" => "230",
+        "10" => "38",
+        "11" => "40",
+        "12" => "188",
+        "13" => "44",
+        "14" => "2",
+        "15" => "49",
+        "16" => "3",
+        "17" => "54",
+        "18" => "34",
+        "19" => "233",
+        "20" => "58",
+        "21" => "236",
+        "22" => "60",
+        "23" => "63",
+        "24" => "64",
+        "25" => "68",
+        "26" => "5",
+        "27" => "76",
+        "28" => "69",
+        "29" => "71",
+        "30" => "28",
+        "31" => "32",
+        "32" => "74",
+        "33" => "20",
+        "34" => "82",
+        "35" => "217",
+        "36" => "81",
+        "37" => "6",
+        "38" => "86",
+        "39" => "7",
+        "40" => "8",
+        "41" => "91",
+        "42" => "9",
+        "43" => "102",
+        "44" => "241",
+        "45" => "22",
+        "46" => "143",
+        "47" => "110",
+        "48" => "111",
+        "49" => "113",
+        "50" => "112",
+        "51" => "26",
+        "52" => "109",
+        "53" => "29",
+        "54" => "10",
+        "55" => "11",
+        "56" => "117",
+        "57" => "119",
+        "58" => "122",
+        "59" => "125",
+        "60" => "126",
+        "61" => "129",
+        "62" => "131",
+        "63" => "12",
+        "64" => "134",
+        "65" => "136",
+        "66" => "137",
+        "67" => "138",
+        "68" => "152",
+        "69" => "145",
+        "70" => "148",
+        "71" => "",
+        "72" => "160",
+        "73" => "31",
+        "74" => "23",
+        "75" => "158",
+        "76" => "169",
+        "77" => "27",
+        "78" => "165",
+        "79" => "170",
+        "80" => "13",
+        "81" => "171",
+        "82" => "14",
+        "83" => "15",
+        "84" => "36",
+        "85" => "17",
+        "86" => "177",
+        "87" => "189",
+        "88" => "192",
+        "89" => "25",
+        "90" => "37",
+        "91" => "193",
+        "92" => "198",
+        "93" => "18",
+        "94" => "19",
+        "95" => "",
+        "96" => "203",
+        "97" => "",
+        "98" => "67",
+        "99" => "16",
+        "100" => "33",
+        "101" => "210",
+        "102" => "211",
+        "103" => "216",
+        "104" => "218",
+        "105" => "221",
+        "106" => "",
+        "107" => "",
+        "108" => "24",
+        "109" => "70",
+        "110" => "",
+        "111" => "142",
+        "112" => "144",
+        "113" => "164",
+        "114" => "48",
+        "115" => "220",
+        "116" => "175",
+        "117" => "51",
+        "118" => "206",
+        "119" => "87",
+        "120" => "153",
+        "121" => "25",
+        "122" => "242",
+        "123" => "223",
+        "124" => "131",
+        "125" => "",
+        "126" => "176",
+        "127" => "141",
+        "128" => "191",
+        "129" => "98",
+        "130" => "130",
+        "131" => "",
+        "132" => "139",
+        "133" => "190",
+        "134" => "",
+        "135" => "",
+        "136" => "41",
+        "137" => "42",
+        "138" => "43",
+        "139" => "157",
+        "140" => "45",
+        "141" => "46",
+        "142" => "47",
+        "143" => "50",
+        "144" => "53",
+        "145" => "55",
+        "146" => "56",
+        "147" => "",
+        "148" => "",
+        "149" => "57",
+        "150" => "234",
+        "151" => "59",
+        "152" => "62",
+        "153" => "237",
+        "154" => "65",
+        "155" => "",
+        "156" => "238",
+        "157" => "",
+        "158" => "239",
+        "159" => "72",
+        "160" => "240",
+        "161" => "121",
+        "162" => "73",
+        "163" => "75",
+        "164" => "77",
+        "165" => "79",
+        "166" => "78",
+        "167" => "83",
+        "168" => "85",
+        "169" => "133",
+        "170" => "89",
+        "171" => "90",
+        "172" => "92",
+        "173" => "93",
+        "174" => "196",
+        "175" => "94",
+        "176" => "97",
+        "177" => "",
+        "178" => "95",
+        "179" => "96",
+        "180" => "99",
+        "181" => "100",
+        "182" => "101",
+        "183" => "84",
+        "184" => "103",
+        "185" => "104",
+        "186" => "105",
+        "187" => "106",
+        "188" => "108",
+        "189" => "115",
+        "190" => "116",
+        "191" => "118",
+        "192" => "123",
+        "193" => "120",
+        "194" => "",
+        "195" => "124",
+        "196" => "127",
+        "197" => "128",
+        "198" => "135",
+        "199" => "88",
+        "200" => "114",
+        "201" => "163",
+        "202" => "140",
+        "203" => "35",
+        "204" => "146",
+        "205" => "",
+        "206" => "149",
+        "207" => "150",
+        "208" => "151",
+        "209" => "154",
+        "210" => "155",
+        "211" => "156",
+        "212" => "159",
+        "213" => "161",
+        "214" => "162",
+        "215" => "235",
+        "216" => "215",
+        "217" => "219",
+        "218" => "166",
+        "219" => "167",
+        "220" => "168",
+        "221" => "172",
+        "222" => "173",
+        "223" => "174",
+        "224" => "",
+        "225" => "",
+        "226" => "178",
+        "227" => "226",
+        "228" => "179",
+        "229" => "",
+        "230" => "186",
+        "231" => "182",
+        "232" => "183",
+        "233" => "184",
+        "234" => "",
+        "235" => "181",
+        "236" => "194",
+        "237" => "39",
+        "238" => "185",
+        "239" => "187",
+        "240" => "195",
+        "241" => "197",
+        "242" => "199",
+        "243" => "200",
+        "244" => "201",
+        "245" => "202",
+        "246" => "204",
+        "247" => "205",
+        "248" => "",
+        "249" => "",
+        "250" => "",
+        "251" => "243",
+        "252" => "",
+        "253" => "",
+        "254" => "80",
+        "255" => "207",
+        "256" => "208",
+        "257" => "209",
+        "258" => "212",
+        "259" => "213",
+        "260" => "214",
+        "261" => "107",
+        "262" => "224",
+        "263" => "222",
+        "264" => "225",
+        "265" => "227",
+        "266" => "228",
+        "267" => "229"
+    ];
 
     public function process($step = '0', $offset = '0'){
         $this->old = new mysqli("127.0.0.1", "root", "root", "quiltmania_import");
@@ -73,6 +341,9 @@ class Import_DB extends ZeCtrl
                 break;
             case "14" :
                 $this->import_abonnement_client($offset);
+                break;
+            case "15" :
+                $this->import_payments($offset);
                 break;
             case "0" :
             default:
@@ -138,6 +409,9 @@ class Import_DB extends ZeCtrl
             case "14" :
                 echo $this->count_rows_of('abonnement_client');
                 break;
+            case "15" :
+                echo $this->count_rows_of('encaissement');
+                break;
             case "0" :
             default:
                 echo 1;
@@ -166,6 +440,8 @@ class Import_DB extends ZeCtrl
         $this->load->model("Com_quiltmania_publications", "publications", "com_quiltmania_abonnement");
         $this->load->model("Com_quiltmania_abonnements", "abonnements", "com_quiltmania_abonnement");
         $this->load->model("Com_quiltmania_repartitions", "repartitions", "com_quiltmania_abonnement");
+        $this->load->model("Com_quiltmania_packs", "packs", "com_quiltmania_abonnement");
+        $this->load->model("Com_quiltmania_pack_lines", "pack_lines", "com_quiltmania_abonnement");
         $this->load->model("Com_quiltmania_abonnement_clients", "abonnement_clients", "com_quiltmania_abonnement");
         $this->load->model("Com_quiltmania_abonnement_client_details", "abonnement_client_details", "com_quiltmania_abonnement");
         $this->load->model("Zeapps_deliveries", "deliveries", "com_zeapps_crm");
@@ -177,6 +453,8 @@ class Import_DB extends ZeCtrl
         $this->load->model("Zeapps_orders", "orders", "com_zeapps_crm");
         $this->load->model("Zeapps_order_lines", "order_lines", "com_zeapps_crm");
         $this->load->model("Zeapps_accounting_entries", "accounting_entries", "com_zeapps_crm");
+        $this->load->model("Zeapps_credit_balance_details", "credit_balance_details", "com_zeapps_crm");
+        $this->load->model("zeapps_country", "country");
 
 
         $this->load->model("Concordance_tables", "concordance_tables");
@@ -186,31 +464,34 @@ class Import_DB extends ZeCtrl
         $this->taxes->query('TRUNCATE zeapps_taxes');
         $this->accounting_numbers->query('TRUNCATE zeapps_accounting_numbers');
         $this->warehouses->query('TRUNCATE zeapps_warehouses');
-        $this->modalities->query('TRUNCATE Zeapps_modalities');
-        $this->account_families->query('TRUNCATE Zeapps_account_families');
-        $this->product_categories->query('TRUNCATE Zeapps_product_categories');
-        $this->product_stocks->query('TRUNCATE Zeapps_product_stocks');
-        $this->product_products->query('TRUNCATE Zeapps_product_products');
-        $this->product_lines->query('TRUNCATE Zeapps_stock_movements');
-        $this->stock_movements->query('TRUNCATE Zeapps_stock_movements');
-        $this->contacts->query('TRUNCATE Zeapps_contacts');
-        $this->companies->query('TRUNCATE Zeapps_companies');
+        $this->modalities->query('TRUNCATE zeapps_modalities');
+        $this->account_families->query('TRUNCATE zeapps_account_families');
+        $this->product_categories->query('TRUNCATE zeapps_product_categories');
+        $this->product_stocks->query('TRUNCATE zeapps_product_stocks');
+        $this->product_products->query('TRUNCATE zeapps_product_products');
+        $this->product_lines->query('TRUNCATE zeapps_stock_movements');
+        $this->stock_movements->query('TRUNCATE zeapps_stock_movements');
+        $this->contacts->query('TRUNCATE zeapps_contacts');
+        $this->companies->query('TRUNCATE zeapps_companies');
         $this->destinations->query('TRUNCATE com_quiltmania_destinations');
         $this->publications->query('TRUNCATE com_quiltmania_publications');
         $this->abonnements->query('TRUNCATE com_quiltmania_abonnements');
         $this->repartitions->query('TRUNCATE com_quiltmania_repartitions');
+        $this->abonnements->query('TRUNCATE com_quiltmania_packs');
+        $this->abonnements->query('TRUNCATE com_quiltmania_pack_lines');
         $this->abonnement_clients->query('TRUNCATE com_quiltmania_abonnement_clients');
         $this->abonnement_client_details->query('TRUNCATE com_quiltmania_abonnement_client_details');
-        $this->deliveries->query('TRUNCATE Zeapps_deliveries');
-        $this->delivery_lines->query('TRUNCATE Zeapps_delivery_lines');
-        $this->quotes->query('TRUNCATE Zeapps_quotes');
-        $this->quote_lines->query('TRUNCATE Zeapps_quote_lines');
-        $this->invoices->query('TRUNCATE Zeapps_invoices');
-        $this->invoice_lines->query('TRUNCATE Zeapps_invoice_lines');
-        $this->orders->query('TRUNCATE Zeapps_orders');
-        $this->order_lines->query('TRUNCATE Zeapps_order_lines');
-        $this->accounting_entries->query('TRUNCATE Zeapps_accounting_entries');
-        
+        $this->deliveries->query('TRUNCATE zeapps_deliveries');
+        $this->delivery_lines->query('TRUNCATE zeapps_delivery_lines');
+        $this->quotes->query('TRUNCATE zeapps_quotes');
+        $this->quote_lines->query('TRUNCATE zeapps_quote_lines');
+        $this->invoices->query('TRUNCATE zeapps_invoices');
+        $this->invoice_lines->query('TRUNCATE zeapps_invoice_lines');
+        $this->orders->query('TRUNCATE zeapps_orders');
+        $this->order_lines->query('TRUNCATE zeapps_order_lines');
+        $this->accounting_entries->query('TRUNCATE zeapps_accounting_entries');
+        $this->credit_balance_details->query('TRUNCATE zeapps_credit_balance_details');
+
         
         $this->concordance_tables->query('TRUNCATE concordance_tables');
     }
@@ -244,6 +525,7 @@ class Import_DB extends ZeCtrl
         $this->concordance_tables->insert(array('id' => "warehouses_i", 'value' => json_encode($this->warehouses_i)));
         $this->concordance_tables->insert(array('id' => "order_lines_i", 'value' => json_encode($this->order_lines_i)));
         $this->concordance_tables->insert(array('id' => "publications_i", 'value' => json_encode($this->publications_i)));
+        $this->concordance_tables->insert(array('id' => "invoices_i", 'value' => json_encode($this->invoices_i)));
     }
 
     private function count_rows_of($table = null, $where = null){
@@ -315,18 +597,33 @@ class Import_DB extends ZeCtrl
 // zeapps_modalities
     private function import_modality()
     {
-        if($rows = $this->old->query("SELECT * FROM menu_perso WHERE menu = 'TYPE_PAIEMENT'")) {
+        if($rows = $this->old->query("SELECT * FROM mode_reglement")) {
             foreach($rows as $row) {
                 $data = array(
                     "label" => $this->convert($row['libelle']),
-                    "label_doc" => $this->convert($row['libelle']),
-                    "sort" => $row['ordre']
+                    "label_doc" => $this->convert($row['libelle_document']),
+                    "type" => $this->convert($row['type_reglement']),
+                    "id_cheque" => $this->convert($row['identifiant_remise_cheque']),
+                    "situation" => $this->convert($row['situation_comptable']),
+                    "accounting_account" => $this->convert($row['compte_compta']),
+                    "journal" => $this->convert($row['journal']),
+                    "sort" => $row['ordre_affichage']
                 );
-                $data['id'] = $this->modalities->insert($data);
+                $id = $this->modalities->insert($data);
 
-                $this->modalities_i[$row['valeur']] = $data;
+                $this->modalities_i[$row['id']] = $id;
             }
         }
+
+        $this->modalities_i['ACB'] = 10;
+        $this->modalities_i['ACH'] = 7;
+        $this->modalities_i['CB'] = 3;
+        $this->modalities_i['CH'] = 2;
+        $this->modalities_i['CHC'] = 9;
+        $this->modalities_i['ES'] = 1;
+        $this->modalities_i['VC'] = 5;
+        $this->modalities_i['VP'] = 6;
+        $this->modalities_i['AGB'] = 10;
     }
 
 // zeapps_account_families
@@ -501,6 +798,22 @@ class Import_DB extends ZeCtrl
                     $manager_name = "";
                     $manager_id = 0;
                 }
+
+                if(isset($this->countries_i[$address['C_PAYS']])) {
+                    if($country = $this->country->get(array('zeapps_country.id' => $this->countries_i[$address['C_PAYS']], 'zeapps_country_lang.id_lang' => "1"))){
+                        $country_id = $country[0]->id_country;
+                        $country_name = $country[0]->name;
+                    }
+                    else{
+                        $country_id = 0;
+                        $country_name = "";
+                    }
+                }
+                else{
+                    $country_id = 0;
+                    $country_name = "";
+                }
+
                 $account_family = $this->account_families->get($this->account_families_i[$row['C_TYPE_RELATION']]);
                 if ($row['C_TYPE_CONTACT'] === "PP") {
                     // zeapps_contacts
@@ -523,11 +836,11 @@ class Import_DB extends ZeCtrl
                         "address_3" => $address !== false ? $this->convert($address['LIGNE_3']) : "",
                         "city" => $address !== false ? $this->convert($address['COMMUNE']) : "",
                         "zipcode" => $address !== false ? $this->convert($address['CODE_POSTAL']) : "",
-                        "country_id" => 13,
-                        "country_name" => "",
+                        "country_id" => $country_id,
+                        "country_name" => $country_name,
                         "comment" => $this->convert($row['COMMENTAIRE']),
                         "website_url" => $address ? $this->convert($address['SITEWEB']) : "",
-                        "accounting_number" => isset($this->numbers_i[$row['C_COMPTE_COMPTA']]) ? $this->numbers_i[$row['C_COMPTE_COMPTA']] : 0
+                        "accounting_number" => $row['C_COMPTE_COMPTA']
                     );
 
                     $id = $this->contacts->insert($data);
@@ -546,21 +859,21 @@ class Import_DB extends ZeCtrl
                         "billing_address_3" => $address !== false ? $this->convert($address['LIGNE_3']) : "",
                         "billing_city" => $address !== false ? $this->convert($address['COMMUNE']) : "",
                         "billing_zipcode" => $address !== false ? $this->convert($address['CODE_POSTAL']) : "",
-                        "billing_country_id" => 13,
-                        "billing_country_name" => "",
+                        "billing_country_id" => $country_id,
+                        "billing_country_name" => $country_name,
                         "delivery_address_1" => $address !== false ? $this->convert($address['LIGNE_1']) : "",
                         "delivery_address_2" => $address !== false ? $this->convert($address['LIGNE_2']) : "",
                         "delivery_address_3" => $address !== false ? $this->convert($address['LIGNE_3']) : "",
                         "delivery_city" => $address !== false ? $this->convert($address['COMMUNE']) : "",
                         "delivery_zipcode" => $address !== false ? $this->convert($address['CODE_POSTAL']) : "",
-                        "delivery_country_id" => 13,
-                        "delivery_country_name" => "",
+                        "delivery_country_id" => $country_id,
+                        "delivery_country_name" => $country_name,
                         "comment" => $this->convert($row['COMMENTAIRE']),
                         "email" => $address !== false ? $this->convert($address['EMAIL']) : "",
                         "phone" => $address !== false ? $address['TEL_BUREAU'] : "",
                         "fax" => $address !== false ? $address['FAX'] : "",
                         "website_url" => $address !== false ? $this->convert($address['SITEWEB']) : "",
-                        "accounting_number" => isset($this->numbers_i[$row['C_COMPTE_COMPTA']]) ? $this->numbers_i[$row['C_COMPTE_COMPTA']] : 0
+                        "accounting_number" => $row['C_COMPTE_COMPTA']
                     );
 
                     $id = $this->companies->insert($data);
@@ -606,76 +919,119 @@ class Import_DB extends ZeCtrl
     {
         if($rows = $this->old->query("SELECT * FROM abonnement LIMIT ".$this->step." OFFSET ".$offset)) {
             foreach($rows as $row) {
-                if($res = $this->old->query("SELECT * FROM abonnement_produit WHERE CODE_ABONNEMENT = ".$row['CODE_ABONNEMENT'])){
-                    foreach($res as $re){
-                        $code_produit = $this->convert($re['CODE_PRODUIT']);
-                        $code_zone_port = $re['C_ZONE_PORT'];
-                    }
-                }
-                else{
-                    $code_produit = 0;
-                    $code_zone_port = 0;
-                }
+                $i = 0;
                 if($res = $this->old->query("SELECT * FROM abonnement_publication WHERE C_ABONNEMENT = ".$row['C_ABONNEMENT'])){
                     foreach($res as $re){
                         $id_publication = $re['C_PUBLICATION'];
                         $qty = $re['NB_NUMERO'];
+                        $i++;
                     }
                 }
                 else{
                     $id_publication = 0;
                     $qty = 0;
                 }
-                // com_quiltmania_abonnements
-                $data = array(
-                    "id_publication" => isset($this->publications_i[$id_publication]) ? $this->publications_i[$id_publication] : 0,
-                    "label" => $this->convert($row['NOM']),
-                    "qty" => $qty
-                );
-                $id = $this->abonnements->insert($data);
-                $this->abonnements_i[$row['C_ABONNEMENT']] = $id;
 
-                $produit_tarifs = [];
+                if($i === 1) {
+                    // com_quiltmania_abonnements
+                    $data = array(
+                        "id_publication" => isset($this->publications_i[$id_publication]) ? $this->publications_i[$id_publication] : 0,
+                        "label" => $this->convert($row['NOM']),
+                        "qty" => $qty
+                    );
+                    $id = $this->abonnements->insert($data);
+                    $this->abonnements_i[$row['C_ABONNEMENT']] = $id;
 
-                // com_quiltamnia_repartitions
-                $data = array(
-                    "id_abonnement" => $row['C_ABONNEMENT'],
-                    "id_destination" => isset($this->destinations_i[$code_zone_port]) ? $this->destinations_i[$code_zone_port] : 0,
-                    "active" => "1",
-                    "code_article" => $this->convert($row['CODE_ABONNEMENT'])
-                );
-                if($res = $this->old->query("SELECT * FROM produit_tarif WHERE CODE_PRODUIT = ".$code_produit)) {
-                    foreach ($res as $re) {
-                        $produit_tarifs[] = $re;
-                    }
-                    if ($produit_tarifs[0]->value_tva > $produit_tarifs[1]->value_tva) {
-                        $data['base_ht_abo'] = $produit_tarifs[1]['TARIF_HT'];
-                        $data['value_tva_abo'] = $produit_tarifs[1]['value_tva'];
-                        $data['id_tva_abo'] = isset($this->taxes_i[$produit_tarifs[1]['C_TAUX_TVA']]) ? $this->taxes_i[$produit_tarifs[1]['C_TAUX_TVA']] : 0;
-                        $data['accounting_number_abo'] = $produit_tarifs[1]['COMPTE_COMPTA'];
+                    if ($res = $this->old->query("SELECT * FROM abonnement_produit WHERE CODE_ABONNEMENT = '" . $row['CODE_ABONNEMENT'] . "'")) {
+                        foreach ($res as $re) {
+                            $code_produit = $re['CODE_PRODUIT'];
+                            $code_zone_port = $re['C_ZONE_PORT'];
 
-                        $data['base_ht_dest'] = $produit_tarifs[0]['TARIF_HT'];
-                        $data['value_tva_dest'] = $produit_tarifs[0]['value_tva'];
-                        $data['id_tva_dest'] = isset($this->taxes_i[$produit_tarifs[0]['C_TAUX_TVA']]) ? $this->taxes_i[$produit_tarifs[0]['C_TAUX_TVA']] : 0;
-                        $data['accounting_number_dest'] = $produit_tarifs[0]['COMPTE_COMPTA'];
-                    } else {
-                        $data['base_ht_abo'] = $produit_tarifs[0]['TARIF_HT'];
-                        $data['value_tva_abo'] = $produit_tarifs[0]['value_tva'];
-                        $data['id_tva_abo'] = isset($this->taxes_i[$produit_tarifs[0]['C_TAUX_TVA']]) ? $this->taxes_i[$produit_tarifs[0]['C_TAUX_TVA']] : 0;
-                        $data['accounting_number_abo'] = $produit_tarifs[0]['COMPTE_COMPTA'];
+                            $produit_tarifs = [];
 
-                        $data['base_ht_dest'] = $produit_tarifs[1]['TARIF_HT'];
-                        $data['value_tva_dest'] = $produit_tarifs[1]['value_tva'];
-                        $data['id_tva_dest'] = isset($this->taxes_i[$produit_tarifs[1]['C_TAUX_TVA']]) ? $this->taxes_i[$produit_tarifs[1]['C_TAUX_TVA']] : 0;
-                        $data['accounting_number_dest'] = $produit_tarifs[1]['COMPTE_COMPTA'];
+                            // com_quiltamnia_repartitions
+                            $data = array(
+                                "id_abonnement" => $row['C_ABONNEMENT'],
+                                "id_destination" => isset($this->destinations_i[$code_zone_port]) ? $this->destinations_i[$code_zone_port] : 0,
+                                "active" => "1",
+                                "code_article" => $this->convert($code_produit)
+                            );
+                            if ($results = $this->old->query("SELECT * FROM produit_tarif t LEFT JOIN produit p ON t.C_PRODUIT = p.C_PRODUIT LEFT JOIN taux_tva tva ON tva.C_TAUX_TVA = t.C_TAUX_TVA WHERE p.CODE_PRODUIT = '" . $code_produit . "'")) {
+                                foreach ($results as $result) {
+                                    $produit_tarifs[] = $result;
+                                }
+                                if ($produit_tarifs[0]['TAUX'] > $produit_tarifs[1]['TAUX']) {
+                                    $data['base_ht_abo'] = $produit_tarifs[1]['TARIF_HT'];
+                                    $data['value_tva_abo'] = $produit_tarifs[1]['TAUX'];
+                                    $data['id_tva_abo'] = isset($this->taxes_i[$produit_tarifs[1]['C_TAUX_TVA']]) ? $this->taxes_i[$produit_tarifs[1]['C_TAUX_TVA']] : 0;
+                                    $data['accounting_number_abo'] = $produit_tarifs[1]['COMPTE_COMPTA'];
+
+                                    $data['base_ht_dest'] = $produit_tarifs[0]['TARIF_HT'];
+                                    $data['value_tva_dest'] = $produit_tarifs[0]['TAUX'];
+                                    $data['id_tva_dest'] = isset($this->taxes_i[$produit_tarifs[0]['C_TAUX_TVA']]) ? $this->taxes_i[$produit_tarifs[0]['C_TAUX_TVA']] : 0;
+                                    $data['accounting_number_dest'] = $produit_tarifs[0]['COMPTE_COMPTA'];
+                                } else {
+                                    $data['base_ht_abo'] = $produit_tarifs[0]['TARIF_HT'];
+                                    $data['value_tva_abo'] = $produit_tarifs[0]['TAUX'];
+                                    $data['id_tva_abo'] = isset($this->taxes_i[$produit_tarifs[0]['C_TAUX_TVA']]) ? $this->taxes_i[$produit_tarifs[0]['C_TAUX_TVA']] : 0;
+                                    $data['accounting_number_abo'] = $produit_tarifs[0]['COMPTE_COMPTA'];
+
+                                    $data['base_ht_dest'] = $produit_tarifs[1]['TARIF_HT'];
+                                    $data['value_tva_dest'] = $produit_tarifs[1]['TAUX'];
+                                    $data['id_tva_dest'] = isset($this->taxes_i[$produit_tarifs[1]['C_TAUX_TVA']]) ? $this->taxes_i[$produit_tarifs[1]['C_TAUX_TVA']] : 0;
+                                    $data['accounting_number_dest'] = $produit_tarifs[1]['COMPTE_COMPTA'];
+                                }
+
+
+                                $data['total_ht'] = floatval($data['base_ht_abo']) + floatval($data['base_ht_dest']);
+                                $data['total_ttc'] = (floatval($data['base_ht_abo']) * (1 + (floatval($data['value_tva_abo']) / 100))) + (floatval($data['base_ht_dest']) * (1 + (floatval($data['value_tva_dest']) / 100)));
+                            }
+
+                            $this->repartitions->insert($data);
+                        }
                     }
                 }
-                if($produit = $this->product_products->get(array('ref' => $code_produit))){
-                    $data['total_ht'] = $produit->price_ht;
-                    $data['total_ttc'] = $produit->price_ttc;
-                }
+                elseif($i > 1){
+                    // com_quiltmania_packs
+                    if ($rows2 = $this->old->query("SELECT * FROM abonnement_produit WHERE CODE_ABONNEMENT = '" . $row['CODE_ABONNEMENT'] . "'")) {
+                        foreach($rows2 as $row2){
+                            $code_produit = $row2['CODE_PRODUIT'];
 
-                $this->repartitions->insert($data);
+                            if ($results = $this->old->query("SELECT * FROM produit_tarif t LEFT JOIN produit p ON t.C_PRODUIT = p.C_PRODUIT LEFT JOIN taux_tva tva ON tva.C_TAUX_TVA = t.C_TAUX_TVA WHERE p.CODE_PRODUIT = '" . $code_produit . "'")) {
+                                $data = array(
+                                    "ref" => $this->convert($code_produit),
+                                    "label" => $this->convert($row['NOM']),
+                                    "total_ttc" => 0
+                                );
+
+                                $id_pack = $this->packs->insert($data);
+/*
+                                foreach ($res as $re) {
+                                    var_dump($this->convert($result['CODE_PRODUIT']));
+                                    if($repartition = $this->repartitions->get(array('code_article' => $this->convert($result['CODE_PRODUIT'])))) {
+                                        $id_repartition = $repartition->id;
+                                        $ttc = $repartition->total_ttc;
+                                    }
+                                    else{
+                                        $ttc = 1;
+                                        $id_repartition = 0;
+                                    }
+
+                                    $prorata = $total_ttc / $ttc;
+
+                                    $data = array(
+                                        "id_pack" => $id_pack,
+                                        "id_repartition" => $id_repartition,
+                                        "prorata" => $prorata
+                                    );
+
+                                    $id_pack = $this->pack_lines->insert($data);
+                                }
+*/
+                            }
+                        }
+                    }
+                }
             }
         }
     }
@@ -735,6 +1091,15 @@ class Import_DB extends ZeCtrl
                     $id_origin = 1;
                 }
 
+                if(isset($this->modalities_i[$row['TYPE_PAIEMENT']]) && $modality = $this->modalities->get($this->modalities_i[$row['TYPE_PAIEMENT']])){
+                    $id_modality = $modality->id;
+                    $label_modality = $modality->label;
+                }
+                else{
+                    $id_modality = 0;
+                    $label_modality = "";
+                }
+
                 // zeapps_deliveries
                 $data = array(
                     "libelle" => $row['LIBELLE'],
@@ -766,8 +1131,8 @@ class Import_DB extends ZeCtrl
                     "total_ttc" => $row['MONTANT_TTC'],
                     "date_creation" => $row['DATE_COMMANDE'],
                     "date_limit" => $row['DATE_LIMITE_PAIEMENT'],
-                    "id_modality" => isset($this->modalities_i[$row['TYPE_PAIEMENT']]) ? $this->modalities_i[$row['TYPE_PAIEMENT']]->id : 0,
-                    "label_modality" => isset($this->modalities_i[$row['TYPE_PAIEMENT']]) ? $this->modalities_i[$row['TYPE_PAIEMENT']]->label : ""
+                    "id_modality" => $id_modality,
+                    "label_modality" => $label_modality
                 );
 
                 $id_delivery = $this->deliveries->insert($data);
@@ -867,6 +1232,15 @@ class Import_DB extends ZeCtrl
                     $id_origin = 1;
                 }
 
+                if(isset($this->modalities_i[$row['TYPE_PAIEMENT']]) && $modality = $this->modalities->get($this->modalities_i[$row['TYPE_PAIEMENT']])){
+                    $id_modality = $modality->id;
+                    $label_modality = $modality->label;
+                }
+                else{
+                    $id_modality = 0;
+                    $label_modality = "";
+                }
+
                 // zeapps_quotes
                 $data = array(
                     "libelle" => $row['LIBELLE'],
@@ -898,8 +1272,8 @@ class Import_DB extends ZeCtrl
                     "total_ttc" => $row['MONTANT_TTC'],
                     "date_creation" => $row['DATE_COMMANDE'],
                     "date_limit" => $row['DATE_LIMITE_PAIEMENT'],
-                    "id_modality" => isset($this->modalities_i[$row['TYPE_PAIEMENT']]) ? $this->modalities_i[$row['TYPE_PAIEMENT']]->id : 0,
-                    "label_modality" => isset($this->modalities_i[$row['TYPE_PAIEMENT']]) ? $this->modalities_i[$row['TYPE_PAIEMENT']]->label : ""
+                    "id_modality" => $id_modality,
+                    "label_modality" => $label_modality
                 );
 
                 $id_quote = $this->quotes->insert($data);
@@ -999,6 +1373,15 @@ class Import_DB extends ZeCtrl
                     $id_origin = 1;
                 }
 
+                if(isset($this->modalities_i[$row['TYPE_PAIEMENT']]) && $modality = $this->modalities->get($this->modalities_i[$row['TYPE_PAIEMENT']])){
+                    $id_modality = $modality->id;
+                    $label_modality = $modality->label;
+                }
+                else{
+                    $id_modality = 0;
+                    $label_modality = "";
+                }
+
                 // zeapps_orders
                 $data = array(
                     "libelle" => $row['LIBELLE'],
@@ -1030,8 +1413,8 @@ class Import_DB extends ZeCtrl
                     "total_ttc" => $row['MONTANT_TTC'],
                     "date_creation" => $row['DATE_COMMANDE'],
                     "date_limit" => $row['DATE_LIMITE_PAIEMENT'],
-                    "id_modality" => isset($this->modalities_i[$row['TYPE_PAIEMENT']]) ? $this->modalities_i[$row['TYPE_PAIEMENT']]->id : 0,
-                    "label_modality" => isset($this->modalities_i[$row['TYPE_PAIEMENT']]) ? $this->modalities_i[$row['TYPE_PAIEMENT']]->label : ""
+                    "id_modality" => $id_modality,
+                    "label_modality" => $label_modality
                 );
 
                 $id_order = $this->orders->insert($data);
@@ -1132,6 +1515,15 @@ class Import_DB extends ZeCtrl
                     $id_origin = 1;
                 }
 
+                if(isset($this->modalities_i[$row['TYPE_PAIEMENT']]) && $modality = $this->modalities->get($this->modalities_i[$row['TYPE_PAIEMENT']])){
+                    $id_modality = $modality->id;
+                    $label_modality = $modality->label;
+                }
+                else{
+                    $id_modality = 0;
+                    $label_modality = "";
+                }
+
                 // zeapps_invoices
                 $data = array(
                     "libelle" => $row['LIBELLE'],
@@ -1164,11 +1556,32 @@ class Import_DB extends ZeCtrl
                     "total_ttc" => $row['MONTANT_TTC'],
                     "date_creation" => $row['DATE_COMMANDE'],
                     "date_limit" => $row['DATE_LIMITE_PAIEMENT'],
-                    "id_modality" => isset($this->modalities_i[$row['TYPE_PAIEMENT']]) ? $this->modalities_i[$row['TYPE_PAIEMENT']]->id : 0,
-                    "label_modality" => isset($this->modalities_i[$row['TYPE_PAIEMENT']]) ? $this->modalities_i[$row['TYPE_PAIEMENT']]->label : ""
+                    "id_modality" => $id_modality,
+                    "label_modality" => $label_modality
                 );
 
                 $id_invoice = $this->invoices->insert($data);
+                $this->invoices_i[$row['C_FACTURE']] = $id_invoice;
+
+                if(floatval($row['solde']) === 0){
+                    if($test = $this->old->query("SELECT COUNT(id) as total FROM encaissement_ligne l WHERE id_facture = ".$row['C_FACTURE'])) {
+                        $total = 1;
+                        foreach($test as $t){
+                            $total = intval($t["total"]);
+                        }
+                        if($total < 1){
+                            $data = array(
+                                "id_invoice" => $id_invoice,
+                                "paid" => $row['MONTANT_TTC'],
+                                "id_modality" => $id_modality,
+                                "label_modality" => $label_modality,
+                                "date_payment" => $row['DATE_LIMITE_PAIEMENT']
+                            );
+
+                            $this->credit_balance_details->insert($data);
+                        }
+                    }
+                }
 
                 if($rows2 = $this->old->query("SELECT * FROM facture_ligne WHERE C_FACTURE = ".$row['C_FACTURE'])) {
                     foreach ($rows2 as $row2) {
@@ -1279,6 +1692,34 @@ class Import_DB extends ZeCtrl
         }
     }
 
+// zeapps_credit_balance_details
+    private function import_payments($offset = 0)
+    {
+        if($rows = $this->old->query("SELECT * FROM encaissement_ligne l LEFT JOIN encaissement e ON e.id = l.id_encaissement LIMIT ".$this->step." OFFSET ".$offset)) {
+            foreach($rows as $row) {
+                if(isset($this->modalities_i[$row['type_paiement']]) && $modality = $this->modalities->get($this->modalities_i[$row['type_paiement']])){
+                    $id_modality = $modality->id;
+                    $label_modality = $modality->label;
+                }
+                else{
+                    $id_modality = 0;
+                    $label_modality = "";
+                }
+
+                $data = array(
+                    "id_invoice" => isset($this->invoices_i[$row['id_facture']]) ? $this->invoices_i[$row['id_facture']] : 0,
+                    "paid" => $row['montant'],
+                    "id_modality" => $id_modality,
+                    "label_modality" => $label_modality,
+                    "date_payment" => $row['date_encaissement']
+                );
+
+                $this->credit_balance_details->insert($data);
+            }
+        }
+    }
+
+
 
 
 
@@ -1314,62 +1755,6 @@ class Import_DB extends ZeCtrl
                 }
             }
         }
-/*
-        foreach ($invoice_line_details as $line) {
-            if (!isset($entries[$line->accounting_number])) {
-                $entries[$line->accounting_number] = 0;
-            }
-
-            $entries[$line->accounting_number] += floatval($line->total_ht);
-
-            if ($line->id_taxe !== '0') {
-                if (!isset($tvas[$line->id_taxe])) {
-                    $tvas[$line->id_taxe] = array(
-                        'ht' => 0,
-                        'value_taxe' => floatval($line->value_taxe)
-                    );
-                }
-
-                $tvas[$line->id_taxe]['ht'] += floatval($line->total_ht);
-                $tvas[$line->id_taxe]['value'] = round(floatval($tvas[$line->id_taxe]['ht']) * ($tvas[$line->id_taxe]['value_taxe'] / 100), 2);
-            }
-        }
-*/
-        foreach ($tvas as $id_taxe => $tva) {
-            $taxe = $this->taxes->get($id_taxe);
-
-            if (!isset($entries[$taxe->accounting_number])) {
-                $entries[$taxe->accounting_number] = 0;
-            }
-
-            $entries[$taxe->accounting_number] += floatval($tva['value']);
-        }
-
-        foreach ($entries as $accounting_number => $sum) {
-            $entry = array(
-                'id_invoice' => $invoice->id,
-                'accounting_number' => $accounting_number,
-                'label' => $label_entry,
-                'credit' => $sum,
-                'code' => 'VE',
-                'date_writing' => $invoice->date_creation,
-                'date_limit' => $invoice->date_limit
-            );
-
-            $this->accounting_entries->insert($entry);
-        }
-
-        $entry = array(
-            'id_invoice' => $invoice->id,
-            'accounting_number' => $invoice->accounting_number,
-            'label' => $label_entry,
-            'debit' => $invoice->total_ttc,
-            'code' => 'VE',
-            'date_writing' => $invoice->date_creation,
-            'date_limit' => $invoice->date_limit
-        );
-
-        $this->accounting_entries->insert($entry);
     }
 
     private function convert($latin){
