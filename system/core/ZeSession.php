@@ -4,7 +4,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class ZeSession
 {
     public function __construct() {
-        session_start();
+        if(!isset($_SESSION))
+            session_start();
     }
 
     public function get($variable, $defaultValue = null) {
