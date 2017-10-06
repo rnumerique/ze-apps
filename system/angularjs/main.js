@@ -257,20 +257,12 @@ app.config(["$locationProvider", "$compileProvider", "$provide",
 app.run(["zeHttp", "zeHooks", "$rootScope", function(zhttp, zeHooks, $rootScope){
 	moment.locale("fr");
 
-    zhttp.get("/zeapps/config/get/zeapps_debug").then(function(response){
-        if(response.data && response.data != false){
-            $rootScope.debug = !!parseInt(response.data.value);
-        }
-    });
-    zhttp.app.hooks.all().then(function(response){
-		if(response.data && response.data != "false"){
-			zeHooks.set(response.data);
+    zhttp.app.get_context().then(function(response){
+    	if(response.data && response.data != "false"){
+    		angular.forEach(response.data, function(value, key){
+    			$rootScope[key] = value;
+			});
             $rootScope.daemon_hooks = zeHooks.get("zeappsDaemon_Hook");
-		}
-	});
-    zhttp.get("/zeapps/user/getCurrentUser").then(function (response) {
-		if (response.status == 200) {
-			$rootScope.user = response.data;
             $rootScope.contextLoaded = true;
 		}
 	});

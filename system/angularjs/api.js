@@ -4,6 +4,7 @@ app.config(["$provide",
 			var zeHttp = $delegate;
 
 			zeHttp.app = {
+				get_context : getContext_app,
 				hooks : {
                     all : getAll_hooks
                 },
@@ -34,6 +35,11 @@ app.config(["$provide",
 			});
 
 			return zeHttp;
+
+			// APP
+			function getContext_app(){
+				return zeHttp.get("/zeapps/app/get_context");
+			}
 
 			// HOOKS
 			function getAll_hooks(){

@@ -56,18 +56,54 @@ class App extends ZeCtrl
     }
 
     public function get_context(){
+        $this->load->model("Zeapps_users", "user");
+        $this->load->model("Zeapps_user_groups", "user_groups");
+        $this->load->model("Zeapps_internationalization", "i18n");
+        $this->load->model("Zeapps_hooks", "hooks");
+        $this->load->model("Zeapps_configs", "config");
+
+        $echo = [];
+
+        // verifie si la session est active
+        if ($this->session->get('token')) {
+            $user = $this->user->getUserByToken($this->session->get('token'));
+            if ($user && count($user) == 1) {
+                $user->password = null;
+
+                $user->i18n = [];
+                if($rows = $this->i18n->all(array('id_lang' => $user->lang))){
+                    foreach($rows as $row){
+                        $user->i18n[$row->src] = $row->translation;
+                    }
+                }
+
+                $echo['user'] = $user;
+            }
+        }
+
+        if(!$echo['hooks'] = $this->hooks->all()){
+            $echo['hooks'] = [];
+        }
+
+        if($debug = $this->config->get('zeapps_debug')){
+            $echo['debug'] = !!intval($debug->value);
+        }
+        else{
+            $echo['debug'] = false;
+        }
+
+
         $this->trigger->set('get_context');
 
         $ret = $this->trigger->execute();
 
-        $echo = [];
         if(is_array($ret) && sizeof($ret) > 0){
             foreach($ret as $result){
                 if(!is_array($result)){
                     $result = array($result);
                 }
 
-                array_merge($echo, $result);
+                $echo = array_merge($echo, $result);
             }
         }
 
