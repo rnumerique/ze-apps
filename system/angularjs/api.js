@@ -4,6 +4,7 @@ app.config(["$provide",
 			var zeHttp = $delegate;
 
 			zeHttp.app = {
+				search : search_app,
 				get_context : getContext_app,
 				hooks : {
                     all : getAll_hooks
@@ -40,6 +41,11 @@ app.config(["$provide",
 			function getContext_app(){
 				return zeHttp.get("/zeapps/app/get_context");
 			}
+
+			// SEARCH
+            function search_app(query){
+                return zeHttp.post("/zeapps/search/searchFor", query);
+            }
 
 			// HOOKS
 			function getAll_hooks(){

@@ -776,3 +776,15 @@ toasts .alert-dismissible .close{
 .home .nav{
     margin-bottom: 25px;
 }
+
+.search_module + .search_module{
+    border-top : 1px dotted rgba(120,120,120,.6);
+    padding-top: 25px;
+}
+.search_category{
+    padding: 0 15px 25px 15px;
+}
+
+.search_results{
+    padding-left: 40px;
+}

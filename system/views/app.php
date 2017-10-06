@@ -138,7 +138,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <span class="fa fa-caret-down" aria-hidden="true"></span>
                             </span>
                         </div>
-                        <div class="formSearch"><input type="text" ng-model="searchFill"/></div>
+                        <div class="formSearch">
+                            <input type="text" ng-model="globalSearch" ng-keypress="startGlobalSearch($event)"/>
+                        </div>
                         <div class="right-menu">
 
                             <div class="pull-right">

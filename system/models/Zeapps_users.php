@@ -5,6 +5,18 @@ class Zeapps_users extends ZeModel
 {
     private $typeHash = 'sha256';
 
+    public function searchFor($terms = array()){
+        $query = "SELECT * FROM zeapps_users WHERE ( 1 ";
+
+        foreach($terms as $term){
+            $query .= "AND (firstname LIKE '%".$term."%' OR lastname LIKE '%".$term."%' OR email LIKE '%".$term."%') ";
+        }
+
+        $query .= ") AND deleted_at IS NULL LIMIT 10";
+
+        return $this->database()->customQuery($query)->result();
+    }
+
     public function get($where = array()){
         if($user = parent::get($where)){
             $this->_pLoad->model("Zeapps_user_groups", "user_groups");

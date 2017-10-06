@@ -54,6 +54,12 @@ app.config(["$routeProvider",
 				controller: "ComZeAppsModulesCtrl"
 			})
 
+			// SEARCH
+			.when("/ng/com_zeapps/search/:query", {
+				templateUrl:"/zeapps/search/",
+				controller: "ComZeAppsSearchCtrl"
+			})
+
 			// IMPORT DB
 			.when("/ng/com_zeapps/import_db", {
                 templateUrl:"/zeapps/import_DB/view",

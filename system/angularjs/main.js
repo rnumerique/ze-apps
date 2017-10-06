@@ -15,6 +15,8 @@ app.controller("MainCtrl", ["$scope", "$location", "$rootScope", "zeHttp", "$int
 		$scope.dropdown = false;
 		$scope.showLabel = false;
 
+		$scope.globalSearch = "";
+
 		/********** Notification **********/
 		$scope.notifications = {};
 		$scope.showNotification = false;
@@ -26,7 +28,7 @@ app.controller("MainCtrl", ["$scope", "$location", "$rootScope", "zeHttp", "$int
 		$scope.fullSizedMenu = true;
 
 		/************ Search Bar ***************/
-		$scope.search = search;
+		$scope.startGlobalSearch = startGlobalSearch;
 
 		/********** Notification **********/
 		$scope.toggleNotification = toggleNotification;
@@ -143,8 +145,11 @@ app.controller("MainCtrl", ["$scope", "$location", "$rootScope", "zeHttp", "$int
 			$scope.showNotification = false;
 		}
 
-		function search(){
-            zhttp.post("/zeapps/search/generalSearch");
+		function startGlobalSearch($event){
+            if($event.which === 13){
+            	var formatted_query = $scope.globalSearch.replace(/\s/g, "+");
+                $location.url('/ng/com_zeapps/search/' + formatted_query);
+            }
 		}
 
 		function logout() {
