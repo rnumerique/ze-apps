@@ -94,7 +94,12 @@ class ZeLoad
         // TODO : gestion des erreurs de chargement de module (chemin inconnu et class non définie)
 
 
-        if (!isset($this->_ctrl->$shortName)) {
+        if(class_exists($className)){
+            $className::$_load = $this;
+            $this->_ctrl->$shortName = new $className();
+            return;
+        }
+        elseif (!isset($this->_ctrl->$shortName)) {
             if ($externalModule) {
                 // search model in modulePath
                 $externalModule = MODULEPATH . $externalModule;
