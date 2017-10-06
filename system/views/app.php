@@ -11,22 +11,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <!-- **************************** CSS **************************** -->
 <!-- ************************************************************* -->
         <!-- Bootstrap -->
-        <link rel="stylesheet" href="/assets/bootstrap-3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" media="print,screen" href="/assets/bootstrap-3.3.7/css/bootstrap.min.css">
 
         <!-- jQuery UI -->
-        <link rel="stylesheet" href="/assets/js/jquery-ui-1.11.4/jquery-ui.min.css">
-        <link rel="stylesheet" href="/assets/js/jquery-ui-1.11.4/jquery-ui.structure.min.css">
-        <link rel="stylesheet" href="/assets/js/jquery-ui-1.11.4/jquery-ui.theme.min.css">
+        <link rel="stylesheet" media="print,screen" href="/assets/js/jquery-ui-1.11.4/jquery-ui.min.css">
+        <link rel="stylesheet" media="print,screen" href="/assets/js/jquery-ui-1.11.4/jquery-ui.structure.min.css">
+        <link rel="stylesheet" media="print,screen" href="/assets/js/jquery-ui-1.11.4/jquery-ui.theme.min.css">
 
         <!-- Full Calendar -->
-        <link rel="stylesheet" href="/assets/css/fullcalendar.min.css">
-        <link rel="stylesheet" href="/assets/css/fullcalendar.print.min.css" media="print">
+        <link rel="stylesheet" media="print,screen" href="/assets/css/fullcalendar.min.css">
+        <link rel="stylesheet" media="print" href="/assets/css/fullcalendar.print.min.css">
 
         <!-- Font-Awesome -->
-        <link rel="stylesheet" href="/assets/css/font-awesome.min.css">
+        <link rel="stylesheet" media="print,screen" href="/assets/css/font-awesome.min.css">
 
-        <link rel="stylesheet" href="/assets/css/app.css">
-        <link rel="stylesheet" href="/cache/css/global.css">
+        <link rel="stylesheet" media="print,screen" href="/assets/css/app.css">
+        <link rel="stylesheet" media="print,screen" href="/cache/css/global.css">
 
 
     </head>
