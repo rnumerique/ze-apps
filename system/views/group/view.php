@@ -21,7 +21,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <tr>
                     <th>Droit</th>
                     <th ng-repeat="group in groups" class="text-center">
-                        {{ group.label }} <br>
+                        {{ group.label}} <br>
                         <ze-btn fa="pencil" color="info" hint="Editer" ng-click="edit(group)"></ze-btn>
                         <ze-btn fa="trash" color="danger" hint="Supprimer" ze-confirmation ng-click="delete(group)"></ze-btn>
                     </th>
@@ -42,11 +42,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <tr ng-repeat-start="module in modules" ng-if="module.rights" class="module-cell">
                     <td colspan="{{groups.length + 1}}" ng-click="module.closed = !module.closed">
                         <i class="fa fa-fw" ng-class="module.closed ? 'fa-plus' : 'fa-minus'"></i>
-                        Module : {{ module.label }}
+                        Module : {{::module.label}}
                     </td>
                 </tr>
                 <tr ng-repeat-end ng-repeat="(right, label) in module.rights" ng-hide="module.closed">
-                    <td>{{label}}</td>
+                    <td>{{::label}}</td>
                     <td ng-repeat="group in groups" class="text-center">
                         <input type="checkbox" ng-true-value="1" ng-false-value="0" ng-model="group.rights_array[module.module_id + '_' + right]" ng-change="save(group)">
                     </td>

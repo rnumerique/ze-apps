@@ -1,5 +1,5 @@
 <div class="modal-header">
-    <h3 class="modal-title">{{titre}}</h3>
+    <h3 class="modal-title">{{::titre}}</h3>
 </div>
 
 
