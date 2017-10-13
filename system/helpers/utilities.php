@@ -82,51 +82,55 @@ function minifyCss($css)
 
 function minifyJs($js)
 {
-    // Remove comments
-    $js = preg_replace('/(?:(?:\/\*(?:[^*]|(?:\*+[^*\/]))*\*+\/)|(?:(?<!\:|\\\|\'|\")\/\/.*))/', '', $js);
+    global $globalConfig ;
 
-    // Remove whitespace
-    $js = str_replace(array("\t", "\r\n", "\n", "\r", '  ', '    ', '    '), ' ', $js);
+    if (isset($globalConfig["minifyjs"]) && $globalConfig["minifyjs"]) {
+        // Remove comments
+        $js = preg_replace('/(?:(?:\/\*(?:[^*]|(?:\*+[^*\/]))*\*+\/)|(?:(?<!\:|\\\|\'|\")\/\/.*))/', '', $js);
 
-    // Remove space around colons
-    $js = str_replace(array(' :', ': ', ":\r", ":\n", ":\r\n"), ':', $js);
-    $js = str_replace(array(' ;', '; ', ";\r", ";\n", ";\r\n"), ';', $js);
-    $js = str_replace(array(' ,', ', ', ",\r", ",\n", ",\r\n"), ',', $js);
-    $js = str_replace(array(' .', '. ', ".\r", ".\n", ".\r\n", "\r.", "\n.", "\r\n."), '.', $js);
-    $js = str_replace(array(' {', '{ '), '{', $js);
-    $js = str_replace(array(' }', '} ', "}\r", "}\n", "}\r\n"), '}', $js);
-    $js = str_replace(array(' (', '( '), '(', $js);
-    $js = str_replace(array(' )', ') ', ")\r", ")\n", ")\r\n"), ')', $js);
-    $js = str_replace(array(' [', '[ '), '[', $js);
-    $js = str_replace(array(' ]', '] ', "]\r", "]\n", "]\r\n"), ']', $js);
+        // Remove whitespace
+        $js = str_replace(array("\t", "\r\n", "\n", "\r", '  ', '    ', '    '), ' ', $js);
 
-    // Remove space around signs
-    $js = str_replace(array(' =', '= '), '=', $js);
-    $js = str_replace(array(' >', '> '), '>', $js);
-    $js = str_replace(array(' <', '< '), '<', $js);
-    $js = str_replace(array(' +', '+ ', "+\r", "+\n", "+\r\n"), '+', $js);
-    $js = str_replace(array(' -', '- '), '-', $js);
-    $js = str_replace(array(' *', '* '), '*', $js);
-    $js = str_replace(array(' /', '/ '), '/', $js);
-    $js = str_replace(array(' %', '% '), '%', $js);
+        // Remove space around colons
+        $js = str_replace(array(' :', ': ', ":\r", ":\n", ":\r\n"), ':', $js);
+        $js = str_replace(array(' ;', '; ', ";\r", ";\n", ";\r\n"), ';', $js);
+        $js = str_replace(array(' ,', ', ', ",\r", ",\n", ",\r\n"), ',', $js);
+        $js = str_replace(array(' .', '. ', ".\r", ".\n", ".\r\n", "\r.", "\n.", "\r\n."), '.', $js);
+        $js = str_replace(array(' {', '{ '), '{', $js);
+        $js = str_replace(array(' }', '} ', "}\r", "}\n", "}\r\n"), '}', $js);
+        $js = str_replace(array(' (', '( '), '(', $js);
+        $js = str_replace(array(' )', ') ', ")\r", ")\n", ")\r\n"), ')', $js);
+        $js = str_replace(array(' [', '[ '), '[', $js);
+        $js = str_replace(array(' ]', '] ', "]\r", "]\n", "]\r\n"), ']', $js);
 
-    // Flaten if-else
-    $js = str_replace(array("if\r", "if\n", "if\r\n"), "if ", $js);
-    $js = str_replace(array("else\r", "else\n", "else\r\n","\relse", "\nelse", "\r\nelse"), "else", $js);
+        // Remove space around signs
+        $js = str_replace(array(' =', '= '), '=', $js);
+        $js = str_replace(array(' >', '> '), '>', $js);
+        $js = str_replace(array(' <', '< '), '<', $js);
+        $js = str_replace(array(' +', '+ ', "+\r", "+\n", "+\r\n"), '+', $js);
+        $js = str_replace(array(' -', '- '), '-', $js);
+        $js = str_replace(array(' *', '* '), '*', $js);
+        $js = str_replace(array(' /', '/ '), '/', $js);
+        $js = str_replace(array(' %', '% '), '%', $js);
 
-    // to avoid bugs
-    $js = str_replace("elseif", "else if", $js);
+        // Flaten if-else
+        $js = str_replace(array("if\r", "if\n", "if\r\n"), "if ", $js);
+        $js = str_replace(array("else\r", "else\n", "else\r\n", "\relse", "\nelse", "\r\nelse"), "else", $js);
 
-    // Remove spaces around ({[]})
-    $js = str_replace(array("(\r", "(\n", "(\r\n"), "(", $js);
-    $js = str_replace(array("{\r", "{\n", "{\r\n"), "{", $js);
-    $js = str_replace(array("[\r", "[\n", "[\r\n"), "[", $js);
-    $js = str_replace(array("\r)", "\n)", "\r\n)"), ")", $js);
-    $js = str_replace(array("\r}", "\n}", "\r\n}"), "}", $js);
-    $js = str_replace(array("\r]", "\n]", "\r\n]"), "]", $js);
+        // to avoid bugs
+        $js = str_replace("elseif", "else if", $js);
 
-    $js = str_replace(array(), ";", $js);
-    $js = str_replace(array(), ",", $js);
+        // Remove spaces around ({[]})
+        $js = str_replace(array("(\r", "(\n", "(\r\n"), "(", $js);
+        $js = str_replace(array("{\r", "{\n", "{\r\n"), "{", $js);
+        $js = str_replace(array("[\r", "[\n", "[\r\n"), "[", $js);
+        $js = str_replace(array("\r)", "\n)", "\r\n)"), ")", $js);
+        $js = str_replace(array("\r}", "\n}", "\r\n}"), "}", $js);
+        $js = str_replace(array("\r]", "\n]", "\r\n]"), "]", $js);
+
+        $js = str_replace(array(), ";", $js);
+        $js = str_replace(array(), ",", $js);
+    }
 
     return $js;
 }
