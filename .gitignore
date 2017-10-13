@@ -2,6 +2,7 @@
 /modules/*
 /cache/*
 /tmp/*
+/tmp_online/*
 
 
 # Intellij

@@ -265,9 +265,13 @@ app.run(["zeHttp", "zeHooks", "$rootScope", function(zhttp, zeHooks, $rootScope)
     zhttp.app.get_context().then(function(response){
     	if(response.data && response.data != "false"){
     		angular.forEach(response.data, function(value, key){
-    			$rootScope[key] = value;
+    			if (key == "hooks") {
+                    zeHooks.set(value);
+                    $rootScope.daemon_hooks = zeHooks.get("zeappsDaemon_Hook");
+				} else {
+                    $rootScope[key] = value;
+				}
 			});
-            $rootScope.daemon_hooks = zeHooks.get("zeappsDaemon_Hook");
             $rootScope.contextLoaded = true;
 		}
 	});
